@@ -1,5 +1,5 @@
 <h3 align="center">
-  <img src="" alt="StorageKit" width="600" height="214" />
+  <img src="https://raw.githubusercontent.com/StorageKit/StorageKit/master/Resources/logo.jpg" alt="StorageKit" width="600" height="214" />
 
   Your Data Storage Troubleshooter 🛠
 </h3>
@@ -79,7 +79,7 @@ In just few lines of code you are able to use your favorite database (`Storage`)
 Both [Core Data](https://developer.apple.com/documentation/coredata/nsmanagedobject) and [Realm](https://realm.io/docs/swift/latest/#models) relies on two base
  objects to define the entities:
 
-![Code Data Entity]()
+![Code Data Entity](https://raw.githubusercontent.com/StorageKit/StorageKit/master/Resources/entity_dog.png)
 
 ```
 import RealmSwift
