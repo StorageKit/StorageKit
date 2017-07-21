@@ -5,11 +5,10 @@
 </h3>
 
 <div align="center">
-<img src="https://cocoapod-badges.herokuapp.com/p/storagekit/badge.png">
-<img src="https://cocoapod-badges.herokuapp.com/v/storagekit/0.1.0/badge.png">
+<img src="https://img.shields.io/cocoapods/v/StorageKit.svg">
 <img src="https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat">
 <img src="https://cocoapod-badges.herokuapp.com/l/StorageKit/badge.png">
-<img src="(https://img.shields.io/badge/Swift-3.0.x-orange.svg)">
+<img src="https://img.shields.io/badge/Swift-3.2-orange.svg">
 </div>
 
 <br />
