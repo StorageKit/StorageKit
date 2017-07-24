@@ -20,7 +20,7 @@ final class RTodoTask: Object {
     var taskID = UUID().uuidString
     dynamic var name: String?
     dynamic var done: Bool = false
-    var added: NSDate?
+    dynamic var added: NSDate?
     
     override static func primaryKey() -> String? {
         return "taskID"

@@ -30,13 +30,43 @@
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </view>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ToDoCell" id="jqX-RZ-GSc">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ToDoCell" id="jqX-RZ-GSc" customClass="ToDoCell" customModule="Example" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="jqX-RZ-GSc" id="3sm-vZ-lU5">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wnn-x5-fBm">
+                                                    <rect key="frame" x="10" y="0.0" width="355" height="19"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="19" id="Mkp-Pz-ngW"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="16"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="r5M-w2-EoI">
+                                                    <rect key="frame" x="10" y="22" width="355" height="21"/>
+                                                    <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="11"/>
+                                                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="bottomMargin" secondItem="r5M-w2-EoI" secondAttribute="bottom" constant="-7.5" id="2i5-Rf-2RR"/>
+                                                <constraint firstItem="r5M-w2-EoI" firstAttribute="top" secondItem="Wnn-x5-fBm" secondAttribute="bottom" constant="3" id="7tY-xD-3aD"/>
+                                                <constraint firstItem="Wnn-x5-fBm" firstAttribute="leading" secondItem="3sm-vZ-lU5" secondAttribute="leadingMargin" constant="2" id="DoE-GQ-UNu"/>
+                                                <constraint firstItem="r5M-w2-EoI" firstAttribute="leading" secondItem="3sm-vZ-lU5" secondAttribute="leadingMargin" constant="2" id="Wdv-he-jCf"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="r5M-w2-EoI" secondAttribute="trailing" constant="2" id="cX3-Pf-mLZ"/>
+                                                <constraint firstItem="Wnn-x5-fBm" firstAttribute="top" secondItem="3sm-vZ-lU5" secondAttribute="topMargin" constant="-8" id="xIu-Mp-loX"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="Wnn-x5-fBm" secondAttribute="trailing" constant="2" id="xzr-JN-mlD"/>
+                                            </constraints>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="taskAddedLabel" destination="r5M-w2-EoI" id="qV9-Iq-2RR"/>
+                                            <outlet property="taskNameLabel" destination="Wnn-x5-fBm" id="PjL-ee-krh"/>
+                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                                 <connections>
