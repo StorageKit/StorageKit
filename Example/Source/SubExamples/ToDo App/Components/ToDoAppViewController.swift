@@ -18,6 +18,8 @@ class ToDoAppViewController: UIViewController {
     internal var tasks: [Task] = []
     internal var doneTasks: [Task] = []
     
+    private let sortDescriptor = SortDescriptor(key: "added", ascending: false)
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
@@ -38,13 +40,11 @@ class ToDoAppViewController: UIViewController {
         dispatchGroup.enter()
 
         storage.performBackgroundTask {[weak self] (bckContext, _) in
-            guard let backgroundContext = bckContext else { return }
+            guard let strongSelf = self, let backgroundContext = bckContext else { return }
 
-            let sortDescriptor = SortDescriptor(key: "name", ascending: true)
-            
             switch storageType {
             case .CoreData:
-                backgroundContext.fetch(predicate: NSPredicate(format: "done == false"), sortDescriptors: [sortDescriptor], completion: {[weak self] (fetchedTasks: [ToDoTask]?) in
+                backgroundContext.fetch(predicate: NSPredicate(format: "done == false"), sortDescriptors: [strongSelf.sortDescriptor], completion: {[weak self] (fetchedTasks: [ToDoTask]?) in
                     
                     guard self != nil else {
                         dispatchGroup.leave()
@@ -63,7 +63,7 @@ class ToDoAppViewController: UIViewController {
                     })
                 })
             case .Realm:
-                backgroundContext.fetch(predicate: NSPredicate(format: "done == false"), sortDescriptors: [sortDescriptor], completion: {[weak self] (fetchedTasks: [RTodoTask]?) in
+                backgroundContext.fetch(predicate: NSPredicate(format: "done == false"), sortDescriptors: [strongSelf.sortDescriptor], completion: {[weak self] (fetchedTasks: [RTodoTask]?) in
                     
                     guard self != nil else {
                         dispatchGroup.leave()
@@ -89,13 +89,11 @@ class ToDoAppViewController: UIViewController {
 
         dispatchGroup.enter()
         storage.performBackgroundTask {[weak self] (bckContext, _) in
-            guard let backgroundContext = bckContext else { return }
-
-            let sortDescriptor = SortDescriptor(key: "name", ascending: true)
+            guard let strongSelf = self, let backgroundContext = bckContext else { return }
             
             switch storageType {
             case .CoreData:
-                backgroundContext.fetch(predicate: NSPredicate(format: "done == true"), sortDescriptors: [sortDescriptor], completion: {[weak self] (fetchedTasks: [ToDoTask]?) in
+                backgroundContext.fetch(predicate: NSPredicate(format: "done == true"), sortDescriptors: [strongSelf.sortDescriptor], completion: {[weak self] (fetchedTasks: [ToDoTask]?) in
                     
                     guard self != nil else {
                         dispatchGroup.leave()
@@ -114,7 +112,7 @@ class ToDoAppViewController: UIViewController {
                     })
                 })
             case .Realm:
-                backgroundContext.fetch(predicate: NSPredicate(format: "done == true"), sortDescriptors: [sortDescriptor], completion: {[weak self] (fetchedTasks: [RTodoTask]?) in
+                backgroundContext.fetch(predicate: NSPredicate(format: "done == true"), sortDescriptors: [strongSelf.sortDescriptor], completion: {[weak self] (fetchedTasks: [RTodoTask]?) in
                     
                     guard self != nil else {
                         dispatchGroup.leave()
@@ -197,19 +195,17 @@ extension ToDoAppViewController: UITableViewDataSource {
 // MARK: - UITableViewDelegate
 extension ToDoAppViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "ToDoCell", for: indexPath)
-        
-        var name = ""
-        
-        if indexPath.section == 0 {
-            name = self.tasks[indexPath.row].name ?? "no name for this task"
-        } else if indexPath.section == 1 {
-            name = self.doneTasks[indexPath.row].name ?? "no name for this task"
+        if let cell = tableView.dequeueReusableCell(withIdentifier: "ToDoCell", for: indexPath) as? ToDoCell {
+            if indexPath.section == 0 {
+                cell.task = self.tasks[indexPath.row]
+            } else {
+                cell.task = self.doneTasks[indexPath.row]
+            }
+            
+            return cell
         }
         
-        cell.textLabel?.text = name
-        
-        return cell
+        return UITableViewCell()
     }
     
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
