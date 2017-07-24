@@ -40,9 +40,11 @@ class ToDoAppViewController: UIViewController {
         storage.performBackgroundTask {[weak self] (bckContext, _) in
             guard let backgroundContext = bckContext else { return }
 
+            let sortDescriptor = SortDescriptor(key: "name", ascending: true)
+            
             switch storageType {
             case .CoreData:
-                backgroundContext.fetch(predicate: NSPredicate(format: "done == false"), sortDescriptors: nil, completion: {[weak self] (fetchedTasks: [ToDoTask]?) in
+                backgroundContext.fetch(predicate: NSPredicate(format: "done == false"), sortDescriptors: [sortDescriptor], completion: {[weak self] (fetchedTasks: [ToDoTask]?) in
                     
                     guard self != nil else {
                         dispatchGroup.leave()
@@ -61,7 +63,7 @@ class ToDoAppViewController: UIViewController {
                     })
                 })
             case .Realm:
-                backgroundContext.fetch(predicate: NSPredicate(format: "done == false"), sortDescriptors: nil, completion: {[weak self] (fetchedTasks: [RTodoTask]?) in
+                backgroundContext.fetch(predicate: NSPredicate(format: "done == false"), sortDescriptors: [sortDescriptor], completion: {[weak self] (fetchedTasks: [RTodoTask]?) in
                     
                     guard self != nil else {
                         dispatchGroup.leave()
@@ -89,9 +91,11 @@ class ToDoAppViewController: UIViewController {
         storage.performBackgroundTask {[weak self] (bckContext, _) in
             guard let backgroundContext = bckContext else { return }
 
+            let sortDescriptor = SortDescriptor(key: "name", ascending: true)
+            
             switch storageType {
             case .CoreData:
-                backgroundContext.fetch(predicate: NSPredicate(format: "done == true"), sortDescriptors: nil, completion: {[weak self] (fetchedTasks: [ToDoTask]?) in
+                backgroundContext.fetch(predicate: NSPredicate(format: "done == true"), sortDescriptors: [sortDescriptor], completion: {[weak self] (fetchedTasks: [ToDoTask]?) in
                     
                     guard self != nil else {
                         dispatchGroup.leave()
@@ -110,7 +114,7 @@ class ToDoAppViewController: UIViewController {
                     })
                 })
             case .Realm:
-                backgroundContext.fetch(predicate: NSPredicate(format: "done == true"), sortDescriptors: nil, completion: {[weak self] (fetchedTasks: [RTodoTask]?) in
+                backgroundContext.fetch(predicate: NSPredicate(format: "done == true"), sortDescriptors: [sortDescriptor], completion: {[weak self] (fetchedTasks: [RTodoTask]?) in
                     
                     guard self != nil else {
                         dispatchGroup.leave()
