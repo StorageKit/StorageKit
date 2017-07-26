@@ -50,11 +50,11 @@ extension RealmContext {
         }
         
         try self.safeWriteAction {
-            let objects = realm.objects(entityToDelete)
-            
-            for object in objects {
-                realm.delete(object)
-            }
+            let objects = realm.objects(type: entityToDelete)
+
+			objects.toArray.forEach {
+				realm.delete($0)
+			}
         }
     }
 }
@@ -103,18 +103,18 @@ extension RealmContext {
             return
         }
         
-        var objects = realm.objects(entityToFetch)
+        var objects = realm.objects(type: entityToFetch)
         
         if let predicate = predicate {
-            objects = objects.filter(predicate)
+            objects = objects.filter(predicate: predicate)
         }
         
         if let sortDescriptors = sortDescriptors {
             for sortDescriptor in sortDescriptors {
-                objects = objects.sorted(byKeyPath: sortDescriptor.key, ascending: sortDescriptor.ascending)
+                objects = objects.sorted(keyPath: sortDescriptor.key, ascending: sortDescriptor.ascending)
             }
         }
         
-        completion(objects.flatMap { $0 as? T })
+        completion(objects.toArray.flatMap { $0 as? T })
     }
 }

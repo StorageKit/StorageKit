@@ -1,5 +1,5 @@
 //
-//  RealmType.swift
+//  SpyRealmResult.swift
 //  StorageKit
 //
 //  Copyright (c) 2017 StorageKit (https://github.com/StorageKit)
@@ -23,17 +23,25 @@
 //  THE SOFTWARE.
 //
 
+@testable import StorageKit
+
+import Realm
 import RealmSwift
 
-protocol RealmType {
-	var isInWriteTransaction: Bool { get }
+final class SpyRealmResult {
+	
+}
 
-	init(configuration: Realm.Configuration) throws
+extension SpyRealmResult: RealmResultType {
+	var toArray: [Object] {
+		return [Object()]
+	}
 
-	func write(_ block: (() throws -> Void)) throws
-	func add(_ object: Object, update: Bool)
-	func objects<T: Object>(type: T.Type) -> RealmResultType
-	func delete(_ object: Object)
+	func filter(predicate: NSPredicate) -> RealmResultType {
+		return SpyRealmResult()
+	}
 
-	func resolve<Confined>(_ reference: ThreadSafeReference<Confined>) -> Confined?
+	func sorted(keyPath: String, ascending: Bool) -> RealmResultType {
+		return SpyRealmResult()
+	}
 }

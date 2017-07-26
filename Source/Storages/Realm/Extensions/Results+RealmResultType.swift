@@ -1,5 +1,5 @@
 //
-//  RealmType.swift
+//  Results+RealmResultType.swift
 //  StorageKit
 //
 //  Copyright (c) 2017 StorageKit (https://github.com/StorageKit)
@@ -25,15 +25,17 @@
 
 import RealmSwift
 
-protocol RealmType {
-	var isInWriteTransaction: Bool { get }
+extension Results: RealmResultType {
+	var toArray: [Object] {
+		return Array(self)
+	}
 
-	init(configuration: Realm.Configuration) throws
+	func filter(predicate: NSPredicate) -> RealmResultType {
+		return filter(predicate)
+	}
 
-	func write(_ block: (() throws -> Void)) throws
-	func add(_ object: Object, update: Bool)
-	func objects<T: Object>(type: T.Type) -> RealmResultType
-	func delete(_ object: Object)
+	func sorted(keyPath: String, ascending: Bool) -> RealmResultType {
+		return sorted(byKeyPath: keyPath, ascending: ascending)
+	}
 
-	func resolve<Confined>(_ reference: ThreadSafeReference<Confined>) -> Confined?
 }
