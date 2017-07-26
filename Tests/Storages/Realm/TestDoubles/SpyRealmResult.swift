@@ -29,19 +29,16 @@ import Realm
 import RealmSwift
 
 final class SpyRealmResult {
-	
+	var toArray = [Object]()
 }
 
 extension SpyRealmResult: RealmResultType {
-	var toArray: [Object] {
-		return [Object()]
-	}
 
 	func filter(predicate: NSPredicate) -> RealmResultType {
-		return SpyRealmResult()
+		return self
 	}
 
 	func sorted(keyPath: String, ascending: Bool) -> RealmResultType {
-		return SpyRealmResult()
+		return self
 	}
 }

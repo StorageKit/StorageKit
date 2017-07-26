@@ -29,17 +29,36 @@ import Realm
 import RealmSwift
 
 final class SpyRealm {
+
+	fileprivate(set) var isInitCalled = false
+	fileprivate(set) var initConfigurationArgument: Realm.Configuration?
+
+	fileprivate(set) var isWriteCalled = false
+
+	fileprivate(set) var deleteCallsCount = 0
+	fileprivate(set) var deleteObjectArguments: [Object]?
+
+	fileprivate(set) var isObjectsCalled = false
+	fileprivate(set) var objectsTypeArgument: Any?
+
 	var isInWriteTransaction = false
 
-	init(configuration: Realm.Configuration) throws {
+	let forcedResult = SpyRealmResult()
 
+	init(configuration: Realm.Configuration) throws {
+		deleteObjectArguments = []
+
+		isInitCalled = true
+		initConfigurationArgument = configuration
 	}
 }
 
 extension SpyRealm: RealmType {
 
 	func write(_ block: (() throws -> Void)) throws {
+		isWriteCalled = true
 
+		try block()
 	}
 
 	func add(_ object: Object, update: Bool) {
@@ -47,12 +66,16 @@ extension SpyRealm: RealmType {
 	}
 
 	func objects<T>(type: T.Type) -> RealmResultType {
-
-		return nil
+		isObjectsCalled = true
+		objectsTypeArgument = type
+		
+		return forcedResult
 	}
 
 	func delete(_ object: Object) {
+		deleteCallsCount += 1
 
+		deleteObjectArguments?.append(object)
 	}
 
 	func resolve<Confined>(_ reference: ThreadSafeReference<Confined>) -> Confined? {

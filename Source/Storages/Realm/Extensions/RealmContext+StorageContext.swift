@@ -36,8 +36,9 @@ extension RealmContext {
     }
 
     func delete<T>(_ entities: [T]) throws where T : StorageEntityType {
-        try self.safeWriteAction {
-            
+
+		try self.safeWriteAction {
+
             entities.lazy
                 .flatMap { return $0 as? Object }
                 .forEach { realm.delete($0) }
@@ -62,7 +63,6 @@ extension RealmContext {
 // MARK: - StorageWritableContext
 extension RealmContext {
     func create<T: StorageEntityType>() throws -> T? {
-        
         guard let entityToCreate = T.self as? Object.Type else {
             throw RealmError.wrongObject("\(T.name) is not a valid realm entity type.")
         }
