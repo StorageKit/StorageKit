@@ -1,5 +1,5 @@
 //
-//  RealmDataStorage.swift
+//  RealmContext.swift
 //  StorageKit
 //
 //  Copyright (c) 2017 StorageKit (https://github.com/StorageKit)
@@ -25,7 +25,7 @@
 
 import RealmSwift
 
-class RealmContextType: StorageContext {
+class RealmContext: StorageContext {
 	private (set) var realm: Realm
 
 	public enum RealmError: Error {

@@ -32,7 +32,7 @@ final class RealmDataStorage: Storage {
         case memory
     }
     
-    var mainContext: StorageContext? = RealmContextType()
+    var mainContext: StorageContext? = RealmContext()
     private let backgroundQueue = DispatchQueue(label: "com.StorageKit.realmDataStorage")
     
     private let contextRepo = ContextRepo()
@@ -45,7 +45,7 @@ final class RealmDataStorage: Storage {
         
         backgroundQueue.async { [unowned self] in
             autoreleasepool {
-                let context = RealmContextType()
+                let context = RealmContext()
                 
                 self.contextRepo.store(context: context, queue: self.backgroundQueue)
                 
@@ -55,7 +55,7 @@ final class RealmDataStorage: Storage {
     }
     
     func getThreadSafeEntities<T: StorageEntityType>(for destinationContext: StorageContext, originalContext: StorageContext, originalEntities: [T], completion: @escaping ([T]) -> Void) {
-        guard let destinationContext = destinationContext as? RealmContextType,
+        guard let destinationContext = destinationContext as? RealmContext,
             let originalQueue = contextRepo.retrieveQueue(for: originalContext),
             let destinationQueue = contextRepo.retrieveQueue(for: destinationContext) else {
                 // TODO: Add an error

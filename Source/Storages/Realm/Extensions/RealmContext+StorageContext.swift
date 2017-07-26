@@ -1,5 +1,5 @@
 //
-//  RealmDataStorage+StorageContext.swift
+//  RealmContext+StorageContext.swift
 //  StorageKit
 //
 //  Copyright (c) 2017 StorageKit (https://github.com/StorageKit)
@@ -26,7 +26,7 @@
 import RealmSwift
 
 // MARK: - StorageDeletableContext
-extension RealmContextType {
+extension RealmContext {
     func delete<T: StorageEntityType>(_ entity: T) throws {
         guard entity is Object else {
             throw RealmError.wrongObject("\(entity) is not a valid realm entity.")
@@ -60,7 +60,7 @@ extension RealmContextType {
 }
 
 // MARK: - StorageWritableContext
-extension RealmContextType {
+extension RealmContext {
     func create<T: StorageEntityType>() throws -> T? {
         
         guard let entityToCreate = T.self as? Object.Type else {
@@ -85,7 +85,7 @@ extension RealmContextType {
 }
 
 // MARK: - StorageUpdatableContext
-extension RealmContextType {
+extension RealmContext {
     func update(transform: @escaping () -> Void) throws {
         
         try safeWriteAction {
@@ -95,7 +95,7 @@ extension RealmContextType {
 }
 
 // MARK: - StorageReadableContext
-extension RealmContextType {
+extension RealmContext {
     func fetch<T: StorageEntityType>(predicate: NSPredicate? = nil, sortDescriptors: [SortDescriptor]? = nil, completion: @escaping FetchCompletionClosure<T>) {
         guard let entityToFetch = T.self as? Object.Type else {
             // TODO: i'd need a throw here
