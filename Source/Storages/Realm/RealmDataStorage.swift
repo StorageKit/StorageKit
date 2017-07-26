@@ -86,29 +86,3 @@ final class RealmDataStorage: Storage {
         }
     }
 }
-
-class RealmContextType: StorageContext {
-    private (set) var realm: Realm
-    
-    public enum RealmError: Error {
-        case wrongObject(String)
-        case methodNotImplemented(String)
-        case initFail(String)
-    }
-    
-    init?() {
-        do {
-            try self.realm = Realm(configuration: Realm.Configuration.defaultConfiguration)
-        } catch {
-            return nil
-        }
-    }
-    
-    func safeWriteAction(_ block: (() throws -> Void)) throws {
-        if realm.isInWriteTransaction {
-            try block()
-        } else {
-            try realm.write(block)
-        }
-    }
-}
