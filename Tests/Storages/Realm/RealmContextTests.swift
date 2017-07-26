@@ -1,5 +1,5 @@
 //
-//  RealmContext.swift
+//  RealmContextTests.swift
 //  StorageKit
 //
 //  Copyright (c) 2017 StorageKit (https://github.com/StorageKit)
@@ -23,30 +23,21 @@
 //  THE SOFTWARE.
 //
 
-import RealmSwift
+@testable import StorageKit
 
-class RealmContext: StorageContext {
-	private(set) var realm: RealmType
+import XCTest
 
-	public enum RealmError: Error {
-		case wrongObject(String)
-		case methodNotImplemented(String)
-		case initFail(String)
-	}
+class RealmContextTests: XCTestCase {
 
-	init?(realmType: RealmType.Type = Realm.self) {
-		do {
-			try self.realm = realmType.init(configuration: Realm.Configuration.defaultConfiguration)
-		} catch {
-			return nil
-		}
-	}
+	fileprivate var sut: RealmContext!
 
-	func safeWriteAction(_ block: (() throws -> Void)) throws {
-		if realm.isInWriteTransaction {
-			try block()
-		} else {
-			try realm.write(block)
-		}
-	}
+    override func setUp() {
+        super.setUp()
+        // Put setup code here. This method is called before the invocation of each test method in the class.
+    }
+    
+    override func tearDown() {
+        // Put teardown code here. This method is called after the invocation of each test method in the class.
+        super.tearDown()
+    }
 }

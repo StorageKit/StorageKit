@@ -1,5 +1,5 @@
 //
-//  RealmContext.swift
+//  Realm+RealmType.swift
 //  StorageKit
 //
 //  Copyright (c) 2017 StorageKit (https://github.com/StorageKit)
@@ -25,28 +25,4 @@
 
 import RealmSwift
 
-class RealmContext: StorageContext {
-	private(set) var realm: RealmType
-
-	public enum RealmError: Error {
-		case wrongObject(String)
-		case methodNotImplemented(String)
-		case initFail(String)
-	}
-
-	init?(realmType: RealmType.Type = Realm.self) {
-		do {
-			try self.realm = realmType.init(configuration: Realm.Configuration.defaultConfiguration)
-		} catch {
-			return nil
-		}
-	}
-
-	func safeWriteAction(_ block: (() throws -> Void)) throws {
-		if realm.isInWriteTransaction {
-			try block()
-		} else {
-			try realm.write(block)
-		}
-	}
-}
+extension Realm: RealmType {}

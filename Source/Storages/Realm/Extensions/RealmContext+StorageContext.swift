@@ -34,7 +34,7 @@ extension RealmContext {
         
         try delete([entity])
     }
-    
+
     func delete<T>(_ entities: [T]) throws where T : StorageEntityType {
         try self.safeWriteAction {
             
@@ -79,7 +79,7 @@ extension RealmContext {
             
             entities.lazy
                 .flatMap { return $0 as? Object }
-                .forEach { realm.add($0) }
+                .forEach { realm.add($0, update: false) }
         }
     }
 }

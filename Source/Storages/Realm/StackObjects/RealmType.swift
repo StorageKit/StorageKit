@@ -1,5 +1,5 @@
 //
-//  RealmContext.swift
+//  RealmType.swift
 //  StorageKit
 //
 //  Copyright (c) 2017 StorageKit (https://github.com/StorageKit)
@@ -23,30 +23,19 @@
 //  THE SOFTWARE.
 //
 
+import Foundation
+
 import RealmSwift
 
-class RealmContext: StorageContext {
-	private(set) var realm: RealmType
+protocol RealmType {
+	var isInWriteTransaction: Bool { get }
 
-	public enum RealmError: Error {
-		case wrongObject(String)
-		case methodNotImplemented(String)
-		case initFail(String)
-	}
+	init(configuration: Realm.Configuration) throws
 
-	init?(realmType: RealmType.Type = Realm.self) {
-		do {
-			try self.realm = realmType.init(configuration: Realm.Configuration.defaultConfiguration)
-		} catch {
-			return nil
-		}
-	}
+	func write(_ block: (() throws -> Void)) throws
+	func add(_ object: Object, update: Bool)
+	func objects<T>(_ type: T.Type) -> Results<T>
+	func delete(_ object: Object)
 
-	func safeWriteAction(_ block: (() throws -> Void)) throws {
-		if realm.isInWriteTransaction {
-			try block()
-		} else {
-			try realm.write(block)
-		}
-	}
+	func resolve<Confined>(_ reference: ThreadSafeReference<Confined>) -> Confined?
 }
