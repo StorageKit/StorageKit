@@ -41,12 +41,18 @@ final class SpyRealm {
 	fileprivate(set) var isObjectsCalled = false
 	fileprivate(set) var objectsTypeArgument: Any?
 
+	fileprivate(set) var addCallsCount = 0
+	fileprivate(set) var addObjectArguments: [Object]?
+	fileprivate(set) var addUpdatesArguments: [Bool]?
+
 	var isInWriteTransaction = false
 
 	let forcedResult = SpyRealmResult()
 
 	init(configuration: Realm.Configuration) throws {
 		deleteObjectArguments = []
+		addObjectArguments = []
+		addUpdatesArguments = []
 
 		isInitCalled = true
 		initConfigurationArgument = configuration
@@ -62,7 +68,9 @@ extension SpyRealm: RealmType {
 	}
 
 	func add(_ object: Object, update: Bool) {
-
+		addCallsCount += 1
+		addObjectArguments?.append(object)
+		addUpdatesArguments?.append(update)
 	}
 
 	func objects<T>(type: T.Type) -> RealmResultType {
