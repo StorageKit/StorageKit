@@ -67,6 +67,9 @@
 		A9E0125D1F28EE4000040CE0 /* Realm+RealmType.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E0125C1F28EE4000040CE0 /* Realm+RealmType.swift */; };
 		A9E012611F28EF3A00040CE0 /* SpyRealm.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E0125F1F28EF3700040CE0 /* SpyRealm.swift */; };
 		A9E012641F28F76A00040CE0 /* SpyRealmResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E012621F28F76400040CE0 /* SpyRealmResult.swift */; };
+		A9FA2CC31F2A731E00ED6C0B /* RealmDataStorageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9FA2CC21F2A731E00ED6C0B /* RealmDataStorageTests.swift */; };
+		A9FA2CD01F2A7D5C00ED6C0B /* SpyRealmContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9FA2CCF1F2A7D5C00ED6C0B /* SpyRealmContext.swift */; };
+		A9FA2CD31F2A7D7200ED6C0B /* SpyContextRepo.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9FA2CD21F2A7D7200ED6C0B /* SpyContextRepo.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -225,6 +228,9 @@
 		A9E0125C1F28EE4000040CE0 /* Realm+RealmType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Realm+RealmType.swift"; sourceTree = "<group>"; };
 		A9E0125F1F28EF3700040CE0 /* SpyRealm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpyRealm.swift; sourceTree = "<group>"; };
 		A9E012621F28F76400040CE0 /* SpyRealmResult.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpyRealmResult.swift; sourceTree = "<group>"; };
+		A9FA2CC21F2A731E00ED6C0B /* RealmDataStorageTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmDataStorageTests.swift; sourceTree = "<group>"; };
+		A9FA2CCF1F2A7D5C00ED6C0B /* SpyRealmContext.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpyRealmContext.swift; sourceTree = "<group>"; };
+		A9FA2CD21F2A7D7200ED6C0B /* SpyContextRepo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpyContextRepo.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -546,6 +552,7 @@
 			isa = PBXGroup;
 			children = (
 				A916FCD41F212E17007BE694 /* ContextRepoTests.swift */,
+				A9FA2CD11F2A7D7200ED6C0B /* TestDoubles */,
 			);
 			path = Handlers;
 			sourceTree = "<group>";
@@ -553,8 +560,9 @@
 		A9E012561F28EB3C00040CE0 /* Realm */ = {
 			isa = PBXGroup;
 			children = (
-				A9E0125E1F28EF2C00040CE0 /* TestDoubles */,
 				A9E012571F28EB4C00040CE0 /* RealmContextTests.swift */,
+				A9FA2CC21F2A731E00ED6C0B /* RealmDataStorageTests.swift */,
+				A9E0125E1F28EF2C00040CE0 /* TestDoubles */,
 			);
 			path = Realm;
 			sourceTree = "<group>";
@@ -572,7 +580,16 @@
 			isa = PBXGroup;
 			children = (
 				A9E0125F1F28EF3700040CE0 /* SpyRealm.swift */,
+				A9FA2CCF1F2A7D5C00ED6C0B /* SpyRealmContext.swift */,
 				A9E012621F28F76400040CE0 /* SpyRealmResult.swift */,
+			);
+			path = TestDoubles;
+			sourceTree = "<group>";
+		};
+		A9FA2CD11F2A7D7200ED6C0B /* TestDoubles */ = {
+			isa = PBXGroup;
+			children = (
+				A9FA2CD21F2A7D7200ED6C0B /* SpyContextRepo.swift */,
 			);
 			path = TestDoubles;
 			sourceTree = "<group>";
@@ -817,11 +834,14 @@
 				A0C4924C1F1387C400031BBA /* XCTestCase+FatalError.swift in Sources */,
 				A0BEA2231F165ADC005FC8BF /* CoreDataStorageTests.swift in Sources */,
 				A000FEB61F1671390027D689 /* NSEntityDescriptionEntityDescriptionTypeTests.swift in Sources */,
+				A9FA2CD01F2A7D5C00ED6C0B /* SpyRealmContext.swift in Sources */,
 				A000FEF21F16724A0027D689 /* DummyStorageContext.swift in Sources */,
 				A000FEF11F1672460027D689 /* DummyStorage.swift in Sources */,
 				A000FEE41F1671A40027D689 /* SpyManagedObjectContext.swift in Sources */,
 				A96EC6511F1D4AA3008FCF39 /* FakeObjectID.swift in Sources */,
+				A9FA2CC31F2A731E00ED6C0B /* RealmDataStorageTests.swift in Sources */,
 				A000FEE11F16719A0027D689 /* FakeManagedObject.swift in Sources */,
+				A9FA2CD31F2A7D7200ED6C0B /* SpyContextRepo.swift in Sources */,
 				A000FEE81F1671B20027D689 /* StubManagedObjectContext.swift in Sources */,
 				A000FEE01F1671970027D689 /* DummyPersistentStore.swift in Sources */,
 				A0C4922D1F13805100031BBA /* SpyBundle.swift in Sources */,

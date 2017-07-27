@@ -49,7 +49,7 @@ final class SpyRealm {
 
 	let forcedResult = SpyRealmResult()
 
-	init(configuration: Realm.Configuration) throws {
+	init(configuration: Realm.Configuration = .defaultConfiguration) throws {
 		deleteObjectArguments = []
 		addObjectArguments = []
 		addUpdatesArguments = []

@@ -25,7 +25,13 @@
 
 import RealmSwift
 
-class RealmContext: StorageContext {
+protocol RealmContextType: StorageContext {
+	var realm: RealmType { get }
+	
+	init?(realmType: RealmType.Type)
+}
+
+class RealmContext: StorageContext, RealmContextType {
 	private(set) var realm: RealmType
 
 	public enum RealmError: Error {
@@ -34,7 +40,7 @@ class RealmContext: StorageContext {
 		case initFail(String)
 	}
 
-	init?(realmType: RealmType.Type = Realm.self) {
+	required init?(realmType: RealmType.Type = Realm.self) {
 		do {
 			try self.realm = realmType.init(configuration: Realm.Configuration.defaultConfiguration)
 		} catch {

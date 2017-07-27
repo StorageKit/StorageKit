@@ -26,7 +26,7 @@
 public struct SortDescriptor {
     let key: String
     let ascending: Bool
-    
+
     public init(key: String, ascending: Bool = true) {
         self.key = key
         self.ascending = ascending
