@@ -31,21 +31,30 @@ final class RealmDataStorage: Storage {
         case sql
         case memory
     }
+
+	struct Configuration {
+		var ContextRepoType: ContextRepoType.Type = ContextRepo.self
+		var RealmContextType: RealmContextType.Type = RealmContext.self
+	}
     
-    var mainContext: StorageContext? = RealmContextType()
+    var mainContext: StorageContext?
     private let backgroundQueue = DispatchQueue(label: "com.StorageKit.realmDataStorage")
-    
-    private let contextRepo = ContextRepo()
-    
-    init() {
+	private let configuration: Configuration
+	private let contextRepo: ContextRepoType
+
+	init(configuration: Configuration = Configuration()) {
+		self.configuration = configuration
+
+		mainContext = configuration.RealmContextType.init(realmType: Realm.self)
+
+		contextRepo = configuration.ContextRepoType.init(cleaningTimerInterval: nil)
         contextRepo.store(context: mainContext, queue: .main)
     }
     
     func performBackgroundTask(_ taskClosure: @escaping TaskClosure) {
-        
         backgroundQueue.async { [unowned self] in
             autoreleasepool {
-                let context = RealmContextType()
+                let context = self.configuration.RealmContextType.init(realmType: Realm.self)
                 
                 self.contextRepo.store(context: context, queue: self.backgroundQueue)
                 
@@ -83,32 +92,6 @@ final class RealmDataStorage: Storage {
                 .flatMap { ThreadSafeReference(to: $0) }
             
             completion(threadSafeRefs)
-        }
-    }
-}
-
-class RealmContextType: StorageContext {
-    private (set) var realm: Realm
-    
-    public enum RealmError: Error {
-        case wrongObject(String)
-        case methodNotImplemented(String)
-        case initFail(String)
-    }
-    
-    init?() {
-        do {
-            try self.realm = Realm(configuration: Realm.Configuration.defaultConfiguration)
-        } catch {
-            return nil
-        }
-    }
-    
-    func safeWriteAction(_ block: (() throws -> Void)) throws {
-        if realm.isInWriteTransaction {
-            try block()
-        } else {
-            try realm.write(block)
         }
     }
 }

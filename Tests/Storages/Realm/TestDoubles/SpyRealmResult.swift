@@ -1,5 +1,5 @@
 //
-//  SortDescriptor.swift
+//  SpyRealmResult.swift
 //  StorageKit
 //
 //  Copyright (c) 2017 StorageKit (https://github.com/StorageKit)
@@ -23,12 +23,35 @@
 //  THE SOFTWARE.
 //
 
-public struct SortDescriptor {
-    let key: String
-    let ascending: Bool
+@testable import StorageKit
 
-    public init(key: String, ascending: Bool = true) {
-        self.key = key
-        self.ascending = ascending
-    }
+import Realm
+import RealmSwift
+
+final class SpyRealmResult {
+	var toArray = [Object]()
+
+	fileprivate(set) var isFilterCalled = false
+	fileprivate(set) var filterPredicateArgument: NSPredicate?
+
+	fileprivate(set) var sortedCallsCount = 0
+	fileprivate(set) var sortedKeyPathArguments = [String]()
+	fileprivate(set) var sortedAscendingArguments = [Bool]()
+}
+
+extension SpyRealmResult: RealmResultType {
+
+	func filter(predicate: NSPredicate) -> RealmResultType {
+		isFilterCalled = true
+		filterPredicateArgument = predicate
+		return self
+	}
+
+	func sorted(keyPath: String, ascending: Bool) -> RealmResultType {
+		sortedCallsCount += 1
+		sortedKeyPathArguments.append(keyPath)
+		sortedAscendingArguments.append(ascending)
+
+		return self
+	}
 }

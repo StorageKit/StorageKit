@@ -1,5 +1,5 @@
 //
-//  SortDescriptor.swift
+//  RealmType.swift
 //  StorageKit
 //
 //  Copyright (c) 2017 StorageKit (https://github.com/StorageKit)
@@ -23,12 +23,17 @@
 //  THE SOFTWARE.
 //
 
-public struct SortDescriptor {
-    let key: String
-    let ascending: Bool
+import RealmSwift
 
-    public init(key: String, ascending: Bool = true) {
-        self.key = key
-        self.ascending = ascending
-    }
+protocol RealmType {
+	var isInWriteTransaction: Bool { get }
+
+	init(configuration: Realm.Configuration) throws
+
+	func write(_ block: (() throws -> Void)) throws
+	func add(_ object: Object, update: Bool)
+	func objects<T: Object>(type: T.Type) -> RealmResultType
+	func delete(_ object: Object)
+
+	func resolve<Confined>(_ reference: ThreadSafeReference<Confined>) -> Confined?
 }
