@@ -206,17 +206,17 @@ The common use of this method is:
 2. move the entities retrieved to the main context using `getThreadSafeEntities`
 
 ```
-   storage.performBackgroundTask {[weak self] (backgroundContext, backgroundQueue) in
-        guard let backgroundContext = backgroundContext else { return }
-     
-        // 1
-        backgroundContext.fetch(predicate: nil, sortDescriptors: nil, completion: {[weak self] (entities: [MyEntity]?) in
-            // 2
-            storage.getThreadSafeEntities(for: context, originalContext: backgroundContext, originalEntities: entities, completion: { safeEntities in
-                self?.entities = safeEntities
-            })
+storage.performBackgroundTask {[weak self] (backgroundContext, backgroundQueue) in
+    guard let backgroundContext = backgroundContext else { return }
+    
+    // 1
+    backgroundContext.fetch(predicate: nil, sortDescriptors: nil, completion: {[weak self] (entities: [MyEntity]?) in
+        // 2
+        storage.getThreadSafeEntities(for: context, originalContext: backgroundContext, originalEntities: entities, completion: { safeEntities in
+            self?.entities = safeEntities
         })
-    }
+    })
+}
 ```
 
 ## Installation
