@@ -1,5 +1,5 @@
 <h3 align="center">
-  <img src="https://raw.githubusercontent.com/StorageKit/StorageKit/master/Resources/logo.jpg" alt="StorageKit" width="600" height="214" />
+  <img src="https://raw.githubusercontent.com/StorageKit/StorageKit/master/Resources/logo.jpg" alt="StorageKit"/>
 
   Your Data Storage Troubleshooter 🛠
 </h3>
@@ -41,33 +41,33 @@ Our mission is keeping the persistence layer isolated as much as possible from t
 The first step is creating a new `Storage` object with a specific type (either `.CoreData` or `.Realm`) which is the entry-point object to setup `StorageKit`:
 
 ```
-    let storage = StorageKit.addStorage(type: .Realm)
+let storage = StorageKit.addStorage(type: .Realm)
 ```
 or
 ```
-    let storage = StorageKit.addStorage(type: .CoreData(dataModelName: "Example")
+let storage = StorageKit.addStorage(type: .CoreData(dataModelName: "Example")
 ```
 
 The storage exposes a `context` which is the object you will use to perform the common *CRUD operations*, for instance:
 
 ```
-    storage.mainContext?.fetch(predicate: NSPredicate(format: "done == false"), sortDescriptors: nil, completion: { (fetchedTasks: [RTodoTask]?) in
-        self.tasks = fetchedTasks
-            // do whatever you want
-        }
-    )
+storage.mainContext?.fetch(predicate: NSPredicate(format: "done == false"), sortDescriptors: nil, completion: { (fetchedTasks: [RTodoTask]?) in
+    self.tasks = fetchedTasks
+        // do whatever you want
+    }
+)
 ```
 
 or 
 
 ```
-    let task = functionThatRetrieveASpecificTaskFromDatabase()
+let task = functionThatRetrieveASpecificTaskFromDatabase()
 
-    do {
-        try storage.mainContext?.delete(task)
-    } catch {
-        // manage the error specific for CoreData or Realm
-    }
+do {
+    try storage.mainContext?.delete(task)
+} catch {
+    // manage the error specific for CoreData or Realm
+}
 ```
 
 That's it! 🎉
@@ -97,26 +97,26 @@ class RTodoTask: Object {
 
 You can create a new entity using in this way:
 ```
-    do {
-        try let entity: MyEntity = context.create()
-    } catch {}
+do {
+    try let entity: MyEntity = context.create()
+} catch {}
 ```
 
 > If you are using `Realm`, `entity` is an unmanaged object and it should be explicitily added to the database with:
 
 ```
-    do {
-        try storage.mainContext?.add(entity)
-    } catch {}
+do {
+    try storage.mainContext?.add(entity)
+} catch {}
 ```
 
 ## CRUD
 ### C as Create
 
 ```
-    do {
-        try let entity: MyEntity = context.create()
-    } catch {}
+do {
+    try let entity: MyEntity = context.create()
+} catch {}
 ```
 
 This method creates a new entity object: an `NSManagedObject` for `Core Data` and an `Object` for `Realm`.
@@ -127,12 +127,12 @@ Note
 
 
 ```
-    do {
-        try let entity: MyEntity = context.create()
-        entity.myProperty = "Hello"
-    
-        try context.add(entity)
-    } catch {}
+do {
+    try let entity: MyEntity = context.create()
+    entity.myProperty = "Hello"
+
+    try context.add(entity)
+} catch {}
 ```
 
 ### R as Read
@@ -146,12 +146,12 @@ Note
 ### U as Update
 
 ```
-    do {
-        try context.update {
-            entity.myProperty = "Hello"
-            entity2.myProperty = "Hello 2"
-        }
-    } catch {}
+do {
+    try context.update {
+        entity.myProperty = "Hello"
+        entity2.myProperty = "Hello 2"
+    }
+} catch {}
 ```
 
 Note
@@ -160,12 +160,12 @@ Note
 ### D as Delete
 
 ```
-    do {
-        try let entity: MyEntity = context.create()
-        entity.myProperty = "Hello"
+do {
+    try let entity: MyEntity = context.create()
+    entity.myProperty = "Hello"
 
-        try context.delete(entity)
-    } catch {}
+    try context.delete(entity)
+} catch {}
 ```
 
 ## Background Operations
@@ -174,27 +174,27 @@ Good news for you! `StorageKit` has been implemented with the focus on backgroun
 `Storage` (link to the class once on github) exposes the following method:
 
 ```
-   storage.performBackgroundTask {[weak self] (backgroundContext, backgroundQueue) in
-     // the backgroundContext might be nil because of internal errors
-     guard let backgroundContext = backgroundContext else { return }
-     
-     // perform your background CRUD operations here on the `backgroundContext`
-     backgroundContext.fetch(predicate: nil, sortDescriptors: nil, completion: {[weak self] (entities: [MyEntity]?) in
-        // do something with `entities`
-     })
-   }
+storage.performBackgroundTask {[weak self] (backgroundContext, backgroundQueue) in
+    // the backgroundContext might be nil because of internal errors
+    guard let backgroundContext = backgroundContext else { return }
+    
+    // perform your background CRUD operations here on the `backgroundContext`
+    backgroundContext.fetch(predicate: nil, sortDescriptors: nil, completion: {[weak self] (entities: [MyEntity]?) in
+    // do something with `entities`
+    })
+}
 ```
 
 Now the point is `entities` are retrieved in a background context, so if you need to *use* these entities in another queue (for example in the main one to update the UI), you *must* pass them to the other context through another method exposed by the `Storage`:
 
 ```
-    storage.getThreadSafeEntities(for: context, originalContext: backgroundContext, originalEntities: fetchedTasks, completion: { safeFetchedTaks in
-        self?.tasks = safeFetchedTaks
-                        
-        DispatchQueue.main.async {
-            dispatchGroup.leave()
-        }
-    })
+storage.getThreadSafeEntities(for: context, originalContext: backgroundContext, originalEntities: fetchedTasks, completion: { safeFetchedTaks in
+    self?.tasks = safeFetchedTaks
+                    
+    DispatchQueue.main.async {
+        dispatchGroup.leave()
+    }
+})
 ```
 
 The method `func getThreadSafeEntities<T: StorageEntityType>(for destinationContext: StorageContext, originalContext: StorageContext, originalEntities: [T], completion: @escaping ([T]) -> Void)` create an array of entity with the same data of `originalEntities` but thread safe, ready to be used in `destinatinationContext`.
@@ -226,7 +226,7 @@ Add `StorageKit` to your Podfile
 ```ruby
 use_frameworks!
 target 'MyTarget' do
-    pod 'StorageKit', '~> 0.1.0'
+    pod 'StorageKit', '~> 0.1.2'
 end
 ```
 
@@ -236,7 +236,7 @@ $ pod install
 
 ## Carthage
 ```ruby
-github "StorageKit/StorageKit" ~> "0.1.0"
+github "StorageKit/StorageKit" ~> "0.1.2"
 ```
 
 Then on your application target *Build Phases* settings tab, add a "New Run Script Phase". Create a Run Script with the following content:
