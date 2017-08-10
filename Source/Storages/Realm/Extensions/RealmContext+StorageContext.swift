@@ -1,5 +1,5 @@
 //
-//  RealmDataStorage+StorageContext.swift
+//  RealmContext+StorageContext.swift
 //  StorageKit
 //
 //  Copyright (c) 2017 StorageKit (https://github.com/StorageKit)
@@ -26,7 +26,7 @@
 import RealmSwift
 
 // MARK: - StorageDeletableContext
-extension RealmContextType {
+extension RealmContext {
     func delete<T: StorageEntityType>(_ entity: T) throws {
         guard entity is Object else {
             throw RealmError.wrongObject("\(entity) is not a valid realm entity.")
@@ -34,10 +34,11 @@ extension RealmContextType {
         
         try delete([entity])
     }
-    
+
     func delete<T>(_ entities: [T]) throws where T : StorageEntityType {
-        try self.safeWriteAction {
-            
+
+		try self.safeWriteAction {
+
             entities.lazy
                 .flatMap { return $0 as? Object }
                 .forEach { realm.delete($0) }
@@ -50,19 +51,18 @@ extension RealmContextType {
         }
         
         try self.safeWriteAction {
-            let objects = realm.objects(entityToDelete)
-            
-            for object in objects {
-                realm.delete(object)
-            }
+            let objects = realm.objects(type: entityToDelete)
+
+			objects.toArray.forEach {
+				realm.delete($0)
+			}
         }
     }
 }
 
 // MARK: - StorageWritableContext
-extension RealmContextType {
+extension RealmContext {
     func create<T: StorageEntityType>() throws -> T? {
-        
         guard let entityToCreate = T.self as? Object.Type else {
             throw RealmError.wrongObject("\(T.name) is not a valid realm entity type.")
         }
@@ -79,13 +79,13 @@ extension RealmContextType {
             
             entities.lazy
                 .flatMap { return $0 as? Object }
-                .forEach { realm.add($0) }
+                .forEach { realm.add($0, update: false) }
         }
     }
 }
 
 // MARK: - StorageUpdatableContext
-extension RealmContextType {
+extension RealmContext {
     func update(transform: @escaping () -> Void) throws {
         
         try safeWriteAction {
@@ -95,7 +95,7 @@ extension RealmContextType {
 }
 
 // MARK: - StorageReadableContext
-extension RealmContextType {
+extension RealmContext {
     func fetch<T: StorageEntityType>(predicate: NSPredicate? = nil, sortDescriptors: [SortDescriptor]? = nil, completion: @escaping FetchCompletionClosure<T>) {
         guard let entityToFetch = T.self as? Object.Type else {
             // TODO: i'd need a throw here
@@ -103,18 +103,18 @@ extension RealmContextType {
             return
         }
         
-        var objects = realm.objects(entityToFetch)
+        var objects = realm.objects(type: entityToFetch)
         
         if let predicate = predicate {
-            objects = objects.filter(predicate)
+            objects = objects.filter(predicate: predicate)
         }
         
         if let sortDescriptors = sortDescriptors {
             for sortDescriptor in sortDescriptors {
-                objects = objects.sorted(byKeyPath: sortDescriptor.key, ascending: sortDescriptor.ascending)
+                objects = objects.sorted(keyPath: sortDescriptor.key, ascending: sortDescriptor.ascending)
             }
         }
         
-        completion(objects.flatMap { $0 as? T })
+        completion(objects.toArray.flatMap { $0 as? T })
     }
 }

@@ -1,5 +1,5 @@
 //
-//  SortDescriptor.swift
+//  RealmResultType.swift
 //  StorageKit
 //
 //  Copyright (c) 2017 StorageKit (https://github.com/StorageKit)
@@ -23,12 +23,11 @@
 //  THE SOFTWARE.
 //
 
-public struct SortDescriptor {
-    let key: String
-    let ascending: Bool
+import RealmSwift
 
-    public init(key: String, ascending: Bool = true) {
-        self.key = key
-        self.ascending = ascending
-    }
+protocol RealmResultType: class {
+	var toArray: [Object] { get }
+
+	func filter(predicate: NSPredicate) -> RealmResultType
+	func sorted(keyPath: String, ascending: Bool) -> RealmResultType
 }

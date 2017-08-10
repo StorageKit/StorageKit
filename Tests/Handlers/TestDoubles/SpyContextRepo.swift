@@ -1,5 +1,5 @@
 //
-//  ContextRepo.swift
+//  SpyContextRepo.swift
 //  StorageKit
 //
 //  Copyright (c) 2017 StorageKit (https://github.com/StorageKit)
@@ -23,52 +23,50 @@
 //  THE SOFTWARE.
 //
 
-protocol ContextRepoType: class {
-	init(cleaningTimerInterval: Double?)
+@testable import StorageKit
 
-	func store(context: StorageContext?, queue: DispatchQueue)
-	func retrieveQueue(for context: StorageContext) -> DispatchQueue?
-}
+import Foundation
 
-final class ContextRepo {
+final class SpyContextRepo {
+	fileprivate(set) static var isInitCalled = false
+	fileprivate(set) static var initCleaningIntervalArgumet: Double?
 
-	var cleaningTimerInterval: Double = 3 * 60
+	fileprivate(set) static var isStoreCalled = false
+	fileprivate(set) static var storeContextArgumet: StorageContext?
+	fileprivate(set) static var storeQueueArgumet: DispatchQueue?
 
-    fileprivate var contextQueues: [String: ContextQueue]
+	fileprivate(set) static var isRetrieveQueueCalled = false
+	fileprivate(set) static var retrieveQueueContextArgumet: StorageContext?
 
-	private var cleaningTimer = Timer()
-
-	init(cleaningTimerInterval: Double? = nil) {
-        contextQueues = [:]
-
-		if let cleaningTimerInterval = cleaningTimerInterval {
-			self.cleaningTimerInterval = cleaningTimerInterval
-		}
-
-		cleaningTimer = Timer.scheduledTimer(timeInterval: self.cleaningTimerInterval, target: self, selector: #selector(cleanNilReferences), userInfo: nil, repeats: true)
-    }
-
-	deinit {
-		cleaningTimer.invalidate()
+	init(cleaningTimerInterval: Double?) {
+		SpyContextRepo.isInitCalled = true
+		SpyContextRepo.initCleaningIntervalArgumet = cleaningTimerInterval
 	}
 
-	@objc
-	private func cleanNilReferences() {
-		contextQueues.lazy
-			.filter { $1.context == nil || $1.queue == nil }
-			.flatMap { $0.key }
-			.forEach { contextQueues.removeValue(forKey: $0) }
+	static func clean() {
+		isInitCalled = false
+		initCleaningIntervalArgumet = nil
+
+		isStoreCalled = false
+		storeContextArgumet = nil
+		storeQueueArgumet = nil
+
+		isRetrieveQueueCalled = false
+		retrieveQueueContextArgumet = nil
 	}
 }
 
-extension ContextRepo: ContextRepoType {
+extension SpyContextRepo: ContextRepoType {
 	func store(context: StorageContext?, queue: DispatchQueue) {
-		if let context = context {
-			contextQueues[context.identifier] = ContextQueue(context: context, queue: queue)
-		}
+		SpyContextRepo.isStoreCalled = true
+		SpyContextRepo.storeContextArgumet = context
+		SpyContextRepo.storeQueueArgumet = queue
 	}
 
 	func retrieveQueue(for context: StorageContext) -> DispatchQueue? {
-		return contextQueues[context.identifier]?.queue
+		SpyContextRepo.isRetrieveQueueCalled = true
+		SpyContextRepo.retrieveQueueContextArgumet = context
+
+		return DispatchQueue(label: "com.StorageKit.realmDataStorage")
 	}
 }

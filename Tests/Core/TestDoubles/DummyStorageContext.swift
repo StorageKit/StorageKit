@@ -53,6 +53,4 @@ extension DummyStorageContext: StorageWritableContext {
     func create<T: StorageEntityType>() -> T? {
         return nil
     }
-    
-    func save() throws {}
 }
