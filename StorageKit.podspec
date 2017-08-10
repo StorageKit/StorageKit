@@ -4,7 +4,7 @@ Pod::Spec.new do |s|
   s.summary          = 'Your Data Storage Troubleshooter'
   s.homepage         = 'https://github.com/storagekit/storagekit'
   s.license          = { :type => 'MIT', :file => 'LICENSE'}
-  s.author           = { 'StorageKit' => '' }
+  s.author           = { 'StorageKit' => 'https://twitter.com/StorageKit' }
   s.source           = { :git => 'https://github.com/storageKit/storagekit.git', :tag => s.version.to_s }
 
   s.ios.deployment_target = '9.0'
