@@ -32,7 +32,7 @@ public typealias StorageContext = StorageIdentifiableContext & StorageReadableCo
     - Parameter closure: Context to use inside the closure. It can be nil because of internal errors.
     * Parameter queue: Queue where the context is working. You can use it when you have several queues to manage and you need a reference of the one for the context.
 */
-public typealias TaskClosure = (_ closure: StorageContext?, _ queue: DispatchQueue) -> Void
+public typealias TaskClosure = (_ closure: StorageContext?) -> Void
 
 // This protocol is the base Storage type. By default `NSManagedObectContext` (CoreData) and `Realm` (Realm) implement this protocol.
 public protocol Storage: class {

@@ -102,7 +102,7 @@ final class CoreDataStorage {
 
 // MARK: - StorageType
 extension CoreDataStorage: Storage {
-    private func makePrivateContext() -> StorageContext {
+    private func makePrivateContext() -> ManagedObjectContextType {
         let ManagedObjectContextType = self.configuration.ManagedObjectContext
         let moc = ManagedObjectContextType.init(concurrencyType: .privateQueueConcurrencyType)
         moc.contextParent = self.mainManagedObjectContext
@@ -112,8 +112,8 @@ extension CoreDataStorage: Storage {
     func performBackgroundTask(_ taskClosure: @escaping TaskClosure) {
         let context = makePrivateContext()
 
-        backgroundTaskQueue.async { [unowned self] in
-            taskClosure(context, self.backgroundTaskQueue)
+		context.perform {
+            taskClosure(context)
         }
     }
     

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="DbA-vC-nsC">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12120" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="DbA-vC-nsC">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -30,13 +30,43 @@
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </view>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ToDoCell" id="jqX-RZ-GSc">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ToDoCell" id="0TC-kI-gad" customClass="ToDoCell" customModule="Example" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="jqX-RZ-GSc" id="3sm-vZ-lU5">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="0TC-kI-gad" id="QR6-mV-n03">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="54Q-Y0-OOf">
+                                                    <rect key="frame" x="10" y="0.0" width="355" height="19"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="19" id="8VY-WQ-sYT"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="16"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GAd-Fk-sTh">
+                                                    <rect key="frame" x="10" y="22" width="355" height="21"/>
+                                                    <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="11"/>
+                                                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="bottomMargin" secondItem="GAd-Fk-sTh" secondAttribute="bottom" constant="-7.5" id="Bro-oV-yGx"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="54Q-Y0-OOf" secondAttribute="trailing" constant="2" id="Lq8-oo-ejp"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="GAd-Fk-sTh" secondAttribute="trailing" constant="2" id="X2y-5p-qUi"/>
+                                                <constraint firstItem="GAd-Fk-sTh" firstAttribute="top" secondItem="54Q-Y0-OOf" secondAttribute="bottom" constant="3" id="XtD-WL-pbU"/>
+                                                <constraint firstItem="GAd-Fk-sTh" firstAttribute="leading" secondItem="QR6-mV-n03" secondAttribute="leadingMargin" constant="2" id="dfE-3v-Qs6"/>
+                                                <constraint firstItem="54Q-Y0-OOf" firstAttribute="top" secondItem="QR6-mV-n03" secondAttribute="topMargin" constant="-8" id="omm-kR-qth"/>
+                                                <constraint firstItem="54Q-Y0-OOf" firstAttribute="leading" secondItem="QR6-mV-n03" secondAttribute="leadingMargin" constant="2" id="z2l-CX-4Rs"/>
+                                            </constraints>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="taskAddedLabel" destination="GAd-Fk-sTh" id="5qM-jR-eWj"/>
+                                            <outlet property="taskNameLabel" destination="54Q-Y0-OOf" id="lNE-lH-ICs"/>
+                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                                 <connections>

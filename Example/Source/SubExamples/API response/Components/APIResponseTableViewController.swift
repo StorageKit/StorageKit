@@ -17,7 +17,7 @@ class APIResponseTableViewController: UITableViewController {
     private var apiUsers: [APIUser]?
     
     func reloadTable() {
-        storage?.performBackgroundTask { [unowned self] context, _ in
+        storage?.performBackgroundTask { [unowned self] context in
             guard let context = context, let storageType = self.storageType, let storage = self.storage, let mainContext = storage.mainContext else { return }
 
 			let sort = SortDescriptor(key: "username", ascending: true)

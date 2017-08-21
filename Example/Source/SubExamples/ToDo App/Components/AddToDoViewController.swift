@@ -37,7 +37,7 @@ class AddToDoViewController: UIViewController {
     @IBAction func save() {
         guard let storage = self.storage, let storageType = self.storageType else { return }
 
-        storage.performBackgroundTask({ [unowned self] (bckcontext, _) in
+        storage.performBackgroundTask({ [unowned self] bckcontext in
             guard let backgroundContext = bckcontext else { return }
             
             do {

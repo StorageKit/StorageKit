@@ -42,8 +42,10 @@ final class SpyManagedObjectContext: ManagedObjectContextType {
     
     private(set) var isContextParentSetCalled = false
     private(set) var contextParentSetArgument: ManagedObjectContextType?
-    private(set) var isSaveCalled = false
-    
+	private(set) var isSaveCalled = false
+
+	private(set) var isPerformCalled = false
+
     var persistentStoreCoordinatorType: PersistentStoreCoordinatorType? {
         get {
             return nil
@@ -83,6 +85,12 @@ final class SpyManagedObjectContext: ManagedObjectContextType {
     func save() throws {
         isSaveCalled = true
     }
+
+	func perform(_ block: @escaping () -> Void) {
+		isPerformCalled = true
+
+		block()
+	}
 }
 
 // MARK: - StorageContext

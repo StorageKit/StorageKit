@@ -32,4 +32,5 @@ protocol ManagedObjectContextType: StorageContext {
     init(concurrencyType ct: NSManagedObjectContextConcurrencyType)
     
     func save() throws
+	func perform(_ block: @escaping () -> Void)
 }
