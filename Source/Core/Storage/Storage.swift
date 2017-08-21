@@ -30,7 +30,6 @@ public typealias StorageContext = StorageIdentifiableContext & StorageReadableCo
     Typealias which the closure type of `performBackgroundTask`.
 
     - Parameter closure: Context to use inside the closure. It can be nil because of internal errors.
-    * Parameter queue: Queue where the context is working. You can use it when you have several queues to manage and you need a reference of the one for the context.
 */
 public typealias TaskClosure = (_ closure: StorageContext?) -> Void
 
@@ -44,7 +43,7 @@ public protocol Storage: class {
         You should use a background queue as much as possible insteaf of using a main queue  to improve the user experience.
         Every time you call this method, you will have a different context.
      
-        - Parameter taskClosure: Closure which has as parameters the a new context to work in background and its queue.
+        - Parameter taskClosure: Closure which has as parameters the a new context to work in background.
     */
     func performBackgroundTask(_ taskClosure: @escaping TaskClosure)
     
