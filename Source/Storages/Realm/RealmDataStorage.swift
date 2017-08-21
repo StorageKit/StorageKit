@@ -58,7 +58,7 @@ final class RealmDataStorage: Storage {
                 
                 self.contextRepo.store(context: context, queue: self.backgroundQueue)
                 
-                taskClosure(context, self.backgroundQueue)
+                taskClosure(context)
             }
         }
     }

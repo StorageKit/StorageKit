@@ -39,7 +39,7 @@ class ToDoAppViewController: UIViewController {
 
         dispatchGroup.enter()
 
-        storage.performBackgroundTask {[weak self] (bckContext, _) in
+        storage.performBackgroundTask {[weak self] bckContext in
             guard let strongSelf = self, let backgroundContext = bckContext else { return }
 
             switch storageType {
@@ -88,7 +88,7 @@ class ToDoAppViewController: UIViewController {
     func fetchDoneTasks(storage: Storage, context: StorageContext, storageType: StorageKit.StorageType, dispatchGroup: DispatchGroup) {
 
         dispatchGroup.enter()
-        storage.performBackgroundTask {[weak self] (bckContext, _) in
+        storage.performBackgroundTask {[weak self] bckContext in
             guard let strongSelf = self, let backgroundContext = bckContext else { return }
             
             switch storageType {
@@ -227,7 +227,7 @@ extension ToDoAppViewController: UITableViewDelegate {
                         case .Realm:
                             guard let task = self.tasks[index.row] as? RTodoTask else { return }
                             
-                            storage.performBackgroundTask { bckContext, _ in
+                            storage.performBackgroundTask { bckContext in
                                 guard let backgroundContext = bckContext else { return }
                                 storage.getThreadSafeEntities(for: backgroundContext, originalContext: context, originalEntities: [task]) { safeTask in
                                     do {

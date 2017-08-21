@@ -171,7 +171,7 @@ extension CoreDataStorageTests {
         let expectation = self.expectation(description: "PerformBackgroundTask_ClosureHasNewContextAsArgument")
         
         sut.performBackgroundTask {
-            guard let moc = $0.0 as? SpyManagedObjectContext else {
+            guard let moc = $0 as? SpyManagedObjectContext else {
                 XCTFail()
                 expectation.fulfill()
 
@@ -188,7 +188,7 @@ extension CoreDataStorageTests {
         let expectation = self.expectation(description: "PerformBackgroundTask_ClosureHasPrivateContextAsArgument")
         
         sut.performBackgroundTask {
-            guard let moc = $0.0 as? SpyManagedObjectContext else {
+            guard let moc = $0 as? SpyManagedObjectContext else {
                 XCTFail()
                 expectation.fulfill()
                 
@@ -205,7 +205,7 @@ extension CoreDataStorageTests {
         let expectation = self.expectation(description: "PerformBackgroundTask_ClosureHasContextAsArgumentWithAParentContext")
         
         sut.performBackgroundTask {
-            guard let moc = $0.0 as? SpyManagedObjectContext else {
+            guard let moc = $0 as? SpyManagedObjectContext else {
                 XCTFail()
                 expectation.fulfill()
                 
@@ -222,28 +222,13 @@ extension CoreDataStorageTests {
         let expectation = self.expectation(description: "PerformBackgroundTask_ClosureHasContextAsArgumentWithMainAsParent")
         
         sut.performBackgroundTask {
-            guard let moc = $0.0 as? SpyManagedObjectContext else {
+            guard let moc = $0 as? SpyManagedObjectContext else {
                 XCTFail()
                 expectation.fulfill()
                 
                 return
             }
             XCTAssertTrue(moc.contextParentSetArgument === self.sut.mainContext)
-            expectation.fulfill()
-        }
-        
-        waitForExpectations(timeout: 1)
-    }
-    
-    func test_PerformBackgroundTask_ClosureHasContextQueueAsParameter() {
-        let expectation = self.expectation(description: "PerformBackgroundTask_ClosureHasContextQueueAsParameter")
-        
-        sut.performBackgroundTask { _, _ in
-            let name = __dispatch_queue_get_label(nil)
-            let queueName = String(cString: name, encoding: .utf8)
-            
-            XCTAssertEqual(queueName, "com.StorageKit.coreDataStorage")
-            
             expectation.fulfill()
         }
         

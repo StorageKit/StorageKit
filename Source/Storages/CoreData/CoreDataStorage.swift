@@ -112,8 +112,8 @@ extension CoreDataStorage: Storage {
     func performBackgroundTask(_ taskClosure: @escaping TaskClosure) {
         let context = makePrivateContext()
 
-        backgroundTaskQueue.async { [unowned self] in
-            taskClosure(context, self.backgroundTaskQueue)
+        backgroundTaskQueue.async {
+            taskClosure(context)
         }
     }
     
