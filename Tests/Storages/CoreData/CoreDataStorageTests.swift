@@ -217,27 +217,44 @@ extension CoreDataStorageTests {
         
         waitForExpectations(timeout: 1)
     }
-    
-    func test_PerformBackgroundTask_ClosureHasContextAsArgumentWithMainAsParent() {
-        let expectation = self.expectation(description: "PerformBackgroundTask_ClosureHasContextAsArgumentWithMainAsParent")
-        
-        sut.performBackgroundTask {
-            guard let moc = $0 as? SpyManagedObjectContext else {
-                XCTFail()
-                expectation.fulfill()
-                
-                return
-            }
-            XCTAssertTrue(moc.contextParentSetArgument === self.sut.mainContext)
-            expectation.fulfill()
-        }
-        
-        waitForExpectations(timeout: 1)
-    }
+
+	func test_PerformBackgroundTask_ClosureHasContextAsArgumentWithMainAsParent() {
+		let expectation = self.expectation(description: "PerformBackgroundTask_ClosureHasContextAsArgumentWithMainAsParent")
+
+		sut.performBackgroundTask {
+			guard let moc = $0 as? SpyManagedObjectContext else {
+				XCTFail()
+				expectation.fulfill()
+
+				return
+			}
+			XCTAssertTrue(moc.contextParentSetArgument === self.sut.mainContext)
+			expectation.fulfill()
+		}
+
+		waitForExpectations(timeout: 1)
+	}
+
+	func test_PerformBackgroundTask_ManagedObjectContextPerformIsCalled() {
+		let expectation = self.expectation(description: "PerformBackgroundTask_ManagedObjectContextPerformIsCalled")
+
+		sut.performBackgroundTask {
+			guard let moc = $0 as? SpyManagedObjectContext else {
+				XCTFail()
+				expectation.fulfill()
+
+				return
+			}
+			XCTAssertTrue(moc.isPerformCalled)
+			expectation.fulfill()
+		}
+
+		waitForExpectations(timeout: 1)
+	}
 }
 
 extension CoreDataStorageTests {
-    
+
     func test_GetThreadSafeEntities_ContextNotNSManagedObjectContext_ReturnsEmptyArrat() {
         let expectation = self.expectation(description: "GetThreadSafeEntities_TwoEntitiesNotNSManagedObject_ObjectWithIDIsNotCalled")
         let context = DummyStorageContext()
