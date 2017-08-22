@@ -171,16 +171,16 @@ do {
 ## Background Operations
 Good news for you! `StorageKit` has been implemented with the focus on background operations and concurrency to improve the user experience of your applications and making your life easier 🎉
 
-`Storage` (link to the class once on github) exposes the following method:
+[`Storage`](Source/Core/Storage/Storage.swift) exposes the following method:
 
 ```
-storage.performBackgroundTask {[weak self] (backgroundContext, backgroundQueue) in
+storage.performBackgroundTask {[weak self] backgroundContext in
     // the backgroundContext might be nil because of internal errors
     guard let backgroundContext = backgroundContext else { return }
     
     // perform your background CRUD operations here on the `backgroundContext`
     backgroundContext.fetch(predicate: nil, sortDescriptors: nil, completion: {[weak self] (entities: [MyEntity]?) in
-    // do something with `entities`
+        // do something with `entities`
     })
 }
 ```
