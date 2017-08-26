@@ -11,11 +11,12 @@
 <img src="https://img.shields.io/badge/Swift-3.2-orange.svg">
 </div>
 
+<div align="center">
 | Branch | Status |
 | ------------- | ------------- |
 | Master | [![BuddyBuild](https://dashboard.buddybuild.com/api/statusImage?appID=599d31ace529440001e6d421&branch=master&build=latest)](https://dashboard.buddybuild.com/apps/599d31ace529440001e6d421/build/latest?branch=master) |
 | Develop | [![BuddyBuild](https://dashboard.buddybuild.com/api/statusImage?appID=599d31ace529440001e6d421&branch=develop&build=latest)](https://dashboard.buddybuild.com/apps/599d31ace529440001e6d421/build/latest?branch=develop) |
-
+</div>
 <br />
 
 StorageKit is a framework which reduces the complexity of managing a persistent layer. You can easily manage your favorite persistent framework (*Core Data* / *Realm* at the moment), accessing them through a high-level interface.
