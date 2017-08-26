@@ -11,17 +11,10 @@
 <img src="https://img.shields.io/badge/Swift-3.2-orange.svg">
 </div>
 
-<table>
-  <th>Build status: </th>
-  <tr>
-    <td>Master</td>
-    <td>[![BuddyBuild](https://dashboard.buddybuild.com/api/statusImage?appID=599d31ace529440001e6d421&branch=master&build=latest)](https://dashboard.buddybuild.com/apps/599d31ace529440001e6d421/build/latest?branch=master)</td>
-  </tr>
-  <tr>
-    <td>Develop</td>
-    <td>[![BuddyBuild](https://dashboard.buddybuild.com/api/statusImage?appID=599d31ace529440001e6d421&branch=develop&build=latest)](https://dashboard.buddybuild.com/apps/599d31ace529440001e6d421/build/latest?branch=develop)</td>
-  </tr>
-</table>
+| Branch | Status |
+| ------------- | ------------- |
+| Master | [![BuddyBuild](https://dashboard.buddybuild.com/api/statusImage?appID=599d31ace529440001e6d421&branch=master&build=latest)](https://dashboard.buddybuild.com/apps/599d31ace529440001e6d421/build/latest?branch=master) |
+| Develop | [![BuddyBuild](https://dashboard.buddybuild.com/api/statusImage?appID=599d31ace529440001e6d421&branch=develop&build=latest)](https://dashboard.buddybuild.com/apps/599d31ace529440001e6d421/build/latest?branch=develop) |
 
 <br />
 
