@@ -79,7 +79,7 @@ extension RealmContext {
             
             entities.lazy
                 .flatMap { return $0 as? Object }
-                .forEach { realm.add($0, update: false) }
+                .forEach { realm.add($0, update: true) }
         }
     }
 }
