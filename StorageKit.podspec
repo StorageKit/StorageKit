@@ -10,5 +10,5 @@ Pod::Spec.new do |s|
   s.ios.deployment_target = '9.0'
   s.source_files = 'Source/**/*'
   s.exclude_files = 'Tests/*'
-  s.dependency 'RealmSwift', '2.8.3'
+  s.dependency 'RealmSwift', '2.10.0'
 end
