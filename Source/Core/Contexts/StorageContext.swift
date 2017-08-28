@@ -90,11 +90,12 @@ public protocol StorageWritableContext: class {
             try context.add(entity)
         } catch {}
         ```
+        If an entity with the same identifier already exists then the object is updated with `entity`
 
         - Parameter entity: Entity to add in the database.
         - Throws: The error depends on database used (CoreData and Realm).
     */
-    func add<T: StorageEntityType>(_ entity: T) throws
+    func addOrUpdate<T: StorageEntityType>(_ entity: T) throws
     
     /**
         Use this method to add an array of entities in the database.
@@ -113,11 +114,14 @@ public protocol StorageWritableContext: class {
         } catch {}
         ```
 
+        For each entity included in the array, if there an object already stored with the same identifier then this object 
+        is updated with the one taken from the array.
+
         - Parameter entities: Array of entities to add in the database.
         - Throws: The error depends on database used (CoreData and Realm).
     */
     
-    func add<T: StorageEntityType>(_ entities: [T]) throws
+    func addOrUpdate<T: StorageEntityType>(_ entities: [T]) throws
 }
 
 /// This protocol adds the functionality to fetch entities from the database.

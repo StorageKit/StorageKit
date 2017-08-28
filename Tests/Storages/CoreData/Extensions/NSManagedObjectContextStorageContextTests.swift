@@ -193,7 +193,7 @@ extension NSManagedObjectContextStorageContextTests {
 extension NSManagedObjectContextStorageContextTests {
     func test_Add_OneEntity_CallsSuperSave() {
         do {
-            try sut.add(DummyStorageEntity())
+            try sut.addOrUpdate(DummyStorageEntity())
         } catch {
             XCTFail()
         }
@@ -203,7 +203,7 @@ extension NSManagedObjectContextStorageContextTests {
 
     func test_Add_ArrayOfEntities_CallsSuperSave() {
         do {
-            try sut.add([DummyStorageEntity(), DummyStorageEntity(), DummyStorageEntity()])
+            try sut.addOrUpdate([DummyStorageEntity(), DummyStorageEntity(), DummyStorageEntity()])
         } catch {
             XCTFail()
         }

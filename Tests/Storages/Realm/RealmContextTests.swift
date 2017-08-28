@@ -264,7 +264,7 @@ extension RealmContextTests {
 extension RealmContextTests {
 	func test_AddEntity_ObjectNotNil_RealmAddIsNotCalled() {
 		do {
-			try sut.add(DummyStorageEntity())
+			try sut.addOrUpdate(DummyStorageEntity())
 
 			XCTAssertEqual(getSpyRealm().addCallsCount, 0)
 		} catch {}
@@ -272,7 +272,7 @@ extension RealmContextTests {
 
 	func test_AddEntity_ObjectNil_RealmAddIsCalled() {
 		do {
-			try sut.add(Object())
+			try sut.addOrUpdate(Object())
 
 			XCTAssertEqual(getSpyRealm().addCallsCount, 1)
 		} catch {}
@@ -281,7 +281,7 @@ extension RealmContextTests {
 	func test_AddEntity_ObjectNil_RealmAddIsCalledWithRightArguments() {
 		do {
 			let obj = Object()
-			try sut.add(obj)
+			try sut.addOrUpdate(obj)
 
 			XCTAssertTrue(getSpyRealm().addObjectArguments?.first === obj)
 			XCTAssertFalse(getSpyRealm().addUpdatesArguments?.first ?? true)
@@ -290,7 +290,7 @@ extension RealmContextTests {
 
 	func test_AddEntity_EntityObject_CallsRealmWriteBlock() {
 		do {
-			try sut.add(Object())
+			try sut.addOrUpdate(Object())
 
 			XCTAssertTrue(getSpyRealm().isWriteCalled)
 		} catch {}
@@ -301,7 +301,7 @@ extension RealmContextTests {
 extension RealmContextTests {
 	func test_AddEntities_ObjectNotNil_RealmAddIsNotCalled() {
 		do {
-			try sut.add([DummyStorageEntity(), DummyStorageEntity()])
+			try sut.addOrUpdate([DummyStorageEntity(), DummyStorageEntity()])
 
 			XCTAssertEqual(getSpyRealm().addCallsCount, 0)
 		} catch {}
@@ -309,7 +309,7 @@ extension RealmContextTests {
 
 	func test_AddEntities_ObjectNil_RealmAddIsCalledTwice() {
 		do {
-			try sut.add([Object(), Object()])
+			try sut.addOrUpdate([Object(), Object()])
 
 			XCTAssertEqual(getSpyRealm().addCallsCount, 2)
 		} catch {}
@@ -319,7 +319,7 @@ extension RealmContextTests {
 		do {
 			let obj = Object()
 			let obj2 = Object()
-			try sut.add([obj, obj2])
+			try sut.addOrUpdate([obj, obj2])
 
 			XCTAssertTrue(getSpyRealm().addObjectArguments?.first === obj)
 			XCTAssertFalse(getSpyRealm().addUpdatesArguments?.first ?? true)
@@ -331,7 +331,7 @@ extension RealmContextTests {
 
 	func test_AddEntities_EntityObject_CallsRealmWriteBlock() {
 		do {
-			try sut.add(Object())
+			try sut.addOrUpdate(Object())
 
 			XCTAssertTrue(getSpyRealm().isWriteCalled)
 		} catch {}

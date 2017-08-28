@@ -46,9 +46,9 @@ extension DummyStorageContext: StorageUpdatableContext {
 }
 
 extension DummyStorageContext: StorageWritableContext {
-    func add<T>(_ entities: [T]) throws where T : StorageEntityType {}
+    func addOrUpdate<T>(_ entities: [T]) throws where T : StorageEntityType {}
 
-    func add<T>(_ entity: T) throws where T : StorageEntityType {}
+    func addOrUpdate<T>(_ entity: T) throws where T : StorageEntityType {}
 
     func create<T: StorageEntityType>() -> T? {
         return nil
