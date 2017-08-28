@@ -52,7 +52,7 @@ class APIResponseCoreDataViewController: UIViewController {
 					} catch { return nil }
 				}
 
-				try? context.add(users)
+				try? context.addOrUpdate(users)
 
 				DispatchQueue.main.async {
 					completion()

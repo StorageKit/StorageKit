@@ -51,7 +51,7 @@ class APIResponseRealmViewController: UIViewController {
 
 				do {
 					try context.deleteAll(APIUserRealm.self)
-					try context.add(users)
+					try context.addOrUpdate(users)
 				} catch {
 					print(error)
 				}
