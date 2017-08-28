@@ -79,7 +79,10 @@ extension RealmContext {
             
             entities.lazy
                 .flatMap { return $0 as? Object }
-                .forEach { realm.add($0, update: true) }
+                .forEach {
+                    let canUpdateIfExists = $0.objectSchema.primaryKeyProperty != nil
+                    realm.add($0, update: canUpdateIfExists)
+            }
         }
     }
 }
