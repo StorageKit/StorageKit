@@ -105,5 +105,5 @@ extension SpyManagedObjectContext {
     
     func create<T: StorageEntityType>() -> T? { return nil }
     
-    func add<T>(_ entity: T) throws { }
+    func addOrUpdate<T>(_ entity: T) throws { }
 }

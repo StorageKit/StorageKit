@@ -48,7 +48,7 @@ class AddToDoViewController: UIViewController {
                     if let task = todoTask, let name = self.taskNameTextField.text {
                         task.name = name
                         task.added = NSDate()
-                        try backgroundContext.add(task)
+                        try backgroundContext.addOrUpdate(task)
                     }
                 case .Realm:
                     let todoTask: RTodoTask? = try backgroundContext.create()
@@ -56,7 +56,7 @@ class AddToDoViewController: UIViewController {
                     if let task = todoTask, let name = self.taskNameTextField.text {
                         task.name = name
                         task.added = NSDate()
-                        try backgroundContext.add(task)
+                        try backgroundContext.addOrUpdate(task)
                     }
                 }
                 

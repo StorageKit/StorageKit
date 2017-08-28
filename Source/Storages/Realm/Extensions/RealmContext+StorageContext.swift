@@ -70,16 +70,19 @@ extension RealmContext {
         return entityToCreate.init() as? T
     }
     
-    func add<T: StorageEntityType>(_ entity: T) throws {
-        try add([entity])
+    func addOrUpdate<T: StorageEntityType>(_ entity: T) throws {
+        try addOrUpdate([entity])
     }
     
-    func add<T: StorageEntityType>(_ entities: [T]) throws {
+    func addOrUpdate<T: StorageEntityType>(_ entities: [T]) throws {
         try self.safeWriteAction {
             
             entities.lazy
                 .flatMap { return $0 as? Object }
-                .forEach { realm.add($0, update: false) }
+                .forEach {
+                    let canUpdateIfExists = $0.objectSchema.primaryKeyProperty != nil
+                    realm.add($0, update: canUpdateIfExists)
+            }
         }
     }
 }

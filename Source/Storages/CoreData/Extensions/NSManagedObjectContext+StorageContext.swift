@@ -56,11 +56,11 @@ extension NSManagedObjectContext: StorageDeletableContext {
 
 // MARK: - StorageWritableContext
 extension NSManagedObjectContext: StorageWritableContext {
-    public func add<T: StorageEntityType>(_ entity: T) throws {
+    public func addOrUpdate<T: StorageEntityType>(_ entity: T) throws {
         try save()
     }
     
-    public func add<T: StorageEntityType>(_ entities: [T]) throws {
+    public func addOrUpdate<T: StorageEntityType>(_ entities: [T]) throws {
         try save()
     }
 
