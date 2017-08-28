@@ -44,6 +44,8 @@ final class SpyRealm {
 	fileprivate(set) var addCallsCount = 0
 	fileprivate(set) var addObjectArguments: [Object]?
 	fileprivate(set) var addUpdatesArguments: [Bool]?
+    
+    fileprivate(set) var isUpdateCalledOnAdd = false
 
 	var isInWriteTransaction = false
 
@@ -71,6 +73,8 @@ extension SpyRealm: RealmType {
 		addCallsCount += 1
 		addObjectArguments?.append(object)
 		addUpdatesArguments?.append(update)
+        
+        isUpdateCalledOnAdd = update
 	}
 
 	func objects<T>(type: T.Type) -> RealmResultType {

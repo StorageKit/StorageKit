@@ -13,6 +13,7 @@
 		6B7CC6EA1F18E0430061BE39 /* RealmSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B7CC6E41F18DF800061BE39 /* RealmSwift.framework */; };
 		7521F32E1F1A75860005FB8D /* Realm.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 6B7CC6D81F18DF800061BE39 /* Realm.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		7521F32F1F1A75860005FB8D /* RealmSwift.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 6B7CC6E41F18DF800061BE39 /* RealmSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		755514B11F54A0E90013766D /* SpyRealmEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 755514B01F54A0E90013766D /* SpyRealmEntity.swift */; };
 		A000FE991F166FBA0027D689 /* StorageEntityType.swift in Sources */ = {isa = PBXBuildFile; fileRef = A000FE981F166FBA0027D689 /* StorageEntityType.swift */; };
 		A000FE9C1F166FF60027D689 /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = A000FE9B1F166FF60027D689 /* Storage.swift */; };
 		A000FEA31F16706F0027D689 /* NSEntityDescription+EntityDescriptionType.swift in Sources */ = {isa = PBXBuildFile; fileRef = A000FE9E1F16706F0027D689 /* NSEntityDescription+EntityDescriptionType.swift */; };
@@ -170,6 +171,7 @@
 		6B468B261F1E4FF600DEE3BD /* RealmContext+StorageContext.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "RealmContext+StorageContext.swift"; sourceTree = "<group>"; };
 		6B63641B1F13836100679162 /* RealmDataStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmDataStorage.swift; sourceTree = "<group>"; };
 		6B7CC6C91F18DF800061BE39 /* Realm.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Realm.xcodeproj; path = "Carthage/Checkouts/realm-cocoa/Realm.xcodeproj"; sourceTree = "<group>"; };
+		755514B01F54A0E90013766D /* SpyRealmEntity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpyRealmEntity.swift; sourceTree = "<group>"; };
 		A000FE981F166FBA0027D689 /* StorageEntityType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StorageEntityType.swift; sourceTree = "<group>"; };
 		A000FE9B1F166FF60027D689 /* Storage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Storage.swift; sourceTree = "<group>"; };
 		A000FE9E1F16706F0027D689 /* NSEntityDescription+EntityDescriptionType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSEntityDescription+EntityDescriptionType.swift"; sourceTree = "<group>"; };
@@ -579,6 +581,7 @@
 		A9E0125E1F28EF2C00040CE0 /* TestDoubles */ = {
 			isa = PBXGroup;
 			children = (
+				755514B01F54A0E90013766D /* SpyRealmEntity.swift */,
 				A9E0125F1F28EF3700040CE0 /* SpyRealm.swift */,
 				A9FA2CCF1F2A7D5C00ED6C0B /* SpyRealmContext.swift */,
 				A9E012621F28F76400040CE0 /* SpyRealmResult.swift */,
@@ -798,6 +801,7 @@
 				A0BF67C41F0E5C0D003D5C62 /* PersistentStoreCoordinatorType.swift in Sources */,
 				A000FEA51F16706F0027D689 /* NSManagedObjectContext+ManagedObjectContextType.swift in Sources */,
 				A0BF67C11F0E5C0D003D5C62 /* ManagedObjectContextType.swift in Sources */,
+				755514B11F54A0E90013766D /* SpyRealmEntity.swift in Sources */,
 				6B468B271F1E4FF600DEE3BD /* RealmContext+StorageContext.swift in Sources */,
 				A000FE9C1F166FF60027D689 /* Storage.swift in Sources */,
 				A0BF67BF1F0E5C0D003D5C62 /* CoreDataStorage.swift in Sources */,

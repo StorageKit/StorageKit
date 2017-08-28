@@ -295,6 +295,28 @@ extension RealmContextTests {
 			XCTAssertTrue(getSpyRealm().isWriteCalled)
 		} catch {}
 	}
+    
+    func test_AddEntity_EntityObject_UpdateIsNotCalled() {
+        do {
+            try sut.addOrUpdate(DummyStorageEntity())
+            
+            XCTAssertFalse(getSpyRealm().isUpdateCalledOnAdd)
+        } catch {
+            XCTFail()
+        }
+    }
+    
+    func test_AddEntity_EntityObject_UpdateIsCalled() {
+        do {
+            
+            try sut.addOrUpdate(SpyRealmEntity())
+            try sut.addOrUpdate(SpyRealmEntity())
+            
+            XCTAssertTrue(getSpyRealm().isUpdateCalledOnAdd)
+        } catch {
+            XCTFail()
+        }
+    }
 }
 
 // MARK: - add(entities)
