@@ -31,6 +31,10 @@ extension NSManagedObjectContext: StorageIdentifiableContext {}
 extension NSManagedObjectContext: StorageDeletableContext {
     
     public func delete<T: StorageEntityType>(_ entity: T) throws {
+        guard entity is NSManagedObject else {
+            throw StorageKitErrors.Entity.wrongType
+        }
+
         try delete([entity])
     }
     
@@ -57,6 +61,10 @@ extension NSManagedObjectContext: StorageDeletableContext {
 // MARK: - StorageWritableContext
 extension NSManagedObjectContext: StorageWritableContext {
     public func add<T: StorageEntityType>(_ entity: T) throws {
+        guard entity is NSManagedObject else {
+            throw StorageKitErrors.Entity.wrongType
+        }
+
         try save()
     }
     

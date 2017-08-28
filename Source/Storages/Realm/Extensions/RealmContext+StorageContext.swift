@@ -29,14 +29,13 @@ import RealmSwift
 extension RealmContext {
     func delete<T: StorageEntityType>(_ entity: T) throws {
         guard entity is Object else {
-            throw RealmError.wrongObject("\(entity) is not a valid realm entity.")
+            throw StorageKitErrors.Entity.wrongType
         }
         
         try delete([entity])
     }
 
     func delete<T>(_ entities: [T]) throws where T : StorageEntityType {
-
 		try self.safeWriteAction {
 
             entities.lazy
@@ -47,7 +46,7 @@ extension RealmContext {
     
     func deleteAll<T: StorageEntityType>(_ entityType: T.Type) throws {
         guard let entityToDelete = entityType as? Object.Type else {
-            throw RealmError.wrongObject("\(entityType) is not a valid realm entity type.")
+            throw StorageKitErrors.Entity.wrongType
         }
         
         try self.safeWriteAction {
@@ -64,7 +63,7 @@ extension RealmContext {
 extension RealmContext {
     func create<T: StorageEntityType>() throws -> T? {
         guard let entityToCreate = T.self as? Object.Type else {
-            throw RealmError.wrongObject("\(T.name) is not a valid realm entity type.")
+            throw StorageKitErrors.Entity.wrongType
         }
         
         return entityToCreate.init() as? T
