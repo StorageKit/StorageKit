@@ -114,9 +114,8 @@ public protocol StorageWritableContext: class {
         } catch {}
         ```
 
-        For each entity included in the array, if there an object already stored with the same identifier then this object 
-        is updated with the one taken from the array.
-
+        For every `entity` in `entities`, If an object with the same identifier already exists in the storage then the object is updated with `entity`
+     
         - Parameter entities: Array of entities to add in the database.
         - Throws: The error depends on database used (CoreData and Realm).
     */
