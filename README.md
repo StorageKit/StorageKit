@@ -59,7 +59,7 @@ let storage = StorageKit.addStorage(type: .CoreData(dataModelName: "Example")
 The storage exposes a `context` which is the object you will use to perform the common *CRUD operations*, for instance:
 
 ```
-storage.mainContext?.fetch(predicate: NSPredicate(format: "done == false"), sortDescriptors: nil, completion: { (fetchedTasks: [RTodoTask]?) in
+storage.mainContext?.fetch(predicate: NSPredicate(format: "done == false"), completion: { (fetchedTasks: [RTodoTask]?) in
     self.tasks = fetchedTasks
         // do whatever you want
     }
@@ -146,7 +146,7 @@ do {
 ### R as Read
 
 ```
-    context.fetch(predicate: nil, sortDescriptors: nil) { (result: [MyEntity]?) in
+    context.fetch { (result: [MyEntity]?) in
         // do whatever you want with `result`
     }
 ```
@@ -187,9 +187,9 @@ storage.performBackgroundTask {[weak self] backgroundContext in
     guard let backgroundContext = backgroundContext else { return }
     
     // perform your background CRUD operations here on the `backgroundContext`
-    backgroundContext.fetch(predicate: nil, sortDescriptors: nil, completion: {[weak self] (entities: [MyEntity]?) in
+    backgroundContext.fetch { [weak self] (entities: [MyEntity]?) in
         // do something with `entities`
-    })
+    }
 }
 ```
 
@@ -218,12 +218,12 @@ storage.performBackgroundTask {[weak self] (backgroundContext, backgroundQueue) 
     guard let backgroundContext = backgroundContext else { return }
     
     // 1
-    backgroundContext.fetch(predicate: nil, sortDescriptors: nil, completion: {[weak self] (entities: [MyEntity]?) in
+    backgroundContext.fetch { [weak self] (entities: [MyEntity]?) in
         // 2
         storage.getThreadSafeEntities(for: context, originalContext: backgroundContext, originalEntities: entities, completion: { safeEntities in
             self?.entities = safeEntities
         })
-    })
+    }
 }
 ```
 
