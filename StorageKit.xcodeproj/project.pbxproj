@@ -60,6 +60,8 @@
 		A916FCD51F212E17007BE694 /* ContextRepoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A916FCD41F212E17007BE694 /* ContextRepoTests.swift */; };
 		A94BD1941F28F8CA00E13214 /* RealmResultType.swift in Sources */ = {isa = PBXBuildFile; fileRef = A94BD1931F28F8CA00E13214 /* RealmResultType.swift */; };
 		A94BD19F1F28F8FD00E13214 /* Results+RealmResultType.swift in Sources */ = {isa = PBXBuildFile; fileRef = A94BD19E1F28F8FD00E13214 /* Results+RealmResultType.swift */; };
+		A96654D21F55F975005A4C56 /* StorageContextTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A96654D11F55F975005A4C56 /* StorageContextTests.swift */; };
+		A96654DD1F55FA20005A4C56 /* DummyStorageContextWithoutFetch.swift in Sources */ = {isa = PBXBuildFile; fileRef = A96654DC1F55FA20005A4C56 /* DummyStorageContextWithoutFetch.swift */; };
 		A96EC6511F1D4AA3008FCF39 /* FakeObjectID.swift in Sources */ = {isa = PBXBuildFile; fileRef = A96EC6501F1D4AA3008FCF39 /* FakeObjectID.swift */; };
 		A9E0124C1F28EA3F00040CE0 /* RealmContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E0124B1F28EA3F00040CE0 /* RealmContext.swift */; };
 		A9E012581F28EB4C00040CE0 /* RealmContextTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E012571F28EB4C00040CE0 /* RealmContextTests.swift */; };
@@ -221,6 +223,8 @@
 		A916FCD41F212E17007BE694 /* ContextRepoTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContextRepoTests.swift; sourceTree = "<group>"; };
 		A94BD1931F28F8CA00E13214 /* RealmResultType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmResultType.swift; sourceTree = "<group>"; };
 		A94BD19E1F28F8FD00E13214 /* Results+RealmResultType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Results+RealmResultType.swift"; sourceTree = "<group>"; };
+		A96654D11F55F975005A4C56 /* StorageContextTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StorageContextTests.swift; sourceTree = "<group>"; };
+		A96654DC1F55FA20005A4C56 /* DummyStorageContextWithoutFetch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DummyStorageContextWithoutFetch.swift; sourceTree = "<group>"; };
 		A96EC6501F1D4AA3008FCF39 /* FakeObjectID.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FakeObjectID.swift; sourceTree = "<group>"; };
 		A9E0124B1F28EA3F00040CE0 /* RealmContext.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmContext.swift; sourceTree = "<group>"; };
 		A9E012571F28EB4C00040CE0 /* RealmContextTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmContextTests.swift; sourceTree = "<group>"; };
@@ -369,6 +373,7 @@
 			isa = PBXGroup;
 			children = (
 				A000FEEA1F16723A0027D689 /* TestDoubles */,
+				A96654D11F55F975005A4C56 /* StorageContextTests.swift */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -378,6 +383,7 @@
 			children = (
 				A000FEEB1F16723A0027D689 /* DummyStorage.swift */,
 				A000FEEC1F16723A0027D689 /* DummyStorageContext.swift */,
+				A96654DC1F55FA20005A4C56 /* DummyStorageContextWithoutFetch.swift */,
 				A000FEED1F16723A0027D689 /* DummyStorageEntity.swift */,
 			);
 			path = TestDoubles;
@@ -840,8 +846,10 @@
 				A000FEE41F1671A40027D689 /* SpyManagedObjectContext.swift in Sources */,
 				A96EC6511F1D4AA3008FCF39 /* FakeObjectID.swift in Sources */,
 				A9FA2CC31F2A731E00ED6C0B /* RealmDataStorageTests.swift in Sources */,
+				A96654DD1F55FA20005A4C56 /* DummyStorageContextWithoutFetch.swift in Sources */,
 				A000FEE11F16719A0027D689 /* FakeManagedObject.swift in Sources */,
 				A9FA2CD31F2A7D7200ED6C0B /* SpyContextRepo.swift in Sources */,
+				A96654D21F55F975005A4C56 /* StorageContextTests.swift in Sources */,
 				A000FEE81F1671B20027D689 /* StubManagedObjectContext.swift in Sources */,
 				A000FEE01F1671970027D689 /* DummyPersistentStore.swift in Sources */,
 				A0C4922D1F13805100031BBA /* SpyBundle.swift in Sources */,

@@ -1,5 +1,5 @@
 //
-//  DummyStorageContext.swift
+//  StorageContextTests.swift
 //  StorageKit
 //
 //  Copyright (c) 2017 StorageKit (https://github.com/StorageKit)
@@ -25,32 +25,41 @@
 
 @testable import StorageKit
 
-import Foundation
+import XCTest
 
-final class DummyStorageContext {}
+class StorageContextTests: XCTestCase {
+    
+    override func setUp() {
+        super.setUp()
+        // Put setup code here. This method is called before the invocation of each test method in the class.
+    }
+    
+    override func tearDown() {
+        // Put teardown code here. This method is called after the invocation of each test method in the class.
+        super.tearDown()
+    }
 
-extension DummyStorageContext: StorageIdentifiableContext {}
-
-extension DummyStorageContext: StorageDeletableContext {
-    func delete<T: StorageEntityType>(_ entity: T) throws {}
-    func delete<T: StorageEntityType>(_ entities: [T]) throws {}
-    func deleteAll<T: StorageEntityType>(_ entityType: T.Type) throws {}
+    func testExample() {
+        // This is an example of a functional test case.
+        // Use XCTAssert and related functions to verify your tests produce the correct results.
+    }
+    
+    func testPerformanceExample() {
+        // This is an example of a performance test case.
+        self.measure {
+            // Put the code you want to measure the time of here.
+        }
+    }
+    
 }
 
-extension DummyStorageContext: StorageReadableContext {
-    func fetch<T: StorageEntityType>(predicate: NSPredicate? = nil, sortDescriptors: [SortDescriptor]? = nil, completion: @escaping FetchCompletionClosure<T>) {}
-}
+// MARK: - fetch
+extension StorageContextTests {
+    func test_DefaultImplementation_ThrowsError() {
+        let sut = DummyStorageContextWithoutFetch()
 
-extension DummyStorageContext: StorageUpdatableContext {
-    func update(transform: @escaping () -> Void) throws {}
-}
-
-extension DummyStorageContext: StorageWritableContext {
-    func add<T>(_ entities: [T]) throws where T : StorageEntityType {}
-
-    func add<T>(_ entity: T) throws where T : StorageEntityType {}
-
-    func create<T: StorageEntityType>() -> T? {
-        return nil
+        expectFatalError(expectedMessage: "fetch method not implemented") {
+            sut.fetch { (_: [DummyStorageEntity]?) in }
+        }
     }
 }

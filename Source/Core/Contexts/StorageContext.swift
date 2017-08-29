@@ -127,10 +127,11 @@ public protocol StorageReadableContext: class {
     /**
         Use this method to fetch entities from the database.
         You can also specify a predicate to filter the entity to fetch and an array of sort descriptors to order the result.
+        By default, `predicate` and `sortDescriptors` are `nil`
 
         Example:
         ```
-        context.fetch(predicate: nil, sortDescriptors: nil) { (result: [MyEntity]?) in
+        context.fetch { (result: [MyEntity]?) in
      
         }
         ```
@@ -144,6 +145,12 @@ public protocol StorageReadableContext: class {
     */
 
     func fetch<T: StorageEntityType>(predicate: NSPredicate?, sortDescriptors: [SortDescriptor]?, completion: @escaping FetchCompletionClosure<T>)
+}
+
+public extension StorageReadableContext {
+    func fetch<T: StorageEntityType>(predicate: NSPredicate? = nil, sortDescriptors: [SortDescriptor]? = nil, completion: @escaping FetchCompletionClosure<T>) {
+        fatalError("fetch method not implemented")
+    }
 }
 
 /// This protocol adds the functionality to update entities in the database.
