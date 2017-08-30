@@ -71,9 +71,7 @@ final class RealmDataStorage: Storage {
         guard let destinationContext = destinationContext as? RealmContextType,
             let originalQueue = contextRepo.retrieveQueue(for: originalContext),
             let destinationQueue = contextRepo.retrieveQueue(for: destinationContext) else {
-                // TODO: Add an error
-                completion([])
-                return
+                throw StorageKitErrors.Context.wrongType
         }
         
         retrieveThreadSafeReferences(queue: originalQueue, originalEntities: originalEntities) { refs in

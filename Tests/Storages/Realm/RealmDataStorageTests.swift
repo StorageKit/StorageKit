@@ -159,10 +159,18 @@ extension RealmDataStorageTests {
 
 // MARK: - getThreadSafeEntities(_:)
 extension RealmDataStorageTests {
-    func test_GetThreadSafeEntities_StorageContextNotRealmContext_ThrowsError() {
+    func test_GetThreadSafeEntities_NoObjects_ThrowsError() {
         do {
             try sut.getThreadSafeEntities(for: DummyStorageContext(), originalContext: DummyStorageContext(), originalEntities: [DummyStorageEntity(), DummyStorageEntity()]) { (_: [DummyStorageEntity]) in XCTFail() }
         } catch StorageKitErrors.Entity.wrongType {
+            XCTAssertTrue(true)
+        } catch { XCTFail() }
+    }
+
+    func test_GetThreadSafeEntities_StorageContextNotRealmContext_ThrowsError() {
+        do {
+            try sut.getThreadSafeEntities(for: DummyStorageContext(), originalContext: DummyStorageContext(), originalEntities: [Object(), Object()]) { (_: [Object]) in XCTFail() }
+        } catch StorageKitErrors.Context.wrongType {
             XCTAssertTrue(true)
         } catch { XCTFail() }
     }

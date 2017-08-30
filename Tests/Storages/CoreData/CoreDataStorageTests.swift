@@ -253,9 +253,10 @@ extension CoreDataStorageTests {
 	}
 }
 
+// MARK: - getThreadSafeEntities
 extension CoreDataStorageTests {
 
-    func test_GetThreadSafeEntities_ContextNotNSManagedObjectContext_ThrowsError() {
+    func test_GetThreadSafeEntities_NotNSManagedObject_ThrowsError() {
         let context = DummyStorageContext()
 
         do {
@@ -263,6 +264,18 @@ extension CoreDataStorageTests {
 
             XCTFail()
         } catch StorageKitErrors.Entity.wrongType {
+            XCTAssertTrue(true)
+        } catch { XCTFail() }
+    }
+
+    func test_GetThreadSafeEntities_ContextNotNSManagedObjectContext_ThrowsError() {
+        let context = DummyStorageContext()
+
+        do {
+            try sut.getThreadSafeEntities(for: context, originalContext: DummyStorageContext(), originalEntities: [FakeManagedObject(), FakeManagedObject()]) { _ in XCTFail() }
+
+            XCTFail()
+        } catch StorageKitErrors.Context.wrongType {
             XCTAssertTrue(true)
         } catch { XCTFail() }
     }

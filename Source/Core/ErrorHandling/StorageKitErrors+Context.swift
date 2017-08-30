@@ -1,5 +1,5 @@
 //
-//  StorageKitErrors+Entity.swift
+//  StorageKitErrors+Context.swift
 //  StorageKit
 //
 //  Copyright (c) 2017 StorageKit (https://github.com/StorageKit)
@@ -24,12 +24,12 @@
 //
 
 extension StorageKitErrors {
-    /// Entity errors
-    enum Entity: Error {
-        /// This error is thrown when there is a CRUD operation request using a wrong entity type.
+    /// Context errors
+    enum Context: Error {
+        /// This error is thrown when there is a Storage operation request using a wrong context type.
         /// Correct types:
-        /// - Core Data: `NSManagedObject` subclasses
-        /// - Realm: `Object` subclasses
+        /// - Core Data: `NSManagedObjectContext subclasses
+        /// - Realm: `Realm` subclasses
         case wrongType
     }
 }

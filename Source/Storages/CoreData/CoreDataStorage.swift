@@ -123,9 +123,7 @@ extension CoreDataStorage: Storage {
         }
 
         guard let destinationContext = destinationContext as? NSManagedObjectContext else {
-            // TODO: Add an error
-            completion([])
-            return
+            throw StorageKitErrors.Context.wrongType
         }
         
         let threadSafeEntities: [T] = originalEntities.lazy

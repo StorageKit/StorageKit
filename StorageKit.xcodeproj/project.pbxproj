@@ -65,6 +65,7 @@
 		A96EC6511F1D4AA3008FCF39 /* FakeObjectID.swift in Sources */ = {isa = PBXBuildFile; fileRef = A96EC6501F1D4AA3008FCF39 /* FakeObjectID.swift */; };
 		A9B268A71F546B3D00CC3E7F /* StorageKitErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9B268A61F546B3D00CC3E7F /* StorageKitErrors.swift */; };
 		A9B268A91F546E7C00CC3E7F /* StorageKitErrors+Entity.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9B268A81F546E7C00CC3E7F /* StorageKitErrors+Entity.swift */; };
+		A9DDFF0C1F57228A00D63AC7 /* StorageKitErrors+Context.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9DDFF0B1F57228A00D63AC7 /* StorageKitErrors+Context.swift */; };
 		A9E0124C1F28EA3F00040CE0 /* RealmContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E0124B1F28EA3F00040CE0 /* RealmContext.swift */; };
 		A9E012581F28EB4C00040CE0 /* RealmContextTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E012571F28EB4C00040CE0 /* RealmContextTests.swift */; };
 		A9E0125B1F28EE0700040CE0 /* RealmType.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E0125A1F28EE0700040CE0 /* RealmType.swift */; };
@@ -230,6 +231,7 @@
 		A96EC6501F1D4AA3008FCF39 /* FakeObjectID.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FakeObjectID.swift; sourceTree = "<group>"; };
 		A9B268A61F546B3D00CC3E7F /* StorageKitErrors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StorageKitErrors.swift; sourceTree = "<group>"; };
 		A9B268A81F546E7C00CC3E7F /* StorageKitErrors+Entity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "StorageKitErrors+Entity.swift"; sourceTree = "<group>"; };
+		A9DDFF0B1F57228A00D63AC7 /* StorageKitErrors+Context.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "StorageKitErrors+Context.swift"; sourceTree = "<group>"; };
 		A9E0124B1F28EA3F00040CE0 /* RealmContext.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmContext.swift; sourceTree = "<group>"; };
 		A9E012571F28EB4C00040CE0 /* RealmContextTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmContextTests.swift; sourceTree = "<group>"; };
 		A9E0125A1F28EE0700040CE0 /* RealmType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmType.swift; sourceTree = "<group>"; };
@@ -572,6 +574,7 @@
 			isa = PBXGroup;
 			children = (
 				A9B268A61F546B3D00CC3E7F /* StorageKitErrors.swift */,
+				A9DDFF0B1F57228A00D63AC7 /* StorageKitErrors+Context.swift */,
 				A9B268A81F546E7C00CC3E7F /* StorageKitErrors+Entity.swift */,
 			);
 			path = ErrorHandling;
@@ -814,6 +817,7 @@
 				A0BF67C51F0E5C0D003D5C62 /* PersistentStoreType.swift in Sources */,
 				A0A298B01F1E109400E3A04D /* ContextRepo.swift in Sources */,
 				A000FEA61F16706F0027D689 /* NSManagedObjectContext+StorageContext.swift in Sources */,
+				A9DDFF0C1F57228A00D63AC7 /* StorageKitErrors+Context.swift in Sources */,
 				A02AD5771F0E239E0025AE9E /* StorageKit.swift in Sources */,
 				A0BF67C41F0E5C0D003D5C62 /* PersistentStoreCoordinatorType.swift in Sources */,
 				A000FEA51F16706F0027D689 /* NSManagedObjectContext+ManagedObjectContextType.swift in Sources */,

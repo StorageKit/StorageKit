@@ -67,6 +67,7 @@ public protocol Storage: class {
         - Parameter originalEntities: The original entities which you would want to use in the destinationContext's queue.
         - Parameter completion: This closure is called once the new queue-safe entities are made. You can find the new entities in the closure parameter.
         - Throws: StorageKitErrors.Entity.wrongType
+        - Throws: StorageKitErrors.Context.wrongType
     */
     func getThreadSafeEntities<T: StorageEntityType>(for destinationContext: StorageContext, originalContext: StorageContext, originalEntities: [T], completion: @escaping ([T]) -> Void) throws
 }
