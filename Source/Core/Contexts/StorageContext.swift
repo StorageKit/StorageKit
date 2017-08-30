@@ -148,8 +148,8 @@ public protocol StorageReadableContext: class {
     func fetch<T: StorageEntityType>(predicate: NSPredicate?, sortDescriptors: [SortDescriptor]?, completion: @escaping FetchCompletionClosure<T>) throws
 }
 
-public extension StorageReadableContext {
-    func fetch<T: StorageEntityType>(predicate: NSPredicate? = nil, sortDescriptors: [SortDescriptor]? = nil, completion: @escaping FetchCompletionClosure<T>) throws {
+extension StorageReadableContext {
+    public func fetch<T: StorageEntityType>(predicate: NSPredicate? = nil, sortDescriptors: [SortDescriptor]? = nil, completion: @escaping FetchCompletionClosure<T>) throws {
         fatalError("fetch method not implemented")
     }
 }
