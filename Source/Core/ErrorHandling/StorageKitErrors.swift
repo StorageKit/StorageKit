@@ -23,4 +23,4 @@
 //  THE SOFTWARE.
 //
 
-struct StorageKitErrors {}
+public struct StorageKitErrors {}

@@ -23,7 +23,7 @@
 //  THE SOFTWARE.
 //
 
-extension StorageKitErrors {
+public extension StorageKitErrors {
     /// Entity errors
     enum Entity: Error {
         /// This error is thrown when there is a CRUD operation request using a wrong entity type.

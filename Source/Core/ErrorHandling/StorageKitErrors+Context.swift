@@ -23,7 +23,7 @@
 //  THE SOFTWARE.
 //
 
-extension StorageKitErrors {
+public extension StorageKitErrors {
     /// Context errors
     enum Context: Error {
         /// This error is thrown when there is a Storage operation request using a wrong context type.
