@@ -281,7 +281,6 @@ $(SRCROOT)/Carthage/Build/iOS/StorageKit.framework
 * UI Test target doesn't work in the example project;
 
 ## TODO
-* Add a common errors interface
 * Remove Realm dependency if not needed (the user can decide between Core Data or Realm)
 * Add Reactive interface
 * Distribute through the Swift Package Manager
