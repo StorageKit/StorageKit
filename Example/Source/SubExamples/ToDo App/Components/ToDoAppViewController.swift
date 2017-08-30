@@ -44,6 +44,8 @@ class ToDoAppViewController: UIViewController {
 
             switch storageType {
             case .CoreData:
+
+                
                 backgroundContext.fetch(predicate: NSPredicate(format: "done == false"), sortDescriptors: [strongSelf.sortDescriptor], completion: {[weak self] (fetchedTasks: [ToDoTask]?) in
                     
                     guard self != nil else {

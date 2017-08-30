@@ -99,7 +99,8 @@ extension RealmContext {
 
 // MARK: - StorageReadableContext
 extension RealmContext {
-    func fetch<T: StorageEntityType>(predicate: NSPredicate? = nil, sortDescriptors: [SortDescriptor]? = nil, completion: @escaping FetchCompletionClosure<T>) {
+    public func fetch<T: StorageEntityType>(predicate: NSPredicate? = nil, sortDescriptors: [SortDescriptor]? = nil, completion: @escaping FetchCompletionClosure<T>) {
+
         guard let entityToFetch = T.self as? Object.Type else {
             // TODO: i'd need a throw here
             // throw RealmError.wrongObject("\(Object.Type) is not a valid realm entity type.")
