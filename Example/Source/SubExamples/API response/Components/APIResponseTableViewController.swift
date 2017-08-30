@@ -23,7 +23,7 @@ class APIResponseTableViewController: UITableViewController {
 			let sort = SortDescriptor(key: "username", ascending: true)
 			switch storageType {
 			case .CoreData:
-				context.fetch(predicate: nil, sortDescriptors: [sort]) { [unowned self] (users: [APIUserCoreData]?) in
+				context.fetch(sortDescriptors: [sort]) { [unowned self] (users: [APIUserCoreData]?) in
 					guard let users = users else { return }
 
 					storage.getThreadSafeEntities(for: mainContext, originalContext: context, originalEntities: users) { [unowned self] safeUsers in
@@ -34,7 +34,7 @@ class APIResponseTableViewController: UITableViewController {
 					}
 				}
 			case .Realm:
-				context.fetch(predicate: nil, sortDescriptors: [sort]) { [unowned self] (users: [APIUserRealm]?) in
+				context.fetch(sortDescriptors: [sort]) { [unowned self] (users: [APIUserRealm]?) in
 					guard let users = users else { return }
 
 					storage.getThreadSafeEntities(for: mainContext, originalContext: context, originalEntities: users) { [unowned self] safeUsers in
