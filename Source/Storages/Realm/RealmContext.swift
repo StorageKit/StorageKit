@@ -35,7 +35,6 @@ class RealmContext: StorageContext, RealmContextType {
 	private(set) var realm: RealmType
 
 	public enum RealmError: Error {
-		case methodNotImplemented(String)
 		case initFail(String)
 	}
 

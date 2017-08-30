@@ -207,7 +207,8 @@ extension ToDoAppViewController: UITableViewDelegate {
         
         return UITableViewCell()
     }
-    
+
+    // swiftlint:disable cyclomatic_complexity
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         if indexPath.section == 0 { // ToDo Tasks
             let done = UITableViewRowAction(style: .normal, title: "Done") { _, index in
