@@ -385,23 +385,11 @@ extension RealmContextTests {
 
 // MARK: - fetch()
 extension RealmContextTests {
-//	var objects = realm.objects(type: entityToFetch)
-//
-//	if let predicate = predicate {
-//		objects = objects.filter(predicate: predicate)
-//	}
-//
-//	if let sortDescriptors = sortDescriptors {
-//		for sortDescriptor in sortDescriptors {
-//			objects = objects.sorted(keyPath: sortDescriptor.key, ascending: sortDescriptor.ascending)
-//		}
-//	}
-
 	func test_Fetch_EntityNotObject_DoesNotCallsRealmObjects() {
 		sut.fetch { (entity: [DummyStorageEntity]?) in print(entity?.count ?? 0) }
 
 		XCTAssertFalse(getSpyRealm().isObjectsCalled)
-	}
+    }
 
 	func test_Fetch_EntityObject_CallsRealmObjects() {
 		sut.fetch { (entity: [Object]?) in print(entity?.count ?? 0) }
