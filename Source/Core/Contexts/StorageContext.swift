@@ -90,7 +90,8 @@ public protocol StorageWritableContext: class {
             try context.add(entity)
         } catch {}
         ```
-        If an entity with the same identifier already exists then the object is updated with `entity`
+
+        If an object with the same primary key exists in the storage, the object will be updated with `entity`
 
         - Parameter entity: Entity to add in the database.
         - Throws: The error depends on database used (CoreData and Realm).
@@ -114,7 +115,7 @@ public protocol StorageWritableContext: class {
         } catch {}
         ```
 
-        For every `entity` in `entities`, If an object with the same identifier already exists in the storage then the object is updated with `entity`
+        For every `entity` in `entities`, If an object with the same primary key exists in the storage, the object will be updated with `entity`
      
         - Parameter entities: Array of entities to add in the database.
         - Throws: The error depends on database used (CoreData and Realm).
