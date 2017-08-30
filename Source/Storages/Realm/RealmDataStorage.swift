@@ -63,7 +63,11 @@ final class RealmDataStorage: Storage {
         }
     }
     
-    func getThreadSafeEntities<T: StorageEntityType>(for destinationContext: StorageContext, originalContext: StorageContext, originalEntities: [T], completion: @escaping ([T]) -> Void) {
+    func getThreadSafeEntities<T: StorageEntityType>(for destinationContext: StorageContext, originalContext: StorageContext, originalEntities: [T], completion: @escaping ([T]) -> Void) throws {
+        guard T.self is Object.Type else {
+            throw StorageKitErrors.Entity.wrongType
+        }
+
         guard let destinationContext = destinationContext as? RealmContextType,
             let originalQueue = contextRepo.retrieveQueue(for: originalContext),
             let destinationQueue = contextRepo.retrieveQueue(for: destinationContext) else {

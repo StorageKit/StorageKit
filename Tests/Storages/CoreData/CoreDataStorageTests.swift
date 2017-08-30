@@ -255,42 +255,53 @@ extension CoreDataStorageTests {
 
 extension CoreDataStorageTests {
 
-    func test_GetThreadSafeEntities_ContextNotNSManagedObjectContext_ReturnsEmptyArrat() {
+    func test_GetThreadSafeEntities_ContextNotNSManagedObjectContext_ThrowsError() {
+        let context = DummyStorageContext()
+
+        do {
+            try sut.getThreadSafeEntities(for: context, originalContext: DummyStorageContext(), originalEntities: [DummyStorageEntity(), DummyStorageEntity()]) { _ in XCTFail() }
+
+            XCTFail()
+        } catch StorageKitErrors.Entity.wrongType {
+            XCTAssertTrue(true)
+        } catch { XCTFail() }
+    }
+
+    func test_GetThreadSafeEntities_ContextNotNSManagedObjectContext_DoesNotReturnArray() {
         let expectation = self.expectation(description: "GetThreadSafeEntities_TwoEntitiesNotNSManagedObject_ObjectWithIDIsNotCalled")
         let context = DummyStorageContext()
-        
-        sut.getThreadSafeEntities(for: context, originalContext: DummyStorageContext(), originalEntities: [DummyStorageEntity(), DummyStorageEntity()]) { result in
-            
-            XCTAssertEqual(result.count, 0)
+
+        do {
+            try sut.getThreadSafeEntities(for: context, originalContext: DummyStorageContext(), originalEntities: [DummyStorageEntity(), DummyStorageEntity()]) { _ in XCTFail() }
+        } catch {
             expectation.fulfill()
         }
-        
+
         waitForExpectations(timeout: 1)
     }
-    
+
     func test_GetThreadSafeEntities_TwoEntitiesNotNSManagedObject_ObjectWithIDIsNotCalled() {
-        let expectation = self.expectation(description: "GetThreadSafeEntities_TwoEntitiesNotNSManagedObject_ObjectWithIDIsNotCalled")
         let context = StubManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
-        
-        sut.getThreadSafeEntities(for: context, originalContext: DummyStorageContext(), originalEntities: [DummyStorageEntity(), DummyStorageEntity()]) { _ in
-            
-            XCTAssertEqual(context.objectWithIDCallsCount, 0)
-            expectation.fulfill()
-        }
-        
-        waitForExpectations(timeout: 1)
+
+        do {
+            try sut.getThreadSafeEntities(for: context, originalContext: DummyStorageContext(), originalEntities: [DummyStorageEntity(), DummyStorageEntity()]) { _ in }
+        } catch {}
+
+        XCTAssertEqual(context.objectWithIDCallsCount, 0)
     }
-    
+
     func test_GetThreadSafeEntities_TwoNSManagedObjects_ObjectWithIDIsCalled() {
         let expectation = self.expectation(description: "GetThreadSafeEntities_TwoNSManagedObjects_ObjectWithIDIsCalled")
         let context = StubManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
-        
-        sut.getThreadSafeEntities(for: context, originalContext: DummyStorageContext(), originalEntities: [FakeManagedObject(), FakeManagedObject()]) { _ in
-            
-            XCTAssertEqual(context.objectWithIDCallsCount, 2)
-            expectation.fulfill()
-        }
-        
+
+        do {
+            try sut.getThreadSafeEntities(for: context, originalContext: DummyStorageContext(), originalEntities: [FakeManagedObject(), FakeManagedObject()]) { _ in
+
+                XCTAssertEqual(context.objectWithIDCallsCount, 2)
+                expectation.fulfill()
+            }
+        } catch {}
+
         waitForExpectations(timeout: 1)
 	}
 
@@ -302,17 +313,19 @@ extension CoreDataStorageTests {
 
         let expectation = self.expectation(description: "GetThreadSafeEntities_TwoNSManagedObjects_ObjectWithIDIsCalled")
         let context = StubManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
-        
-        sut.getThreadSafeEntities(for: context, originalContext: DummyStorageContext(), originalEntities: [entity, entity2]) { _ in
-            
-            XCTAssertNotEqual(entity.objectID.uriRepresentation().absoluteString, entity2.objectID.uriRepresentation().absoluteString)
-            
-            XCTAssertEqual(context.objectWithIDArguments?.first?.uriRepresentation().absoluteString ?? "", "google.com")
-            XCTAssertEqual(context.objectWithIDArguments?[1].uriRepresentation().absoluteString ?? "", "apple.com")
 
-            expectation.fulfill()
-        }
-        
+        do {
+            try sut.getThreadSafeEntities(for: context, originalContext: DummyStorageContext(), originalEntities: [entity, entity2]) { _ in
+
+                XCTAssertNotEqual(entity.objectID.uriRepresentation().absoluteString, entity2.objectID.uriRepresentation().absoluteString)
+
+                XCTAssertEqual(context.objectWithIDArguments?.first?.uriRepresentation().absoluteString ?? "", "google.com")
+                XCTAssertEqual(context.objectWithIDArguments?[1].uriRepresentation().absoluteString ?? "", "apple.com")
+
+                expectation.fulfill()
+            }
+        } catch {}
+
         waitForExpectations(timeout: 1)
 	}
 }

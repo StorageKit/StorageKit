@@ -7,4 +7,3 @@
 //
 
 struct StorageKitErrors {}
-

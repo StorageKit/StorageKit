@@ -144,11 +144,11 @@ public protocol StorageReadableContext: class {
         - Parameter completion: Closure which contains the entity fetched. It has as parameter an optional array which contains the fetch result.
     */
 
-    func fetch<T: StorageEntityType>(predicate: NSPredicate?, sortDescriptors: [SortDescriptor]?, completion: @escaping FetchCompletionClosure<T>)
+    func fetch<T: StorageEntityType>(predicate: NSPredicate?, sortDescriptors: [SortDescriptor]?, completion: @escaping FetchCompletionClosure<T>) throws
 }
 
 public extension StorageReadableContext {
-    func fetch<T: StorageEntityType>(predicate: NSPredicate? = nil, sortDescriptors: [SortDescriptor]? = nil, completion: @escaping FetchCompletionClosure<T>) {
+    func fetch<T: StorageEntityType>(predicate: NSPredicate? = nil, sortDescriptors: [SortDescriptor]? = nil, completion: @escaping FetchCompletionClosure<T>) throws {
         fatalError("fetch method not implemented")
     }
 }
