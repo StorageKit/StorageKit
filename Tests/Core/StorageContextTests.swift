@@ -52,16 +52,3 @@ class StorageContextTests: XCTestCase {
     }
     
 }
-
-// MARK: - fetch
-extension StorageContextTests {
-    func test_DefaultImplementation_ThrowsError() {
-        let sut = DummyStorageContextWithoutFetch()
-
-        expectFatalError(expectedMessage: "fetch method not implemented") {
-            do {
-                try sut.fetch { (_: [DummyStorageEntity]?) in }
-            } catch {}
-        }
-    }
-}

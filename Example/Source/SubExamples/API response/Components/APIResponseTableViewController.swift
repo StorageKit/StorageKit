@@ -24,7 +24,7 @@ class APIResponseTableViewController: UITableViewController {
 			switch storageType {
 			case .CoreData:
                 do {
-                    try context.fetch(sortDescriptors: [sort]) { [unowned self] (users: [APIUserCoreData]?) in
+                    try context.fetch(predicate: nil, sortDescriptors: [sort]) { [unowned self] (users: [APIUserCoreData]?) in
                         guard let users = users else { return }
 
                         do {
@@ -39,7 +39,7 @@ class APIResponseTableViewController: UITableViewController {
                 } catch {}
 			case .Realm:
                 do {
-                    try context.fetch(sortDescriptors: [sort]) { [unowned self] (users: [APIUserRealm]?) in
+                    try context.fetch(predicate: nil, sortDescriptors: [sort]) { [unowned self] (users: [APIUserRealm]?) in
                         guard let users = users else { return }
 
                         do {

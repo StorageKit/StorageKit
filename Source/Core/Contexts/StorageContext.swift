@@ -131,7 +131,25 @@ public protocol StorageReadableContext: class {
     /**
         Use this method to fetch entities from the database.
         You can also specify a predicate to filter the entity to fetch and an array of sort descriptors to order the result.
-        By default, `predicate` and `sortDescriptors` are `nil`
+     
+        Example:
+        ```
+        context.fetch { (result: [MyEntity]?) in
+     
+        }
+        ```
+        **Note:**
+     
+        Since the return is a generic optional array, you must add the type of entities which you want to fetch explicitly. As you can see in the example above, we have specified the type `[MyEntity]?` as result type. Remember to use `?` since it may be an optional array.
+     
+        - Parameter completion: Closure which contains the entity fetched. It has as parameter an optional array which contains the fetch result.
+        - Throws: StorageKitErrors.Entity.wrongType
+     */
+    func fetch<T: StorageEntityType>(completion: @escaping FetchCompletionClosure<T>) throws
+    
+    /**
+        Use this method to fetch entities from the database.
+        You can also specify a predicate to filter the entity to fetch and an array of sort descriptors to order the result.
 
         Example:
         ```
@@ -144,20 +162,12 @@ public protocol StorageReadableContext: class {
         Since the return is a generic optional array, you must add the type of entities which you want to fetch explicitly. As you can see in the example above, we have specified the type `[MyEntity]?` as result type. Remember to use `?` since it may be an optional array.
      
         - Parameter predicate: `NSPredicate` object to filter the entity to fetch. Pass `nil` if you don't want any filter applied.
-        - Parameter transform: Array of `SortDescriptor` to order the result. Pass `nil` if you don't want any order applied.
+        - Parameter sortDescriptors: Array of `SortDescriptor` to order the result. Pass `nil` if you don't want any order applied.
         - Parameter completion: Closure which contains the entity fetched. It has as parameter an optional array which contains the fetch result.
         - Throws: StorageKitErrors.Entity.wrongType
     */
 
     func fetch<T: StorageEntityType>(predicate: NSPredicate?, sortDescriptors: [SortDescriptor]?, completion: @escaping FetchCompletionClosure<T>) throws
-}
-
-extension StorageReadableContext {
-
-    public func fetch<T: StorageEntityType>(predicate: NSPredicate? = nil, sortDescriptors: [SortDescriptor]? = nil, completion: @escaping FetchCompletionClosure<T>) throws {
-
-        fatalError("fetch method not implemented")
-    }
 }
 
 /// This protocol adds the functionality to update entities in the database.

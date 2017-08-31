@@ -443,7 +443,7 @@ extension RealmContextTests {
 
 	func test_Fetch_PredicateNotNil_CallsResultPredicate() {
         do {
-            try sut.fetch(predicate: NSPredicate(value: true)) { (entity: [Object]?) in print(entity?.count ?? 0) }
+            try sut.fetch(predicate: NSPredicate(value: true), sortDescriptors: nil) { (entity: [Object]?) in print(entity?.count ?? 0) }
         } catch {}
 
 		XCTAssertTrue(getSpyRealm().forcedResult.isFilterCalled)
@@ -453,7 +453,7 @@ extension RealmContextTests {
 		let predicate = NSPredicate(value: true)
 
         do {
-            try sut.fetch(predicate: predicate) { (entity: [Object]?) in print(entity?.count ?? 0) }
+            try sut.fetch(predicate: predicate, sortDescriptors: nil) { (entity: [Object]?) in print(entity?.count ?? 0) }
         } catch {}
 
 		XCTAssertTrue(getSpyRealm().forcedResult.filterPredicateArgument === predicate)
@@ -472,7 +472,7 @@ extension RealmContextTests {
 		let sort2 = SortDescriptor(key: "b", ascending: false)
 
         do {
-            try sut.fetch(sortDescriptors:[sort, sort2]) { (entity: [Object]?) in print(entity?.count ?? 0) }
+            try sut.fetch(predicate: nil, sortDescriptors: [sort, sort2]) { (entity: [Object]?) in print(entity?.count ?? 0) }
         } catch {}
 
 		XCTAssertEqual(getSpyRealm().forcedResult.sortedCallsCount, 2)
@@ -483,7 +483,7 @@ extension RealmContextTests {
 		let sort2 = SortDescriptor(key: "b", ascending: false)
 
         do {
-            try sut.fetch(sortDescriptors:[sort, sort2]) { (entity: [Object]?) in print(entity?.count ?? 0) }
+            try sut.fetch(predicate: nil, sortDescriptors: [sort, sort2]) { (entity: [Object]?) in print(entity?.count ?? 0) }
         } catch {}
 
 		XCTAssertEqual(getSpyRealm().forcedResult.sortedKeyPathArguments.first, "a")
