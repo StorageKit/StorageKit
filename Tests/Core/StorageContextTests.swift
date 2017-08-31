@@ -59,7 +59,9 @@ extension StorageContextTests {
         let sut = DummyStorageContextWithoutFetch()
 
         expectFatalError(expectedMessage: "fetch method not implemented") {
-            sut.fetch { (_: [DummyStorageEntity]?) in }
+            do {
+                try sut.fetch { (_: [DummyStorageEntity]?) in }
+            } catch {}
         }
     }
 }

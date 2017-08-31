@@ -159,15 +159,19 @@ extension RealmDataStorageTests {
 
 // MARK: - getThreadSafeEntities(_:)
 extension RealmDataStorageTests {
-	func test_GetThreadSafeEntities_StorageContextNotRealmContext_CompletionHasEmptyArray() {
-		let expectation = self.expectation(description: "")
+    func test_GetThreadSafeEntities_NoObjects_ThrowsError() {
+        do {
+            try sut.getThreadSafeEntities(for: DummyStorageContext(), originalContext: DummyStorageContext(), originalEntities: [DummyStorageEntity(), DummyStorageEntity()]) { (_: [DummyStorageEntity]) in XCTFail() }
+        } catch StorageKitErrors.Entity.wrongType {
+            XCTAssertTrue(true)
+        } catch { XCTFail() }
+    }
 
-		sut.getThreadSafeEntities(for: DummyStorageContext(), originalContext: DummyStorageContext(), originalEntities: [DummyStorageEntity(), DummyStorageEntity()]) { (result: [DummyStorageEntity]) in
-			XCTAssertTrue(result.isEmpty)
-
-			expectation.fulfill()
-		}
-
-		waitForExpectations(timeout: 1)
-	}
+    func test_GetThreadSafeEntities_StorageContextNotRealmContext_ThrowsError() {
+        do {
+            try sut.getThreadSafeEntities(for: DummyStorageContext(), originalContext: DummyStorageContext(), originalEntities: [Object(), Object()]) { (_: [Object]) in XCTFail() }
+        } catch StorageKitErrors.Context.wrongType {
+            XCTAssertTrue(true)
+        } catch { XCTFail() }
+    }
 }

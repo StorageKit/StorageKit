@@ -51,7 +51,9 @@ The first step is creating a new `Storage` object with a specific type (either `
 ```
 let storage = StorageKit.addStorage(type: .Realm)
 ```
+
 or
+
 ```
 let storage = StorageKit.addStorage(type: .CoreData(dataModelName: "Example")
 ```
@@ -59,7 +61,7 @@ let storage = StorageKit.addStorage(type: .CoreData(dataModelName: "Example")
 The storage exposes a `context` which is the object you will use to perform the common *CRUD operations*, for instance:
 
 ```
-storage.mainContext?.fetch(predicate: NSPredicate(format: "done == false"), completion: { (fetchedTasks: [RTodoTask]?) in
+try storage.mainContext?.fetch(predicate: NSPredicate(format: "done == false"), completion: { (fetchedTasks: [RTodoTask]?) in
     self.tasks = fetchedTasks
         // do whatever you want
     }
@@ -146,7 +148,7 @@ do {
 ### R as Read
 
 ```
-    context.fetch { (result: [MyEntity]?) in
+    try context.fetch { (result: [MyEntity]?) in
         // do whatever you want with `result`
     }
 ```
@@ -186,9 +188,14 @@ storage.performBackgroundTask {[weak self] backgroundContext in
     // the backgroundContext might be nil because of internal errors
     guard let backgroundContext = backgroundContext else { return }
     
-    // perform your background CRUD operations here on the `backgroundContext`
-    backgroundContext.fetch { [weak self] (entities: [MyEntity]?) in
-        // do something with `entities`
+    do {
+        // perform your background CRUD operations here on the `backgroundContext`
+	    backgroundContext.fetch { [weak self] (entities: [MyEntity]?) in
+	        // do something with `entities`
+	    }
+
+    } catch {
+    	print(error.localizedDescription)
     }
 }
 ```
@@ -217,12 +224,16 @@ The common use of this method is:
 storage.performBackgroundTask {[weak self] (backgroundContext, backgroundQueue) in
     guard let backgroundContext = backgroundContext else { return }
     
-    // 1
-    backgroundContext.fetch { [weak self] (entities: [MyEntity]?) in
-        // 2
-        storage.getThreadSafeEntities(for: context, originalContext: backgroundContext, originalEntities: entities, completion: { safeEntities in
-            self?.entities = safeEntities
-        })
+    do {
+	    // 1
+	    backgroundContext.fetch { [weak self] (entities: [MyEntity]?) in
+	        // 2
+	        storage.getThreadSafeEntities(for: context, originalContext: backgroundContext, originalEntities: entities, completion: { safeEntities in
+	            self?.entities = safeEntities
+	        })
+	    }
+    } catch {
+    	print(error.localizedDescription)
     }
 }
 ```
@@ -270,7 +281,6 @@ $(SRCROOT)/Carthage/Build/iOS/StorageKit.framework
 * UI Test target doesn't work in the example project;
 
 ## TODO
-* Add a common errors interface
 * Remove Realm dependency if not needed (the user can decide between Core Data or Realm)
 * Add Reactive interface
 * Distribute through the Swift Package Manager

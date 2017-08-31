@@ -23,27 +23,35 @@ class APIResponseTableViewController: UITableViewController {
 			let sort = SortDescriptor(key: "username", ascending: true)
 			switch storageType {
 			case .CoreData:
-				context.fetch(sortDescriptors: [sort]) { [unowned self] (users: [APIUserCoreData]?) in
-					guard let users = users else { return }
+                do {
+                    try context.fetch(sortDescriptors: [sort]) { [unowned self] (users: [APIUserCoreData]?) in
+                        guard let users = users else { return }
 
-					storage.getThreadSafeEntities(for: mainContext, originalContext: context, originalEntities: users) { [unowned self] safeUsers in
-						DispatchQueue.main.async {
-							self.apiUsers = safeUsers
-							self.tableView.reloadData()
-						}
-					}
-				}
+                        do {
+                            try storage.getThreadSafeEntities(for: mainContext, originalContext: context, originalEntities: users) { [unowned self] safeUsers in
+                                DispatchQueue.main.async {
+                                    self.apiUsers = safeUsers
+                                    self.tableView.reloadData()
+                                }
+                            }
+                        } catch {}
+                    }
+                } catch {}
 			case .Realm:
-				context.fetch(sortDescriptors: [sort]) { [unowned self] (users: [APIUserRealm]?) in
-					guard let users = users else { return }
+                do {
+                    try context.fetch(sortDescriptors: [sort]) { [unowned self] (users: [APIUserRealm]?) in
+                        guard let users = users else { return }
 
-					storage.getThreadSafeEntities(for: mainContext, originalContext: context, originalEntities: users) { [unowned self] safeUsers in
-						DispatchQueue.main.async {
-							self.apiUsers = safeUsers
-							self.tableView.reloadData()
-						}
-					}
-				}
+                        do {
+                            try storage.getThreadSafeEntities(for: mainContext, originalContext: context, originalEntities: users) { [unowned self] safeUsers in
+                                DispatchQueue.main.async {
+                                    self.apiUsers = safeUsers
+                                    self.tableView.reloadData()
+                                }
+                            }
+                        } catch {}
+                    }
+                } catch {}
 			}
         }
     }

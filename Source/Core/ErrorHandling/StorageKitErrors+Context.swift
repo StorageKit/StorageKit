@@ -1,5 +1,5 @@
 //
-//  RealmContext.swift
+//  StorageKitErrors+Context.swift
 //  StorageKit
 //
 //  Copyright (c) 2017 StorageKit (https://github.com/StorageKit)
@@ -23,30 +23,13 @@
 //  THE SOFTWARE.
 //
 
-import RealmSwift
-
-protocol RealmContextType: StorageContext {
-	var realm: RealmType { get }
-	
-	init?(realmType: RealmType.Type)
-}
-
-class RealmContext: StorageContext, RealmContextType {
-	private(set) var realm: RealmType
-
-	required init?(realmType: RealmType.Type = Realm.self) {
-		do {
-			try self.realm = realmType.init(configuration: Realm.Configuration.defaultConfiguration)
-		} catch {
-			return nil
-		}
-	}
-
-	func safeWriteAction(_ block: (() throws -> Void)) throws {
-		if realm.isInWriteTransaction {
-			try block()
-		} else {
-			try realm.write(block)
-		}
-	}
+public extension StorageKitErrors {
+    /// Context errors
+    enum Context: Error {
+        /// This error is thrown when there is a Storage operation request using a wrong context type.
+        /// Correct types:
+        /// - Core Data: `NSManagedObjectContext subclasses
+        /// - Realm: `Realm` subclasses
+        case wrongType
+    }
 }

@@ -63,6 +63,9 @@
 		A96654D21F55F975005A4C56 /* StorageContextTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A96654D11F55F975005A4C56 /* StorageContextTests.swift */; };
 		A96654DD1F55FA20005A4C56 /* DummyStorageContextWithoutFetch.swift in Sources */ = {isa = PBXBuildFile; fileRef = A96654DC1F55FA20005A4C56 /* DummyStorageContextWithoutFetch.swift */; };
 		A96EC6511F1D4AA3008FCF39 /* FakeObjectID.swift in Sources */ = {isa = PBXBuildFile; fileRef = A96EC6501F1D4AA3008FCF39 /* FakeObjectID.swift */; };
+		A9B268A71F546B3D00CC3E7F /* StorageKitErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9B268A61F546B3D00CC3E7F /* StorageKitErrors.swift */; };
+		A9B268A91F546E7C00CC3E7F /* StorageKitErrors+Entity.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9B268A81F546E7C00CC3E7F /* StorageKitErrors+Entity.swift */; };
+		A9DDFF0C1F57228A00D63AC7 /* StorageKitErrors+Context.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9DDFF0B1F57228A00D63AC7 /* StorageKitErrors+Context.swift */; };
 		A9E0124C1F28EA3F00040CE0 /* RealmContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E0124B1F28EA3F00040CE0 /* RealmContext.swift */; };
 		A9E012581F28EB4C00040CE0 /* RealmContextTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E012571F28EB4C00040CE0 /* RealmContextTests.swift */; };
 		A9E0125B1F28EE0700040CE0 /* RealmType.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E0125A1F28EE0700040CE0 /* RealmType.swift */; };
@@ -226,6 +229,9 @@
 		A96654D11F55F975005A4C56 /* StorageContextTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StorageContextTests.swift; sourceTree = "<group>"; };
 		A96654DC1F55FA20005A4C56 /* DummyStorageContextWithoutFetch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DummyStorageContextWithoutFetch.swift; sourceTree = "<group>"; };
 		A96EC6501F1D4AA3008FCF39 /* FakeObjectID.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FakeObjectID.swift; sourceTree = "<group>"; };
+		A9B268A61F546B3D00CC3E7F /* StorageKitErrors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StorageKitErrors.swift; sourceTree = "<group>"; };
+		A9B268A81F546E7C00CC3E7F /* StorageKitErrors+Entity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "StorageKitErrors+Entity.swift"; sourceTree = "<group>"; };
+		A9DDFF0B1F57228A00D63AC7 /* StorageKitErrors+Context.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "StorageKitErrors+Context.swift"; sourceTree = "<group>"; };
 		A9E0124B1F28EA3F00040CE0 /* RealmContext.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmContext.swift; sourceTree = "<group>"; };
 		A9E012571F28EB4C00040CE0 /* RealmContextTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmContextTests.swift; sourceTree = "<group>"; };
 		A9E0125A1F28EE0700040CE0 /* RealmType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmType.swift; sourceTree = "<group>"; };
@@ -288,6 +294,7 @@
 			children = (
 				A000FE8E1F166F470027D689 /* Contexts */,
 				A000FE971F166FBA0027D689 /* Entity */,
+				A9B2689C1F546B2C00CC3E7F /* ErrorHandling */,
 				A000FE9A1F166FF60027D689 /* Storage */,
 			);
 			path = Core;
@@ -563,6 +570,16 @@
 			path = Handlers;
 			sourceTree = "<group>";
 		};
+		A9B2689C1F546B2C00CC3E7F /* ErrorHandling */ = {
+			isa = PBXGroup;
+			children = (
+				A9B268A61F546B3D00CC3E7F /* StorageKitErrors.swift */,
+				A9DDFF0B1F57228A00D63AC7 /* StorageKitErrors+Context.swift */,
+				A9B268A81F546E7C00CC3E7F /* StorageKitErrors+Entity.swift */,
+			);
+			path = ErrorHandling;
+			sourceTree = "<group>";
+		};
 		A9E012561F28EB3C00040CE0 /* Realm */ = {
 			isa = PBXGroup;
 			children = (
@@ -800,6 +817,7 @@
 				A0BF67C51F0E5C0D003D5C62 /* PersistentStoreType.swift in Sources */,
 				A0A298B01F1E109400E3A04D /* ContextRepo.swift in Sources */,
 				A000FEA61F16706F0027D689 /* NSManagedObjectContext+StorageContext.swift in Sources */,
+				A9DDFF0C1F57228A00D63AC7 /* StorageKitErrors+Context.swift in Sources */,
 				A02AD5771F0E239E0025AE9E /* StorageKit.swift in Sources */,
 				A0BF67C41F0E5C0D003D5C62 /* PersistentStoreCoordinatorType.swift in Sources */,
 				A000FEA51F16706F0027D689 /* NSManagedObjectContext+ManagedObjectContextType.swift in Sources */,
@@ -814,6 +832,7 @@
 				A9E0125B1F28EE0700040CE0 /* RealmType.swift in Sources */,
 				6B63641C1F13836100679162 /* RealmDataStorage.swift in Sources */,
 				A000FE991F166FBA0027D689 /* StorageEntityType.swift in Sources */,
+				A9B268A71F546B3D00CC3E7F /* StorageKitErrors.swift in Sources */,
 				A080BE2A1F20C0860097F4A4 /* SortDescriptor.swift in Sources */,
 				A000FEA71F16706F0027D689 /* NSManagedObjectModel+ManagedObjectModelType.swift in Sources */,
 				A000FEAB1F1670910027D689 /* Object+StorageEntityType.swift in Sources */,
@@ -825,6 +844,7 @@
 				A94BD19F1F28F8FD00E13214 /* Results+RealmResultType.swift in Sources */,
 				A0A298AD1F1E0F2500E3A04D /* ContextQueue.swift in Sources */,
 				A0BF67C21F0E5C0D003D5C62 /* ManagedObjectModelType.swift in Sources */,
+				A9B268A91F546E7C00CC3E7F /* StorageKitErrors+Entity.swift in Sources */,
 				A0C492491F13877000031BBA /* FatalErrorUtil.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
