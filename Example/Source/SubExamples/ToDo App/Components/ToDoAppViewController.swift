@@ -44,45 +44,49 @@ class ToDoAppViewController: UIViewController {
 
             switch storageType {
             case .CoreData:
+                do {
+                    try backgroundContext.fetch(predicate: NSPredicate(format: "done == false"), sortDescriptors: [strongSelf.sortDescriptor], completion: {[weak self] (fetchedTasks: [ToDoTask]?) in
 
-                
-                backgroundContext.fetch(predicate: NSPredicate(format: "done == false"), sortDescriptors: [strongSelf.sortDescriptor], completion: {[weak self] (fetchedTasks: [ToDoTask]?) in
-                    
-                    guard self != nil else {
-                        dispatchGroup.leave()
-                        return
-                    }
-                    
-                    guard let fetchedTasks = fetchedTasks else { return }
-                    
-                    storage.getThreadSafeEntities(for: context, originalContext: backgroundContext, originalEntities: fetchedTasks, completion: { safeFetchedTaks in
-                        
-                        self?.tasks = safeFetchedTaks
-                        
-                        DispatchQueue.main.async {
+                        guard self != nil else {
                             dispatchGroup.leave()
+                            return
                         }
+
+                        guard let fetchedTasks = fetchedTasks else { return }
+                        do {
+                            try storage.getThreadSafeEntities(for: context, originalContext: backgroundContext, originalEntities: fetchedTasks, completion: { safeFetchedTaks in
+
+                                self?.tasks = safeFetchedTaks
+
+                                DispatchQueue.main.async {
+                                    dispatchGroup.leave()
+                                }
+                            })
+                        } catch {}
                     })
-                })
+                } catch {}
             case .Realm:
-                backgroundContext.fetch(predicate: NSPredicate(format: "done == false"), sortDescriptors: [strongSelf.sortDescriptor], completion: {[weak self] (fetchedTasks: [RTodoTask]?) in
-                    
-                    guard self != nil else {
-                        dispatchGroup.leave()
-                        return
-                    }
-                    
-                    guard let fetchedTasks = fetchedTasks else { return }
-                    
-                    storage.getThreadSafeEntities(for: context, originalContext: backgroundContext, originalEntities: fetchedTasks, completion: { safeFetchedTaks in
+                do {
+                    try backgroundContext.fetch(predicate: NSPredicate(format: "done == false"), sortDescriptors: [strongSelf.sortDescriptor], completion: {[weak self] (fetchedTasks: [RTodoTask]?) in
 
-                        self?.tasks = safeFetchedTaks
-                        
-                        DispatchQueue.main.async {
+                        guard self != nil else {
                             dispatchGroup.leave()
+                            return
                         }
+
+                        guard let fetchedTasks = fetchedTasks else { return }
+                        do {
+                            try storage.getThreadSafeEntities(for: context, originalContext: backgroundContext, originalEntities: fetchedTasks, completion: { safeFetchedTaks in
+
+                                self?.tasks = safeFetchedTaks
+
+                                DispatchQueue.main.async {
+                                    dispatchGroup.leave()
+                                }
+                            })
+                        } catch {}
                     })
-                })
+                } catch {}
             }
         }
     }
@@ -95,43 +99,51 @@ class ToDoAppViewController: UIViewController {
             
             switch storageType {
             case .CoreData:
-                backgroundContext.fetch(predicate: NSPredicate(format: "done == true"), sortDescriptors: [strongSelf.sortDescriptor], completion: {[weak self] (fetchedTasks: [ToDoTask]?) in
-                    
-                    guard self != nil else {
-                        dispatchGroup.leave()
-                        return
-                    }
-                    
-                    guard let fetchedTasks = fetchedTasks else { return }
-                    
-                    storage.getThreadSafeEntities(for: context, originalContext: backgroundContext, originalEntities: fetchedTasks, completion: { safeFetchedTaks in
-                        
-                        self?.doneTasks = safeFetchedTaks
+                do {
+                    try backgroundContext.fetch(predicate: NSPredicate(format: "done == true"), sortDescriptors: [strongSelf.sortDescriptor], completion: {[weak self] (fetchedTasks: [ToDoTask]?) in
 
-                        DispatchQueue.main.async {
+                        guard self != nil else {
                             dispatchGroup.leave()
+                            return
                         }
+
+                        guard let fetchedTasks = fetchedTasks else { return }
+
+                        do {
+                            try storage.getThreadSafeEntities(for: context, originalContext: backgroundContext, originalEntities: fetchedTasks, completion: { safeFetchedTaks in
+
+                                self?.doneTasks = safeFetchedTaks
+
+                                DispatchQueue.main.async {
+                                    dispatchGroup.leave()
+                                }
+                            })
+                        } catch {}
                     })
-                })
+                } catch {}
             case .Realm:
-                backgroundContext.fetch(predicate: NSPredicate(format: "done == true"), sortDescriptors: [strongSelf.sortDescriptor], completion: {[weak self] (fetchedTasks: [RTodoTask]?) in
-                    
-                    guard self != nil else {
-                        dispatchGroup.leave()
-                        return
-                    }
-                    
-                    guard let fetchedTasks = fetchedTasks else { return }
-                    
-                    storage.getThreadSafeEntities(for: context, originalContext: backgroundContext, originalEntities: fetchedTasks, completion: { safeFetchedTaks in
-                        
-                        self?.doneTasks = safeFetchedTaks
-                        
-                        DispatchQueue.main.async {
+                do {
+                    try backgroundContext.fetch(predicate: NSPredicate(format: "done == true"), sortDescriptors: [strongSelf.sortDescriptor], completion: {[weak self] (fetchedTasks: [RTodoTask]?) in
+
+                        guard self != nil else {
                             dispatchGroup.leave()
+                            return
                         }
+
+                        guard let fetchedTasks = fetchedTasks else { return }
+
+                        do {
+                            try storage.getThreadSafeEntities(for: context, originalContext: backgroundContext, originalEntities: fetchedTasks, completion: { safeFetchedTaks in
+
+                                self?.doneTasks = safeFetchedTaks
+
+                                DispatchQueue.main.async {
+                                    dispatchGroup.leave()
+                                }
+                            })
+                        } catch {}
                     })
-                })
+                } catch {}
             }
         }
     }
@@ -209,7 +221,9 @@ extension ToDoAppViewController: UITableViewDelegate {
         
         return UITableViewCell()
     }
-    
+
+    // swiftlint:disable cyclomatic_complexity
+    // swiftlint:disable function_body_length
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         if indexPath.section == 0 { // ToDo Tasks
             let done = UITableViewRowAction(style: .normal, title: "Done") { _, index in
@@ -231,17 +245,19 @@ extension ToDoAppViewController: UITableViewDelegate {
                             
                             storage.performBackgroundTask { bckContext in
                                 guard let backgroundContext = bckContext else { return }
-                                storage.getThreadSafeEntities(for: backgroundContext, originalContext: context, originalEntities: [task]) { safeTask in
-                                    do {
-                                        try backgroundContext.update {
-                                            safeTask.first?.done = true
-                                        }
-                                        
-                                        DispatchQueue.main.async {
-                                            self.fetchAndUpdate()
-                                        }
-                                    } catch {}
-                                }
+                                do {
+                                    try storage.getThreadSafeEntities(for: backgroundContext, originalContext: context, originalEntities: [task]) { safeTask in
+                                        do {
+                                            try backgroundContext.update {
+                                                safeTask.first?.done = true
+                                            }
+
+                                            DispatchQueue.main.async {
+                                                self.fetchAndUpdate()
+                                            }
+                                        } catch {}
+                                    }
+                                } catch {}
                             }
                         }
                     } catch {

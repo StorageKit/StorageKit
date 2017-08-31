@@ -117,11 +117,13 @@ extension CoreDataStorage: Storage {
         }
     }
     
-    func getThreadSafeEntities<T: StorageEntityType>(for destinationContext: StorageContext, originalContext: StorageContext, originalEntities: [T], completion: @escaping ([T]) -> Void) {
+    func getThreadSafeEntities<T: StorageEntityType>(for destinationContext: StorageContext, originalContext: StorageContext, originalEntities: [T], completion: @escaping ([T]) -> Void) throws {
+        guard T.self is NSManagedObject.Type else {
+            throw StorageKitErrors.Entity.wrongType
+        }
+
         guard let destinationContext = destinationContext as? NSManagedObjectContext else {
-            // TODO: Add an error
-            completion([])
-            return
+            throw StorageKitErrors.Context.wrongType
         }
         
         let threadSafeEntities: [T] = originalEntities.lazy
