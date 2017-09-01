@@ -190,6 +190,20 @@
 			remoteGlobalIDString = 5D660FCB1BE98C560021E04F;
 			remoteInfo = RealmSwift;
 		};
+		A9BDB86B1F59FFB800212C35 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6B7CC6C91F18DF800061BE39 /* Realm.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 5D659E7D1BE04556006515A0;
+			remoteInfo = Realm;
+		};
+		A9BDB8761F59FFBC00212C35 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6B7CC6C91F18DF800061BE39 /* Realm.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 5D660FCB1BE98C560021E04F;
+			remoteInfo = RealmSwift;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -737,6 +751,8 @@
 			buildRules = (
 			);
 			dependencies = (
+				A9BDB8771F59FFBC00212C35 /* PBXTargetDependency */,
+				A9BDB86C1F59FFB800212C35 /* PBXTargetDependency */,
 			);
 			name = "StorageKit-macOS";
 			productName = "StorageKit-OSX";
@@ -1028,6 +1044,16 @@
 			isa = PBXTargetDependency;
 			name = RealmSwift;
 			targetProxy = A98A75331F22639000643610 /* PBXContainerItemProxy */;
+		};
+		A9BDB86C1F59FFB800212C35 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = Realm;
+			targetProxy = A9BDB86B1F59FFB800212C35 /* PBXContainerItemProxy */;
+		};
+		A9BDB8771F59FFBC00212C35 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = RealmSwift;
+			targetProxy = A9BDB8761F59FFBC00212C35 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
