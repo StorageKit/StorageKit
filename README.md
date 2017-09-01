@@ -9,6 +9,7 @@
 <img src="https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat">
 <img src="https://cocoapod-badges.herokuapp.com/l/StorageKit/badge.png">
 <img src="https://img.shields.io/badge/Swift-3.2-orange.svg">
+<img src="https://img.shields.io/cocoapods/p/StorageKit.svg?style=flat">
 </div>
 
 <br />
