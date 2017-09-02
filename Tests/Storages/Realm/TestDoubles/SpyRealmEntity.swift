@@ -1,5 +1,5 @@
 //
-//  StorageContextTests.swift
+//  SpyRealmEntity.swift
 //  StorageKit
 //
 //  Copyright (c) 2017 StorageKit (https://github.com/StorageKit)
@@ -23,32 +23,13 @@
 //  THE SOFTWARE.
 //
 
-@testable import StorageKit
+import Realm
+import RealmSwift
 
-import XCTest
-
-class StorageContextTests: XCTestCase {
+final class SpyRealmEntity: Object {
+    var spyId: String = "123"
     
-    override func setUp() {
-        super.setUp()
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+    override static func primaryKey() -> String? {
+        return "spyId"
     }
-    
-    override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-        super.tearDown()
-    }
-
-    func testExample() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-    }
-    
-    func testPerformanceExample() {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
-        }
-    }
-    
 }

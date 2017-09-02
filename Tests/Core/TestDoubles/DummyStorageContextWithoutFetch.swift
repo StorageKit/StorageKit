@@ -37,16 +37,19 @@ extension DummyStorageContextWithoutFetch: StorageDeletableContext {
     func deleteAll<T: StorageEntityType>(_ entityType: T.Type) throws {}
 }
 
-extension DummyStorageContextWithoutFetch: StorageReadableContext {}
+extension DummyStorageContextWithoutFetch: StorageReadableContext {
+    func fetch<T>(completion: @escaping ([T]?) -> Void) throws where T : StorageEntityType {}
+    func fetch<T>(predicate: NSPredicate?, sortDescriptors: [SortDescriptor]?, completion: @escaping ([T]?) -> Void) throws where T : StorageEntityType {}
+}
 
 extension DummyStorageContextWithoutFetch: StorageUpdatableContext {
     func update(transform: @escaping () -> Void) throws {}
 }
 
 extension DummyStorageContextWithoutFetch: StorageWritableContext {
-    func add<T>(_ entities: [T]) throws where T : StorageEntityType {}
-
-    func add<T>(_ entity: T) throws where T : StorageEntityType {}
+    func addOrUpdate<T>(_ entity: T) throws where T : StorageEntityType {}
+    
+    func addOrUpdate<T>(_ entities: [T]) throws where T : StorageEntityType {}
 
     func create<T: StorageEntityType>() -> T? {
         return nil

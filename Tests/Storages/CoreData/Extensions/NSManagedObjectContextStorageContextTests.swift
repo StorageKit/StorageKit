@@ -215,7 +215,7 @@ extension NSManagedObjectContextStorageContextTests {
 extension NSManagedObjectContextStorageContextTests {
     func test_Add_OneEntityNotNSManagedObject_DoesNotCallsSuperSave() {
         do {
-            try sut.add(DummyStorageEntity())
+            try sut.addOrUpdate(DummyStorageEntity())
         } catch {}
 
         XCTAssertFalse(sut.isSaveCalled)
@@ -223,7 +223,7 @@ extension NSManagedObjectContextStorageContextTests {
     
     func test_Add_OneEntityNotNSManagedObject_ThrowsError() {
         do {
-            try sut.add(DummyStorageEntity())
+            try sut.addOrUpdate(DummyStorageEntity())
 
             XCTFail()
         } catch StorageKitErrors.Entity.wrongType {
@@ -235,7 +235,7 @@ extension NSManagedObjectContextStorageContextTests {
     
     func test_Add_OneEntity_CallsSuperSave() {
         do {
-            try sut.add(NSManagedObject())
+            try sut.addOrUpdate(NSManagedObject())
         } catch {
             XCTFail()
         }
@@ -245,7 +245,7 @@ extension NSManagedObjectContextStorageContextTests {
 
     func test_Add_ArrayOfEntities_CallsSuperSave() {
         do {
-            try sut.add([NSManagedObject(), NSManagedObject(), NSManagedObject()])
+            try sut.addOrUpdate([NSManagedObject(), NSManagedObject(), NSManagedObject()])
         } catch {
             XCTFail()
         }
@@ -292,7 +292,7 @@ extension NSManagedObjectContextStorageContextTests {
         let request = NSPredicate()
 
         do {
-            try sut.fetch(predicate: request) { (_: [DummyStorageEntity]?) in }
+            try sut.fetch(predicate: request, sortDescriptors: nil) { (_: [DummyStorageEntity]?) in }
         } catch {}
 
         XCTAssertFalse(sut.executeRequestArgument?.fetchRequest.predicate === request)
@@ -318,7 +318,7 @@ extension NSManagedObjectContextStorageContextTests {
         let request = NSPredicate()
 
         do {
-            try sut.fetch(predicate: request) { (_: [NSManagedObject]?) in }
+            try sut.fetch(predicate: request, sortDescriptors: nil) { (_: [NSManagedObject]?) in }
         } catch {}
 
         XCTAssertTrue(sut.executeRequestArgument?.fetchRequest.predicate === request)
@@ -329,7 +329,7 @@ extension NSManagedObjectContextStorageContextTests {
         let sortDesc2 = SortDescriptor(key: "t2", ascending: true)
 
         do {
-            try sut.fetch(sortDescriptors: [sortDesc, sortDesc2]) { (_: [NSManagedObject]?) in }
+            try sut.fetch(predicate: nil, sortDescriptors: [sortDesc, sortDesc2]) { (_: [NSManagedObject]?) in }
         } catch {}
 
         XCTAssertEqual(sut.executeRequestArgument?.fetchRequest.sortDescriptors?.first?.key, "t1")

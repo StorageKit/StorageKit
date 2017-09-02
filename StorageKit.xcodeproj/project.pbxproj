@@ -104,6 +104,7 @@
 		A9BDB8521F59FAD100212C35 /* RealmType.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9BDB8121F59FAD100212C35 /* RealmType.swift */; };
 		A9BDB8531F59FAD100212C35 /* FatalErrorUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9BDB8141F59FAD100212C35 /* FatalErrorUtil.swift */; };
 		A9BDB8541F59FAD100212C35 /* FatalErrorUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9BDB8141F59FAD100212C35 /* FatalErrorUtil.swift */; };
+		A9C461011F5B577C00BC5B39 /* SpyRealmEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9C461001F5B577C00BC5B39 /* SpyRealmEntity.swift */; };
 		A9E012581F28EB4C00040CE0 /* RealmContextTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E012571F28EB4C00040CE0 /* RealmContextTests.swift */; };
 		A9E012611F28EF3A00040CE0 /* SpyRealm.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E0125F1F28EF3700040CE0 /* SpyRealm.swift */; };
 		A9E012641F28F76A00040CE0 /* SpyRealmResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E012621F28F76400040CE0 /* SpyRealmResult.swift */; };
@@ -285,6 +286,7 @@
 		A9BDB8111F59FAD100212C35 /* RealmResultType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmResultType.swift; sourceTree = "<group>"; };
 		A9BDB8121F59FAD100212C35 /* RealmType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmType.swift; sourceTree = "<group>"; };
 		A9BDB8141F59FAD100212C35 /* FatalErrorUtil.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FatalErrorUtil.swift; sourceTree = "<group>"; };
+		A9C461001F5B577C00BC5B39 /* SpyRealmEntity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpyRealmEntity.swift; sourceTree = "<group>"; };
 		A9E012571F28EB4C00040CE0 /* RealmContextTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmContextTests.swift; sourceTree = "<group>"; };
 		A9E0125F1F28EF3700040CE0 /* SpyRealm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpyRealm.swift; sourceTree = "<group>"; };
 		A9E012621F28F76400040CE0 /* SpyRealmResult.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpyRealmResult.swift; sourceTree = "<group>"; };
@@ -664,6 +666,7 @@
 			children = (
 				A9E0125F1F28EF3700040CE0 /* SpyRealm.swift */,
 				A9FA2CCF1F2A7D5C00ED6C0B /* SpyRealmContext.swift */,
+				A9C461001F5B577C00BC5B39 /* SpyRealmEntity.swift */,
 				A9E012621F28F76400040CE0 /* SpyRealmResult.swift */,
 			);
 			path = TestDoubles;
@@ -979,6 +982,7 @@
 				A000FEB91F1671420027D689 /* NSManagedObjectStorageEntityTypeTests.swift in Sources */,
 				A9E012611F28EF3A00040CE0 /* SpyRealm.swift in Sources */,
 				A000FEB81F16713F0027D689 /* NSManagedObjectContextStorageContextTests.swift in Sources */,
+				A9C461011F5B577C00BC5B39 /* SpyRealmEntity.swift in Sources */,
 				A0C4922C1F13805100031BBA /* FakeBundle.swift in Sources */,
 				A9E012581F28EB4C00040CE0 /* RealmContextTests.swift in Sources */,
 				A000FEE51F1671A90027D689 /* SpyManagedObjectModel.swift in Sources */,

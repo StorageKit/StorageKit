@@ -68,16 +68,16 @@ extension RealmContext {
         
         return entityToCreate.init() as? T
     }
-    
-    func add<T: StorageEntityType>(_ entity: T) throws {
+
+    func addOrUpdate<T: StorageEntityType>(_ entity: T) throws {
         guard entity is Object else {
             throw StorageKitErrors.Entity.wrongType
         }
 
-        try add([entity])
+        try addOrUpdate([entity])
     }
     
-    func add<T: StorageEntityType>(_ entities: [T]) throws {
+    func addOrUpdate<T: StorageEntityType>(_ entities: [T]) throws {
         guard entities is [Object] else {
             throw StorageKitErrors.Entity.wrongType
         }
@@ -86,7 +86,10 @@ extension RealmContext {
             
             entities.lazy
                 .flatMap { return $0 as? Object }
-                .forEach { realm.add($0, update: false) }
+                .forEach {
+                    let canUpdateIfExists = $0.objectSchema.primaryKeyProperty != nil
+                    realm.add($0, update: canUpdateIfExists)
+            }
         }
     }
 }
@@ -102,7 +105,12 @@ extension RealmContext {
 
 // MARK: - StorageReadableContext
 extension RealmContext {
-    func fetch<T: StorageEntityType>(predicate: NSPredicate? = nil, sortDescriptors: [SortDescriptor]? = nil, completion: @escaping FetchCompletionClosure<T>) throws {
+    func fetch<T>(completion: @escaping FetchCompletionClosure<T>) throws where T : StorageEntityType {
+        return try fetch(predicate: nil, sortDescriptors: nil, completion: completion)
+    }
+    
+    func fetch<T: StorageEntityType>(predicate: NSPredicate?, sortDescriptors: [SortDescriptor]?, completion: @escaping FetchCompletionClosure<T>) throws {
+
         guard let entityToFetch = T.self as? Object.Type else {
             throw StorageKitErrors.Entity.wrongType
         }

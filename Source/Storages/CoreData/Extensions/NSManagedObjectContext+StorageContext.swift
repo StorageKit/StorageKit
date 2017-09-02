@@ -64,7 +64,8 @@ extension NSManagedObjectContext: StorageDeletableContext {
 
 // MARK: - StorageWritableContext
 extension NSManagedObjectContext: StorageWritableContext {
-    public func add<T: StorageEntityType>(_ entity: T) throws {
+
+    public func addOrUpdate<T: StorageEntityType>(_ entity: T) throws {
         guard entity is NSManagedObject else {
             throw StorageKitErrors.Entity.wrongType
         }
@@ -72,7 +73,7 @@ extension NSManagedObjectContext: StorageWritableContext {
         try save()
     }
     
-    public func add<T: StorageEntityType>(_ entities: [T]) throws {
+    public func addOrUpdate<T: StorageEntityType>(_ entities: [T]) throws {
         guard entities is [NSManagedObject] else {
             throw StorageKitErrors.Entity.wrongType
         }
@@ -101,7 +102,11 @@ extension NSManagedObjectContext: StorageUpdatableContext {
 
 // MARK: - StorageReadableContext
 extension NSManagedObjectContext: StorageReadableContext {
-	public func fetch<T: StorageEntityType>(predicate: NSPredicate? = nil, sortDescriptors: [SortDescriptor]? = nil, completion: @escaping FetchCompletionClosure<T>) throws {
+    public func fetch<T>(completion: @escaping FetchCompletionClosure<T>) throws where T : StorageEntityType {
+        return try fetch(predicate: nil, sortDescriptors: nil, completion: completion)
+    }
+
+	public func fetch<T: StorageEntityType>(predicate: NSPredicate?, sortDescriptors: [SortDescriptor]?, completion: @escaping FetchCompletionClosure<T>) throws {
         guard T.self is NSManagedObject.Type else {
             throw StorageKitErrors.Entity.wrongType
         }
