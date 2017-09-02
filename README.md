@@ -31,8 +31,8 @@ Our mission is keeping the persistence layer isolated as much as possible from t
 
 | Branch | Status |
 | ------------- | ------------- |
-| Master | [![BuddyBuild](https://dashboard.buddybuild.com/api/statusImage?appID=599d31ace529440001e6d421&branch=master&build=latest)](https://dashboard.buddybuild.com/apps/599d31ace529440001e6d421/build/latest?branch=master) |
-| Develop | [![BuddyBuild](https://dashboard.buddybuild.com/api/statusImage?appID=599d31ace529440001e6d421&branch=develop&build=latest)](https://dashboard.buddybuild.com/apps/599d31ace529440001e6d421/build/latest?branch=develop) |
+| Master | [![BuddyBuild](https://dashboard.buddybuild.com/api/statusImage?appID=59a9d6cad65c7a00012ae953&branch=master&build=latest)](https://dashboard.buddybuild.com/apps/59a9d6cad65c7a00012ae953/build/latest?branch=master) |
+| Develop | [![BuddyBuild](https://dashboard.buddybuild.com/api/statusImage?appID=59a9d6cad65c7a00012ae953&branch=develop&build=latest)](https://dashboard.buddybuild.com/apps/59a9d6cad65c7a00012ae953/build/latest?branch=develop) |
 
 # Table of Contents
 1. [How it works](#how-it-works)
