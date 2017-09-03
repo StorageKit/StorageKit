@@ -38,7 +38,7 @@ class APIResponseCoreDataViewController: UIViewController {
 		usersFetcher.fetchUser { [unowned self] usersJSON in
 			guard let usersJSON = usersJSON else { return }
 
-			self.storage.performBackgroundTask { context, _ in
+			self.storage.performBackgroundTask { context in
 				guard let context = context else { return }
 
 				try? context.deleteAll(APIUserCoreData.self)
@@ -52,7 +52,7 @@ class APIResponseCoreDataViewController: UIViewController {
 					} catch { return nil }
 				}
 
-				try? context.add(users)
+				try? context.addOrUpdate(users)
 
 				DispatchQueue.main.async {
 					completion()

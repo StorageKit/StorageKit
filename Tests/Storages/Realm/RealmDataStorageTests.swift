@@ -92,7 +92,7 @@ extension RealmDataStorageTests {
 	func test_PerformBackgrounTask_ClosureIsCalledInRightQueue() {
 		let expectation = self.expectation(description: "")
 
-		sut.performBackgroundTask { _, _ in
+		sut.performBackgroundTask { _ in
 			let name = __dispatch_queue_get_label(nil)
 			let queueName = String(cString: name, encoding: .utf8)
 
@@ -108,7 +108,7 @@ extension RealmDataStorageTests {
 		SpyContextRepo.clean()
 		let expectation = self.expectation(description: "")
 
-		sut.performBackgroundTask { _, _ in
+		sut.performBackgroundTask { _ in
 			XCTAssertTrue(SpyRealmContext.isInitCalled)
 
 			expectation.fulfill()
@@ -121,7 +121,7 @@ extension RealmDataStorageTests {
 		SpyContextRepo.clean()
 		let expectation = self.expectation(description: "")
 
-		sut.performBackgroundTask { _, _ in
+		sut.performBackgroundTask { _ in
 			XCTAssertTrue(SpyRealmContext.initRealmTypeArgument == Realm.self)
 
 			expectation.fulfill()
@@ -134,7 +134,7 @@ extension RealmDataStorageTests {
 		SpyContextRepo.clean()
 		let expectation = self.expectation(description: "")
 
-		sut.performBackgroundTask { _, _ in
+		sut.performBackgroundTask { _ in
 			XCTAssertTrue(SpyContextRepo.isStoreCalled)
 
 			expectation.fulfill()
@@ -147,9 +147,8 @@ extension RealmDataStorageTests {
 		SpyContextRepo.clean()
 		let expectation = self.expectation(description: "")
 
-		sut.performBackgroundTask { context, queue in
+		sut.performBackgroundTask { context in
 			XCTAssertTrue(SpyContextRepo.storeContextArgumet === context)
-			XCTAssertTrue(SpyContextRepo.storeQueueArgumet === queue)
 
 			expectation.fulfill()
 		}
@@ -160,15 +159,19 @@ extension RealmDataStorageTests {
 
 // MARK: - getThreadSafeEntities(_:)
 extension RealmDataStorageTests {
-	func test_GetThreadSafeEntities_StorageContextNotRealmContext_CompletionHasEmptyArray() {
-		let expectation = self.expectation(description: "")
+    func test_GetThreadSafeEntities_NoObjects_ThrowsError() {
+        do {
+            try sut.getThreadSafeEntities(for: DummyStorageContext(), originalContext: DummyStorageContext(), originalEntities: [DummyStorageEntity(), DummyStorageEntity()]) { (_: [DummyStorageEntity]) in XCTFail() }
+        } catch StorageKitErrors.Entity.wrongType {
+            XCTAssertTrue(true)
+        } catch { XCTFail() }
+    }
 
-		sut.getThreadSafeEntities(for: DummyStorageContext(), originalContext: DummyStorageContext(), originalEntities: [DummyStorageEntity(), DummyStorageEntity()]) { (result: [DummyStorageEntity]) in
-			XCTAssertTrue(result.isEmpty)
-
-			expectation.fulfill()
-		}
-
-		waitForExpectations(timeout: 1)
-	}
+    func test_GetThreadSafeEntities_StorageContextNotRealmContext_ThrowsError() {
+        do {
+            try sut.getThreadSafeEntities(for: DummyStorageContext(), originalContext: DummyStorageContext(), originalEntities: [Object(), Object()]) { (_: [Object]) in XCTFail() }
+        } catch StorageKitErrors.Context.wrongType {
+            XCTAssertTrue(true)
+        } catch { XCTFail() }
+    }
 }

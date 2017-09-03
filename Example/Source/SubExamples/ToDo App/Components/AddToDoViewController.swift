@@ -37,7 +37,7 @@ class AddToDoViewController: UIViewController {
     @IBAction func save() {
         guard let storage = self.storage, let storageType = self.storageType else { return }
 
-        storage.performBackgroundTask({ [unowned self] (bckcontext, _) in
+        storage.performBackgroundTask({ [unowned self] bckcontext in
             guard let backgroundContext = bckcontext else { return }
             
             do {
@@ -48,7 +48,7 @@ class AddToDoViewController: UIViewController {
                     if let task = todoTask, let name = self.taskNameTextField.text {
                         task.name = name
                         task.added = NSDate()
-                        try backgroundContext.add(task)
+                        try backgroundContext.addOrUpdate(task)
                     }
                 case .Realm:
                     let todoTask: RTodoTask? = try backgroundContext.create()
@@ -56,7 +56,7 @@ class AddToDoViewController: UIViewController {
                     if let task = todoTask, let name = self.taskNameTextField.text {
                         task.name = name
                         task.added = NSDate()
-                        try backgroundContext.add(task)
+                        try backgroundContext.addOrUpdate(task)
                     }
                 }
                 

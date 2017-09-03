@@ -30,9 +30,8 @@ public typealias StorageContext = StorageIdentifiableContext & StorageReadableCo
     Typealias which the closure type of `performBackgroundTask`.
 
     - Parameter closure: Context to use inside the closure. It can be nil because of internal errors.
-    * Parameter queue: Queue where the context is working. You can use it when you have several queues to manage and you need a reference of the one for the context.
 */
-public typealias TaskClosure = (_ closure: StorageContext?, _ queue: DispatchQueue) -> Void
+public typealias TaskClosure = (_ closure: StorageContext?) -> Void
 
 // This protocol is the base Storage type. By default `NSManagedObectContext` (CoreData) and `Realm` (Realm) implement this protocol.
 public protocol Storage: class {
@@ -44,7 +43,7 @@ public protocol Storage: class {
         You should use a background queue as much as possible insteaf of using a main queue  to improve the user experience.
         Every time you call this method, you will have a different context.
      
-        - Parameter taskClosure: Closure which has as parameters the a new context to work in background and its queue.
+        - Parameter taskClosure: Closure which has as parameters the a new context to work in background.
     */
     func performBackgroundTask(_ taskClosure: @escaping TaskClosure)
     
@@ -67,6 +66,8 @@ public protocol Storage: class {
         - Parameter originalContext: The context where the original entities come from.
         - Parameter originalEntities: The original entities which you would want to use in the destinationContext's queue.
         - Parameter completion: This closure is called once the new queue-safe entities are made. You can find the new entities in the closure parameter.
+        - Throws: StorageKitErrors.Entity.wrongType
+        - Throws: StorageKitErrors.Context.wrongType
     */
-    func getThreadSafeEntities<T: StorageEntityType>(for destinationContext: StorageContext, originalContext: StorageContext, originalEntities: [T], completion: @escaping ([T]) -> Void)
+    func getThreadSafeEntities<T: StorageEntityType>(for destinationContext: StorageContext, originalContext: StorageContext, originalEntities: [T], completion: @escaping ([T]) -> Void) throws
 }

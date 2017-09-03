@@ -74,7 +74,7 @@ public protocol StorageWritableContext: class {
         type for the variable `entity`
 
         - Returns: The entity created.
-        - Throws: The error depends on database used (CoreData and Realm).
+        - Throws: StorageKitErrors.Entity.wrongType
     */
     func create<T: StorageEntityType>() throws -> T?
     
@@ -91,10 +91,12 @@ public protocol StorageWritableContext: class {
         } catch {}
         ```
 
+        If an object with the same primary key exists in the storage, the object will be updated with `entity`
+
         - Parameter entity: Entity to add in the database.
-        - Throws: The error depends on database used (CoreData and Realm).
+        - Throws: StorageKitErrors.Entity.wrongType
     */
-    func add<T: StorageEntityType>(_ entity: T) throws
+    func addOrUpdate<T: StorageEntityType>(_ entity: T) throws
     
     /**
         Use this method to add an array of entities in the database.
@@ -113,11 +115,13 @@ public protocol StorageWritableContext: class {
         } catch {}
         ```
 
+        For every `entity` in `entities`, If an object with the same primary key exists in the storage, the object will be updated with `entity`
+     
         - Parameter entities: Array of entities to add in the database.
-        - Throws: The error depends on database used (CoreData and Realm).
+        - Throws: StorageKitErrors.Entity.wrongType
     */
     
-    func add<T: StorageEntityType>(_ entities: [T]) throws
+    func addOrUpdate<T: StorageEntityType>(_ entities: [T]) throws
 }
 
 /// This protocol adds the functionality to fetch entities from the database.
@@ -127,10 +131,29 @@ public protocol StorageReadableContext: class {
     /**
         Use this method to fetch entities from the database.
         You can also specify a predicate to filter the entity to fetch and an array of sort descriptors to order the result.
+     
+        Example:
+        ```
+        context.fetch { (result: [MyEntity]?) in
+     
+        }
+        ```
+        **Note:**
+     
+        Since the return is a generic optional array, you must add the type of entities which you want to fetch explicitly. As you can see in the example above, we have specified the type `[MyEntity]?` as result type. Remember to use `?` since it may be an optional array.
+     
+        - Parameter completion: Closure which contains the entity fetched. It has as parameter an optional array which contains the fetch result.
+        - Throws: StorageKitErrors.Entity.wrongType
+     */
+    func fetch<T: StorageEntityType>(completion: @escaping FetchCompletionClosure<T>) throws
+    
+    /**
+        Use this method to fetch entities from the database.
+        You can also specify a predicate to filter the entity to fetch and an array of sort descriptors to order the result.
 
         Example:
         ```
-        context.fetch(predicate: nil, sortDescriptors: nil) { (result: [MyEntity]?) in
+        context.fetch { (result: [MyEntity]?) in
      
         }
         ```
@@ -139,11 +162,12 @@ public protocol StorageReadableContext: class {
         Since the return is a generic optional array, you must add the type of entities which you want to fetch explicitly. As you can see in the example above, we have specified the type `[MyEntity]?` as result type. Remember to use `?` since it may be an optional array.
      
         - Parameter predicate: `NSPredicate` object to filter the entity to fetch. Pass `nil` if you don't want any filter applied.
-        - Parameter transform: Array of `SortDescriptor` to order the result. Pass `nil` if you don't want any order applied.
+        - Parameter sortDescriptors: Array of `SortDescriptor` to order the result. Pass `nil` if you don't want any order applied.
         - Parameter completion: Closure which contains the entity fetched. It has as parameter an optional array which contains the fetch result.
+        - Throws: StorageKitErrors.Entity.wrongType
     */
 
-    func fetch<T: StorageEntityType>(predicate: NSPredicate?, sortDescriptors: [SortDescriptor]?, completion: @escaping FetchCompletionClosure<T>)
+    func fetch<T: StorageEntityType>(predicate: NSPredicate?, sortDescriptors: [SortDescriptor]?, completion: @escaping FetchCompletionClosure<T>) throws
 }
 
 /// This protocol adds the functionality to update entities in the database.
@@ -190,7 +214,7 @@ public protocol StorageDeletableContext: class {
         ```
 
         - Parameter entity: Entity to remove from the database.
-        - Throws: The error depends on database used (CoreData and Realm).
+        - Throws: StorageKitErrors.Entity.wrongType
     */
     func delete<T: StorageEntityType>(_ entity: T) throws
     
@@ -212,7 +236,7 @@ public protocol StorageDeletableContext: class {
         ```
 
         - Parameter entities: Array of entities to remove from the database.
-        - Throws: The error depends on database used (CoreData and Realm).
+        - Throws: StorageKitErrors.Entity.wrongType
     */
     func delete<T: StorageEntityType>(_ entities: [T]) throws
     
@@ -227,7 +251,7 @@ public protocol StorageDeletableContext: class {
         ```
 
         - Parameter entityType: Type of entity to remove from the database.
-        - Throws: The error depends on database used (CoreData and Realm).
+        - Throws: StorageKitErrors.Entity.wrongType
     */
     func deleteAll<T: StorageEntityType>(_ entityType: T.Type) throws
 }

@@ -35,6 +35,10 @@ extension NSManagedObjectContext: StorageDeletableContext {
     }
     
     public func delete<T: StorageEntityType>(_ entities: [T]) throws {
+        guard entities is [NSManagedObject] else {
+            throw StorageKitErrors.Entity.wrongType
+        }
+
         entities.lazy
             .flatMap { $0 as? NSManagedObject }
             .forEach { delete($0) }
@@ -44,6 +48,10 @@ extension NSManagedObjectContext: StorageDeletableContext {
     }
     
     public func deleteAll<T: StorageEntityType>(_ entityType: T.Type) throws {
+        guard entityType is NSManagedObject.Type else {
+            throw StorageKitErrors.Entity.wrongType
+        }
+
         let request = NSFetchRequest<NSFetchRequestResult>(entityName: T.name)
         request.includesPropertyValues = false
         
@@ -56,15 +64,28 @@ extension NSManagedObjectContext: StorageDeletableContext {
 
 // MARK: - StorageWritableContext
 extension NSManagedObjectContext: StorageWritableContext {
-    public func add<T: StorageEntityType>(_ entity: T) throws {
+
+    public func addOrUpdate<T: StorageEntityType>(_ entity: T) throws {
+        guard entity is NSManagedObject else {
+            throw StorageKitErrors.Entity.wrongType
+        }
+
         try save()
     }
     
-    public func add<T: StorageEntityType>(_ entities: [T]) throws {
+    public func addOrUpdate<T: StorageEntityType>(_ entities: [T]) throws {
+        guard entities is [NSManagedObject] else {
+            throw StorageKitErrors.Entity.wrongType
+        }
+
         try save()
     }
 
-    public func create<T: StorageEntityType>() -> T? {
+    public func create<T: StorageEntityType>() throws -> T? {
+        guard T.self is NSManagedObject.Type else {
+            throw StorageKitErrors.Entity.wrongType
+        }
+
         return NSEntityDescription.insertNewObject(forEntityName: T.name, into: self) as? T
     }
 }
@@ -81,11 +102,18 @@ extension NSManagedObjectContext: StorageUpdatableContext {
 
 // MARK: - StorageReadableContext
 extension NSManagedObjectContext: StorageReadableContext {
-	public func fetch<T: StorageEntityType>(predicate: NSPredicate? = nil, sortDescriptors: [SortDescriptor]? = nil, completion: @escaping FetchCompletionClosure<T>) {
+    public func fetch<T>(completion: @escaping FetchCompletionClosure<T>) throws where T : StorageEntityType {
+        return try fetch(predicate: nil, sortDescriptors: nil, completion: completion)
+    }
+
+	public func fetch<T: StorageEntityType>(predicate: NSPredicate?, sortDescriptors: [SortDescriptor]?, completion: @escaping FetchCompletionClosure<T>) throws {
+        guard T.self is NSManagedObject.Type else {
+            throw StorageKitErrors.Entity.wrongType
+        }
 
 		let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: T.name)
 		fetchRequest.predicate = predicate
-        
+
         let sorts = sortDescriptors?.flatMap {  NSSortDescriptor(key: $0.key, ascending: $0.ascending) }
         fetchRequest.sortDescriptors = sorts
 

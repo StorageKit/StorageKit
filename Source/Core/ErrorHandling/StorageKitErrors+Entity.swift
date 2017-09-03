@@ -1,5 +1,5 @@
 //
-//  ManagedObjectContextType.swift
+//  StorageKitErrors+Entity.swift
 //  StorageKit
 //
 //  Copyright (c) 2017 StorageKit (https://github.com/StorageKit)
@@ -23,14 +23,13 @@
 //  THE SOFTWARE.
 //
 
-import CoreData
-
-protocol ManagedObjectContextType: StorageContext {
-    var persistentStoreCoordinatorType: PersistentStoreCoordinatorType? { get set }
-    var contextParent: ManagedObjectContextType? { get set }
-    
-    init(concurrencyType ct: NSManagedObjectContextConcurrencyType)
-    
-    func save() throws
-	func perform(_ block: @escaping () -> Void)
+public extension StorageKitErrors {
+    /// Entity errors
+    enum Entity: Error {
+        /// This error is thrown when there is a CRUD operation request using a wrong entity type.
+        /// Correct types:
+        /// - Core Data: `NSManagedObject` subclasses
+        /// - Realm: `Object` subclasses
+        case wrongType
+    }
 }

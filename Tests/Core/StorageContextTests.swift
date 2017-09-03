@@ -1,5 +1,5 @@
 //
-//  ManagedObjectContextType.swift
+//  StorageContextTests.swift
 //  StorageKit
 //
 //  Copyright (c) 2017 StorageKit (https://github.com/StorageKit)
@@ -23,14 +23,32 @@
 //  THE SOFTWARE.
 //
 
-import CoreData
+@testable import StorageKit
 
-protocol ManagedObjectContextType: StorageContext {
-    var persistentStoreCoordinatorType: PersistentStoreCoordinatorType? { get set }
-    var contextParent: ManagedObjectContextType? { get set }
+import XCTest
+
+class StorageContextTests: XCTestCase {
     
-    init(concurrencyType ct: NSManagedObjectContextConcurrencyType)
+    override func setUp() {
+        super.setUp()
+        // Put setup code here. This method is called before the invocation of each test method in the class.
+    }
     
-    func save() throws
-	func perform(_ block: @escaping () -> Void)
+    override func tearDown() {
+        // Put teardown code here. This method is called after the invocation of each test method in the class.
+        super.tearDown()
+    }
+
+    func testExample() {
+        // This is an example of a functional test case.
+        // Use XCTAssert and related functions to verify your tests produce the correct results.
+    }
+    
+    func testPerformanceExample() {
+        // This is an example of a performance test case.
+        self.measure {
+            // Put the code you want to measure the time of here.
+        }
+    }
+    
 }

@@ -61,18 +61,30 @@ extension NSManagedObjectContextStorageContextTests {
 // MARK: - delete(_:)
 extension NSManagedObjectContextStorageContextTests {
     
-    func test_Delete_ObjectNotNSManagedObject_DoesNotCallSuperDelete() {
+    func test_Delete_ObjectNotNSManagedObject_ThrowsError() {
         let entity = DummyStorageEntity()
-        
+
         do {
             try sut.delete(entity)
-        } catch {
+
             XCTFail()
-        }
-        
+        } catch StorageKitErrors.Entity.wrongType {
+            XCTAssertTrue(true)
+        } catch { XCTFail() }
+
         XCTAssertEqual(sut.deleteCallsCount, 0)
     }
-    
+
+    func test_Delete_ObjectNotNSManagedObject_DoesNotCallSuperDelete() {
+        let entity = DummyStorageEntity()
+
+        do {
+            try sut.delete(entity)
+        } catch {}
+
+        XCTAssertEqual(sut.deleteCallsCount, 0)
+    }
+
     func test_Delete_ObjectNSManagedObject_CallsSuperDelete() {
         let entity = NSManagedObject()
         
@@ -121,22 +133,32 @@ extension NSManagedObjectContextStorageContextTests {
 
 // MARK: - delete(_:[])
 extension NSManagedObjectContextStorageContextTests {
-	func test_Delete_ObjectsNotNSManagedObject_DoesNotCallSuperSave() {
-		do {
-			try sut.delete([DummyStorageEntity(), DummyStorageEntity(), DummyStorageEntity()])
-		} catch {
-			XCTFail()
-		}
+    func test_Delete_ObjectsNotNSManagedObject_ThrowsError() {
+        do {
+            try sut.delete([DummyStorageEntity(), DummyStorageEntity(), DummyStorageEntity()])
 
-		XCTAssertFalse(sut.isSaveCalled)
-	}
+            XCTFail()
+        } catch StorageKitErrors.Entity.wrongType {
+            XCTAssertTrue(true)
+        } catch {
+            XCTFail()
+        }
+        
+        XCTAssertFalse(sut.isSaveCalled)
+    }
+    
+    func test_Delete_ObjectsNotNSManagedObject_DoesNotCallSuperSave() {
+        do {
+            try sut.delete([DummyStorageEntity(), DummyStorageEntity(), DummyStorageEntity()])
+        } catch {}
+        
+        XCTAssertFalse(sut.isSaveCalled)
+    }
 
 	func test_Delete_ObjectsNotNSManagedObject_DoesNotCallSuperDelete() {
 		do {
 			try sut.delete([DummyStorageEntity(), DummyStorageEntity(), DummyStorageEntity()])
-		} catch {
-			XCTFail()
-		}
+		} catch {}
 
 		XCTAssertEqual(sut.deleteCallsCount, 0)
 	}
@@ -191,9 +213,29 @@ extension NSManagedObjectContextStorageContextTests {
 
 // MARK: - add(_ :)
 extension NSManagedObjectContextStorageContextTests {
+    func test_Add_OneEntityNotNSManagedObject_DoesNotCallsSuperSave() {
+        do {
+            try sut.addOrUpdate(DummyStorageEntity())
+        } catch {}
+
+        XCTAssertFalse(sut.isSaveCalled)
+    }
+    
+    func test_Add_OneEntityNotNSManagedObject_ThrowsError() {
+        do {
+            try sut.addOrUpdate(DummyStorageEntity())
+
+            XCTFail()
+        } catch StorageKitErrors.Entity.wrongType {
+            XCTAssertTrue(true)
+        } catch { XCTFail() }
+
+        XCTAssertFalse(sut.isSaveCalled)
+    }
+    
     func test_Add_OneEntity_CallsSuperSave() {
         do {
-            try sut.add(DummyStorageEntity())
+            try sut.addOrUpdate(NSManagedObject())
         } catch {
             XCTFail()
         }
@@ -203,7 +245,7 @@ extension NSManagedObjectContextStorageContextTests {
 
     func test_Add_ArrayOfEntities_CallsSuperSave() {
         do {
-            try sut.add([DummyStorageEntity(), DummyStorageEntity(), DummyStorageEntity()])
+            try sut.addOrUpdate([NSManagedObject(), NSManagedObject(), NSManagedObject()])
         } catch {
             XCTFail()
         }
@@ -227,33 +269,78 @@ extension NSManagedObjectContextStorageContextTests {
 
 // MARK: - fetch(predicate: sortDescriptors:)
 extension NSManagedObjectContextStorageContextTests {
-    func test_Fetch_ExecuteIsCalled() {
-        sut.fetch { (_: [DummyStorageEntity]?) in }
-        
+    func test_Fetch_NotNSManagedObject_ThrowsErrror() {
+        do {
+            try sut.fetch { (_: [DummyStorageEntity]?) in }
+            XCTFail()
+        } catch StorageKitErrors.Entity.wrongType {
+            XCTAssertTrue(true)
+        } catch { XCTFail() }
+
+        XCTAssertFalse(sut.isExecuteCalled)
+    }
+    
+    func test_Fetch_NotNSManagedObject_ExecuteIsNotCalled() {
+        do {
+            try sut.fetch { (_: [DummyStorageEntity]?) in }
+        } catch {}
+
+        XCTAssertFalse(sut.isExecuteCalled)
+    }
+    
+    func test_Fetch_NotNSManagedObject_ExecuteDoesNotUsePredicate() {
+        let request = NSPredicate()
+
+        do {
+            try sut.fetch(predicate: request, sortDescriptors: nil) { (_: [DummyStorageEntity]?) in }
+        } catch {}
+
+        XCTAssertFalse(sut.executeRequestArgument?.fetchRequest.predicate === request)
+    }
+
+    func test_Fetch_NotNSManagedObject_ExecuteDoesNotUseRightEntityName() {
+        do {
+            try sut.fetch { (_: [DummyStorageEntity]?) in }
+        } catch {}
+
+        XCTAssertNil(sut.executeRequestArgument?.fetchRequest.entityName)
+    }
+
+    func test_Fetch_NSManagedObject_ExecuteIsCalled() {
+        do {
+            try sut.fetch { (_: [NSManagedObject]?) in }
+        } catch {}
+
         XCTAssertTrue(sut.isExecuteCalled)
     }
-    
-    func test_Fetch_ExecuteUsesRightPredicate() {
+
+    func test_Fetch_NSManagedObject_ExecuteUsesRightPredicate() {
         let request = NSPredicate()
-        
-        sut.fetch(predicate: request) { (_: [DummyStorageEntity]?) in }
-        
+
+        do {
+            try sut.fetch(predicate: request, sortDescriptors: nil) { (_: [NSManagedObject]?) in }
+        } catch {}
+
         XCTAssertTrue(sut.executeRequestArgument?.fetchRequest.predicate === request)
     }
-    
-    func test_Fetch_ExecuteUsesRightSortDesc() {
+
+    func test_Fetch_NSManagedObject_ExecuteUsesRightSortDesc() {
         let sortDesc = SortDescriptor(key: "t1", ascending: false)
         let sortDesc2 = SortDescriptor(key: "t2", ascending: true)
-        
-        sut.fetch(sortDescriptors: [sortDesc, sortDesc2]) { (_: [DummyStorageEntity]?) in }
-        
+
+        do {
+            try sut.fetch(predicate: nil, sortDescriptors: [sortDesc, sortDesc2]) { (_: [NSManagedObject]?) in }
+        } catch {}
+
         XCTAssertEqual(sut.executeRequestArgument?.fetchRequest.sortDescriptors?.first?.key, "t1")
         XCTAssertEqual(sut.executeRequestArgument?.fetchRequest.sortDescriptors?[1].key, "t2")
     }
-    
-    func test_Fetch_ExecuteUsesRightEntityName() {
-        sut.fetch { (_: [DummyStorageEntity]?) in }
-        
-        XCTAssertEqual(sut.executeRequestArgument?.fetchRequest.entityName, "Dummy")
+
+    func test_Fetch_NSManagedObject_ExecuteUsesRightEntityName() {
+        do {
+            try sut.fetch { (_: [FakeManagedObject]?) in }
+        } catch {}
+
+        XCTAssertEqual(sut.executeRequestArgument?.fetchRequest.entityName, "FAKE")
     }
 }

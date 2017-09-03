@@ -28,14 +28,13 @@ import RealmSwift
 // MARK: - StorageDeletableContext
 extension RealmContext {
     func delete<T: StorageEntityType>(_ entity: T) throws {
-        guard entity is Object else {
-            throw RealmError.wrongObject("\(entity) is not a valid realm entity.")
-        }
-        
         try delete([entity])
     }
 
-    func delete<T>(_ entities: [T]) throws where T : StorageEntityType {
+    func delete<T: StorageEntityType>(_ entities: [T]) throws {
+        guard entities is [Object] else {
+            throw StorageKitErrors.Entity.wrongType
+        }
 
 		try self.safeWriteAction {
 
@@ -47,7 +46,7 @@ extension RealmContext {
     
     func deleteAll<T: StorageEntityType>(_ entityType: T.Type) throws {
         guard let entityToDelete = entityType as? Object.Type else {
-            throw RealmError.wrongObject("\(entityType) is not a valid realm entity type.")
+            throw StorageKitErrors.Entity.wrongType
         }
         
         try self.safeWriteAction {
@@ -64,22 +63,33 @@ extension RealmContext {
 extension RealmContext {
     func create<T: StorageEntityType>() throws -> T? {
         guard let entityToCreate = T.self as? Object.Type else {
-            throw RealmError.wrongObject("\(T.name) is not a valid realm entity type.")
+            throw StorageKitErrors.Entity.wrongType
         }
         
         return entityToCreate.init() as? T
     }
-    
-    func add<T: StorageEntityType>(_ entity: T) throws {
-        try add([entity])
+
+    func addOrUpdate<T: StorageEntityType>(_ entity: T) throws {
+        guard entity is Object else {
+            throw StorageKitErrors.Entity.wrongType
+        }
+
+        try addOrUpdate([entity])
     }
     
-    func add<T: StorageEntityType>(_ entities: [T]) throws {
+    func addOrUpdate<T: StorageEntityType>(_ entities: [T]) throws {
+        guard entities is [Object] else {
+            throw StorageKitErrors.Entity.wrongType
+        }
+
         try self.safeWriteAction {
             
             entities.lazy
                 .flatMap { return $0 as? Object }
-                .forEach { realm.add($0, update: false) }
+                .forEach {
+                    let canUpdateIfExists = $0.objectSchema.primaryKeyProperty != nil
+                    realm.add($0, update: canUpdateIfExists)
+            }
         }
     }
 }
@@ -87,7 +97,6 @@ extension RealmContext {
 // MARK: - StorageUpdatableContext
 extension RealmContext {
     func update(transform: @escaping () -> Void) throws {
-        
         try safeWriteAction {
             transform()
         }
@@ -96,11 +105,14 @@ extension RealmContext {
 
 // MARK: - StorageReadableContext
 extension RealmContext {
-    func fetch<T: StorageEntityType>(predicate: NSPredicate? = nil, sortDescriptors: [SortDescriptor]? = nil, completion: @escaping FetchCompletionClosure<T>) {
+    func fetch<T>(completion: @escaping FetchCompletionClosure<T>) throws where T : StorageEntityType {
+        return try fetch(predicate: nil, sortDescriptors: nil, completion: completion)
+    }
+    
+    func fetch<T: StorageEntityType>(predicate: NSPredicate?, sortDescriptors: [SortDescriptor]?, completion: @escaping FetchCompletionClosure<T>) throws {
+
         guard let entityToFetch = T.self as? Object.Type else {
-            // TODO: i'd need a throw here
-            // throw RealmError.wrongObject("\(Object.Type) is not a valid realm entity type.")
-            return
+            throw StorageKitErrors.Entity.wrongType
         }
         
         var objects = realm.objects(type: entityToFetch)

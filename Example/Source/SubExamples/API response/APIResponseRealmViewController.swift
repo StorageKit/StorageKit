@@ -38,7 +38,7 @@ class APIResponseRealmViewController: UIViewController {
 		usersFetcher.fetchUser { [unowned self] usersJSON in
 			guard let usersJSON = usersJSON else { return }
 
-			self.storage.performBackgroundTask { context, _ in
+			self.storage.performBackgroundTask { context in
 				guard let context = context else { return }
 				let users: [APIUserRealm] = usersJSON.flatMap { userJSON in
 					do {
@@ -51,7 +51,7 @@ class APIResponseRealmViewController: UIViewController {
 
 				do {
 					try context.deleteAll(APIUserRealm.self)
-					try context.add(users)
+					try context.addOrUpdate(users)
 				} catch {
 					print(error)
 				}

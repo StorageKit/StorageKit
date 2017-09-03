@@ -17,33 +17,41 @@ class APIResponseTableViewController: UITableViewController {
     private var apiUsers: [APIUser]?
     
     func reloadTable() {
-        storage?.performBackgroundTask { [unowned self] context, _ in
+        storage?.performBackgroundTask { [unowned self] context in
             guard let context = context, let storageType = self.storageType, let storage = self.storage, let mainContext = storage.mainContext else { return }
 
 			let sort = SortDescriptor(key: "username", ascending: true)
 			switch storageType {
 			case .CoreData:
-				context.fetch(predicate: nil, sortDescriptors: [sort]) { [unowned self] (users: [APIUserCoreData]?) in
-					guard let users = users else { return }
+                do {
+                    try context.fetch(predicate: nil, sortDescriptors: [sort]) { [unowned self] (users: [APIUserCoreData]?) in
+                        guard let users = users else { return }
 
-					storage.getThreadSafeEntities(for: mainContext, originalContext: context, originalEntities: users) { [unowned self] safeUsers in
-						DispatchQueue.main.async {
-							self.apiUsers = safeUsers
-							self.tableView.reloadData()
-						}
-					}
-				}
+                        do {
+                            try storage.getThreadSafeEntities(for: mainContext, originalContext: context, originalEntities: users) { [unowned self] safeUsers in
+                                DispatchQueue.main.async {
+                                    self.apiUsers = safeUsers
+                                    self.tableView.reloadData()
+                                }
+                            }
+                        } catch {}
+                    }
+                } catch {}
 			case .Realm:
-				context.fetch(predicate: nil, sortDescriptors: [sort]) { [unowned self] (users: [APIUserRealm]?) in
-					guard let users = users else { return }
+                do {
+                    try context.fetch(predicate: nil, sortDescriptors: [sort]) { [unowned self] (users: [APIUserRealm]?) in
+                        guard let users = users else { return }
 
-					storage.getThreadSafeEntities(for: mainContext, originalContext: context, originalEntities: users) { [unowned self] safeUsers in
-						DispatchQueue.main.async {
-							self.apiUsers = safeUsers
-							self.tableView.reloadData()
-						}
-					}
-				}
+                        do {
+                            try storage.getThreadSafeEntities(for: mainContext, originalContext: context, originalEntities: users) { [unowned self] safeUsers in
+                                DispatchQueue.main.async {
+                                    self.apiUsers = safeUsers
+                                    self.tableView.reloadData()
+                                }
+                            }
+                        } catch {}
+                    }
+                } catch {}
 			}
         }
     }

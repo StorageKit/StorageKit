@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'StorageKit'
-  s.version          = '0.1.2'
+  s.version          = '0.2.0'
   s.summary          = 'Your Data Storage Troubleshooter'
   s.homepage         = 'https://github.com/storagekit/storagekit'
   s.license          = { :type => 'MIT', :file => 'LICENSE'}
@@ -8,7 +8,9 @@ Pod::Spec.new do |s|
   s.source           = { :git => 'https://github.com/storageKit/storagekit.git', :tag => s.version.to_s }
 
   s.ios.deployment_target = '9.0'
+  s.osx.deployment_target = '10.12'
+  
   s.source_files = 'Source/**/*'
   s.exclude_files = 'Tests/*'
-  s.dependency 'RealmSwift', '2.8.3'
+  s.dependency 'RealmSwift', '2.10.0'
 end

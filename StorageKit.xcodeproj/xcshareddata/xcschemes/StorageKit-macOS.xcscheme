@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "A05B4C2F1F0E202B003323C8"
+               BlueprintIdentifier = "A91774FE1F59F712003EFF76"
                BuildableName = "StorageKit.framework"
-               BlueprintName = "StorageKit"
+               BlueprintName = "StorageKit-macOS"
                ReferencedContainer = "container:StorageKit.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -57,9 +57,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "A05B4C2F1F0E202B003323C8"
+            BlueprintIdentifier = "A91774FE1F59F712003EFF76"
             BuildableName = "StorageKit.framework"
-            BlueprintName = "StorageKit"
+            BlueprintName = "StorageKit-macOS"
             ReferencedContainer = "container:StorageKit.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -76,15 +76,16 @@
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
       allowLocationSimulation = "YES">
-      <MacroExpansion>
+      <BuildableProductRunnable
+         runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "A05B4C2F1F0E202B003323C8"
+            BlueprintIdentifier = "A91774FE1F59F712003EFF76"
             BuildableName = "StorageKit.framework"
-            BlueprintName = "StorageKit"
+            BlueprintName = "StorageKit-macOS"
             ReferencedContainer = "container:StorageKit.xcodeproj">
          </BuildableReference>
-      </MacroExpansion>
+      </BuildableProductRunnable>
       <AdditionalOptions>
       </AdditionalOptions>
    </LaunchAction>
@@ -94,15 +95,16 @@
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
       debugDocumentVersioning = "YES">
-      <MacroExpansion>
+      <BuildableProductRunnable
+         runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "A05B4C2F1F0E202B003323C8"
+            BlueprintIdentifier = "A91774FE1F59F712003EFF76"
             BuildableName = "StorageKit.framework"
-            BlueprintName = "StorageKit"
+            BlueprintName = "StorageKit-macOS"
             ReferencedContainer = "container:StorageKit.xcodeproj">
          </BuildableReference>
-      </MacroExpansion>
+      </BuildableProductRunnable>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">

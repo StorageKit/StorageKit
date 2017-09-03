@@ -1,5 +1,5 @@
 //
-//  ManagedObjectContextType.swift
+//  StorageKitErrors.swift
 //  StorageKit
 //
 //  Copyright (c) 2017 StorageKit (https://github.com/StorageKit)
@@ -23,14 +23,4 @@
 //  THE SOFTWARE.
 //
 
-import CoreData
-
-protocol ManagedObjectContextType: StorageContext {
-    var persistentStoreCoordinatorType: PersistentStoreCoordinatorType? { get set }
-    var contextParent: ManagedObjectContextType? { get set }
-    
-    init(concurrencyType ct: NSManagedObjectContextConcurrencyType)
-    
-    func save() throws
-	func perform(_ block: @escaping () -> Void)
-}
+public struct StorageKitErrors {}

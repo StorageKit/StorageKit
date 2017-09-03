@@ -34,12 +34,6 @@ protocol RealmContextType: StorageContext {
 class RealmContext: StorageContext, RealmContextType {
 	private(set) var realm: RealmType
 
-	public enum RealmError: Error {
-		case wrongObject(String)
-		case methodNotImplemented(String)
-		case initFail(String)
-	}
-
 	required init?(realmType: RealmType.Type = Realm.self) {
 		do {
 			try self.realm = realmType.init(configuration: Realm.Configuration.defaultConfiguration)

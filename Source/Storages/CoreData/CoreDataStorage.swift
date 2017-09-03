@@ -102,7 +102,7 @@ final class CoreDataStorage {
 
 // MARK: - StorageType
 extension CoreDataStorage: Storage {
-    private func makePrivateContext() -> StorageContext {
+    private func makePrivateContext() -> ManagedObjectContextType {
         let ManagedObjectContextType = self.configuration.ManagedObjectContext
         let moc = ManagedObjectContextType.init(concurrencyType: .privateQueueConcurrencyType)
         moc.contextParent = self.mainManagedObjectContext
@@ -112,16 +112,18 @@ extension CoreDataStorage: Storage {
     func performBackgroundTask(_ taskClosure: @escaping TaskClosure) {
         let context = makePrivateContext()
 
-        backgroundTaskQueue.async { [unowned self] in
-            taskClosure(context, self.backgroundTaskQueue)
+		context.perform {
+            taskClosure(context)
         }
     }
     
-    func getThreadSafeEntities<T: StorageEntityType>(for destinationContext: StorageContext, originalContext: StorageContext, originalEntities: [T], completion: @escaping ([T]) -> Void) {
+    func getThreadSafeEntities<T: StorageEntityType>(for destinationContext: StorageContext, originalContext: StorageContext, originalEntities: [T], completion: @escaping ([T]) -> Void) throws {
+        guard T.self is NSManagedObject.Type else {
+            throw StorageKitErrors.Entity.wrongType
+        }
+
         guard let destinationContext = destinationContext as? NSManagedObjectContext else {
-            // TODO: Add an error
-            completion([])
-            return
+            throw StorageKitErrors.Context.wrongType
         }
         
         let threadSafeEntities: [T] = originalEntities.lazy

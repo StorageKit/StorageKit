@@ -1,5 +1,5 @@
 //
-//  DummyStorageContext.swift
+//  DummyStorageContextWithoutFetch.swift
 //  StorageKit
 //
 //  Copyright (c) 2017 StorageKit (https://github.com/StorageKit)
@@ -27,31 +27,29 @@
 
 import Foundation
 
-final class DummyStorageContext {}
+final class DummyStorageContextWithoutFetch {}
 
-extension DummyStorageContext: StorageIdentifiableContext {}
+extension DummyStorageContextWithoutFetch: StorageIdentifiableContext {}
 
-extension DummyStorageContext: StorageDeletableContext {
+extension DummyStorageContextWithoutFetch: StorageDeletableContext {
     func delete<T: StorageEntityType>(_ entity: T) throws {}
     func delete<T: StorageEntityType>(_ entities: [T]) throws {}
     func deleteAll<T: StorageEntityType>(_ entityType: T.Type) throws {}
 }
 
-extension DummyStorageContext: StorageReadableContext {
-
+extension DummyStorageContextWithoutFetch: StorageReadableContext {
     func fetch<T>(completion: @escaping ([T]?) -> Void) throws where T : StorageEntityType {}
-
-    func fetch<T: StorageEntityType>(predicate: NSPredicate? = nil, sortDescriptors: [SortDescriptor]? = nil, completion: @escaping FetchCompletionClosure<T>) {}
+    func fetch<T>(predicate: NSPredicate?, sortDescriptors: [SortDescriptor]?, completion: @escaping ([T]?) -> Void) throws where T : StorageEntityType {}
 }
 
-extension DummyStorageContext: StorageUpdatableContext {
+extension DummyStorageContextWithoutFetch: StorageUpdatableContext {
     func update(transform: @escaping () -> Void) throws {}
 }
 
-extension DummyStorageContext: StorageWritableContext {
-    func addOrUpdate<T>(_ entities: [T]) throws where T : StorageEntityType {}
-
+extension DummyStorageContextWithoutFetch: StorageWritableContext {
     func addOrUpdate<T>(_ entity: T) throws where T : StorageEntityType {}
+    
+    func addOrUpdate<T>(_ entities: [T]) throws where T : StorageEntityType {}
 
     func create<T: StorageEntityType>() -> T? {
         return nil

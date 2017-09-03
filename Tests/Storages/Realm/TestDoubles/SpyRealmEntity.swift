@@ -1,5 +1,5 @@
 //
-//  ManagedObjectContextType.swift
+//  SpyRealmEntity.swift
 //  StorageKit
 //
 //  Copyright (c) 2017 StorageKit (https://github.com/StorageKit)
@@ -23,14 +23,13 @@
 //  THE SOFTWARE.
 //
 
-import CoreData
+import Realm
+import RealmSwift
 
-protocol ManagedObjectContextType: StorageContext {
-    var persistentStoreCoordinatorType: PersistentStoreCoordinatorType? { get set }
-    var contextParent: ManagedObjectContextType? { get set }
+final class SpyRealmEntity: Object {
+    var spyId: String = "123"
     
-    init(concurrencyType ct: NSManagedObjectContextConcurrencyType)
-    
-    func save() throws
-	func perform(_ block: @escaping () -> Void)
+    override static func primaryKey() -> String? {
+        return "spyId"
+    }
 }

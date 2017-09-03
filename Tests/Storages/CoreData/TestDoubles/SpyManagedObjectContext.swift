@@ -42,8 +42,10 @@ final class SpyManagedObjectContext: ManagedObjectContextType {
     
     private(set) var isContextParentSetCalled = false
     private(set) var contextParentSetArgument: ManagedObjectContextType?
-    private(set) var isSaveCalled = false
-    
+	private(set) var isSaveCalled = false
+
+	private(set) var isPerformCalled = false
+
     var persistentStoreCoordinatorType: PersistentStoreCoordinatorType? {
         get {
             return nil
@@ -83,6 +85,12 @@ final class SpyManagedObjectContext: ManagedObjectContextType {
     func save() throws {
         isSaveCalled = true
     }
+
+	func perform(_ block: @escaping () -> Void) {
+		isPerformCalled = true
+
+		block()
+	}
 }
 
 // MARK: - StorageContext
@@ -91,11 +99,12 @@ extension SpyManagedObjectContext {
     func delete<T: StorageEntityType>(_ entities: [T]) throws {}
     func deleteAll<T: StorageEntityType>(_ entityType: T.Type) throws {}
     
+    func fetch<T>(completion: @escaping ([T]?) -> Void) throws where T : StorageEntityType {}
     func fetch<T: StorageEntityType>(predicate: NSPredicate?, sortDescriptors: [SortDescriptor]?, completion: @escaping FetchCompletionClosure<T>) {}
 
     func update(transform: @escaping () -> Void) throws {}
     
     func create<T: StorageEntityType>() -> T? { return nil }
     
-    func add<T>(_ entity: T) throws { }
+    func addOrUpdate<T>(_ entity: T) throws { }
 }

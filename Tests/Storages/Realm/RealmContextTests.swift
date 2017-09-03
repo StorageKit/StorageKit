@@ -98,7 +98,7 @@ extension RealmContextTests {
 			try sut.delete(DummyStorageEntity())
 
 			XCTFail()
-		} catch RealmContext.RealmError.wrongObject {
+		} catch StorageKitErrors.Entity.wrongType {
 			XCTAssertTrue(true)
 		} catch {
 			XCTFail()
@@ -136,17 +136,41 @@ extension RealmContextTests {
 
 // MARK: - delete(entities)
 extension RealmContextTests {
-	func test_DeleteEntities_EntityObject_CallsRealmDeleteTwice() {
-		do {
-			let object = Object()
-			let object2 = Object()
-			try sut.delete([object, object2])
+    func test_DeleteEntities_EntityNotObject_ThrowsError() {
+        do {
+            let object = DummyStorageEntity()
+            let object2 = DummyStorageEntity()
+            try sut.delete([object, object2])
 
-			XCTAssertEqual(getSpyRealm().deleteCallsCount, 2)
+            XCTFail()
+        } catch StorageKitErrors.Entity.wrongType {
+            XCTAssertTrue(true)
+        } catch {
+            XCTFail()
+        }
+    }
+    
+    func test_DeleteEntities_EntityNotObject_DoesNotCallRealmDeleteTwice() {
+        do {
+            let object = DummyStorageEntity()
+            let object2 = DummyStorageEntity()
+            try sut.delete([object, object2])
+        } catch {}
 
-		} catch {}
-	}
+        XCTAssertEqual(getSpyRealm().deleteCallsCount, 0)
+    }
+    
+    func test_DeleteEntities_EntityObject_CallsRealmDeleteTwice() {
+        do {
+            let object = Object()
+            let object2 = Object()
+            try sut.delete([object, object2])
 
+            XCTAssertEqual(getSpyRealm().deleteCallsCount, 2)
+            
+        } catch {}
+    }
+    
 	func test_DeleteEntities_EntityObject_CallsRealmDeleteTwiceWithRightArgument() {
 		do {
 			let object = Object()
@@ -176,7 +200,7 @@ extension RealmContextTests {
 			try sut.deleteAll(DummyStorageEntity.self)
 
 			XCTFail()
-		} catch RealmContext.RealmError.wrongObject {
+		} catch StorageKitErrors.Entity.wrongType {
 			XCTAssertTrue(true)
 		} catch {
 			XCTFail()
@@ -244,7 +268,7 @@ extension RealmContextTests {
 			let _: DummyStorageEntity? = try sut.create()
 
 			XCTFail()
-		} catch RealmContext.RealmError.wrongObject {
+		} catch StorageKitErrors.Entity.wrongType {
 			XCTAssertTrue(true)
 		} catch {
 			XCTFail()
@@ -264,7 +288,7 @@ extension RealmContextTests {
 extension RealmContextTests {
 	func test_AddEntity_ObjectNotNil_RealmAddIsNotCalled() {
 		do {
-			try sut.add(DummyStorageEntity())
+			try sut.addOrUpdate(DummyStorageEntity())
 
 			XCTAssertEqual(getSpyRealm().addCallsCount, 0)
 		} catch {}
@@ -272,7 +296,7 @@ extension RealmContextTests {
 
 	func test_AddEntity_ObjectNil_RealmAddIsCalled() {
 		do {
-			try sut.add(Object())
+			try sut.addOrUpdate(Object())
 
 			XCTAssertEqual(getSpyRealm().addCallsCount, 1)
 		} catch {}
@@ -281,7 +305,7 @@ extension RealmContextTests {
 	func test_AddEntity_ObjectNil_RealmAddIsCalledWithRightArguments() {
 		do {
 			let obj = Object()
-			try sut.add(obj)
+			try sut.addOrUpdate(obj)
 
 			XCTAssertTrue(getSpyRealm().addObjectArguments?.first === obj)
 			XCTAssertFalse(getSpyRealm().addUpdatesArguments?.first ?? true)
@@ -290,18 +314,40 @@ extension RealmContextTests {
 
 	func test_AddEntity_EntityObject_CallsRealmWriteBlock() {
 		do {
-			try sut.add(Object())
+			try sut.addOrUpdate(Object())
 
 			XCTAssertTrue(getSpyRealm().isWriteCalled)
 		} catch {}
 	}
+    
+    func test_AddEntity_EntityObject_UpdateIsNotCalled() {
+        do {
+            try sut.addOrUpdate(Object())
+            
+            XCTAssertFalse(getSpyRealm().isUpdateCalledOnAdd)
+        } catch {
+            XCTFail()
+        }
+    }
+    
+    func test_AddEntity_EntityObject_UpdateIsCalled() {
+        do {
+            
+            try sut.addOrUpdate(SpyRealmEntity())
+            try sut.addOrUpdate(SpyRealmEntity())
+            
+            XCTAssertTrue(getSpyRealm().isUpdateCalledOnAdd)
+        } catch {
+            XCTFail()
+        }
+    }
 }
 
 // MARK: - add(entities)
 extension RealmContextTests {
 	func test_AddEntities_ObjectNotNil_RealmAddIsNotCalled() {
 		do {
-			try sut.add([DummyStorageEntity(), DummyStorageEntity()])
+			try sut.addOrUpdate([DummyStorageEntity(), DummyStorageEntity()])
 
 			XCTAssertEqual(getSpyRealm().addCallsCount, 0)
 		} catch {}
@@ -309,7 +355,7 @@ extension RealmContextTests {
 
 	func test_AddEntities_ObjectNil_RealmAddIsCalledTwice() {
 		do {
-			try sut.add([Object(), Object()])
+			try sut.addOrUpdate([Object(), Object()])
 
 			XCTAssertEqual(getSpyRealm().addCallsCount, 2)
 		} catch {}
@@ -319,7 +365,7 @@ extension RealmContextTests {
 		do {
 			let obj = Object()
 			let obj2 = Object()
-			try sut.add([obj, obj2])
+			try sut.addOrUpdate([obj, obj2])
 
 			XCTAssertTrue(getSpyRealm().addObjectArguments?.first === obj)
 			XCTAssertFalse(getSpyRealm().addUpdatesArguments?.first ?? true)
@@ -331,7 +377,7 @@ extension RealmContextTests {
 
 	func test_AddEntities_EntityObject_CallsRealmWriteBlock() {
 		do {
-			try sut.add(Object())
+			try sut.addOrUpdate(Object())
 
 			XCTAssertTrue(getSpyRealm().isWriteCalled)
 		} catch {}
@@ -363,57 +409,60 @@ extension RealmContextTests {
 
 // MARK: - fetch()
 extension RealmContextTests {
-//	var objects = realm.objects(type: entityToFetch)
-//
-//	if let predicate = predicate {
-//		objects = objects.filter(predicate: predicate)
-//	}
-//
-//	if let sortDescriptors = sortDescriptors {
-//		for sortDescriptor in sortDescriptors {
-//			objects = objects.sorted(keyPath: sortDescriptor.key, ascending: sortDescriptor.ascending)
-//		}
-//	}
-
 	func test_Fetch_EntityNotObject_DoesNotCallsRealmObjects() {
-		sut.fetch { (entity: [DummyStorageEntity]?) in print(entity?.count ?? 0) }
+        do {
+            try sut.fetch { (_: [DummyStorageEntity]?) in }
+        } catch {}
 
 		XCTAssertFalse(getSpyRealm().isObjectsCalled)
-	}
+    }
 
 	func test_Fetch_EntityObject_CallsRealmObjects() {
-		sut.fetch { (entity: [Object]?) in print(entity?.count ?? 0) }
+        do {
+            try sut.fetch { (_: [Object]?) in }
+        } catch {}
 
 		XCTAssertTrue(getSpyRealm().isObjectsCalled)
 	}
 
 	func test_Fetch_EntityObject_CallsRealmObjectsWithRightArgument() {
-		sut.fetch { (entity: [Object]?) in print(entity?.count ?? 0) }
+        do {
+            try sut.fetch { (_: [Object]?) in }
+        } catch {}
 
 		XCTAssertTrue(getSpyRealm().objectsTypeArgument is Object.Type)
 	}
 
 	func test_Fetch_PredicateNil_DoesNotCallResultPredicate() {
-		sut.fetch { (entity: [Object]?) in print(entity?.count ?? 0) }
+        do {
+            try sut.fetch { (_: [Object]?) in }
+        } catch {}
 
 		XCTAssertFalse(getSpyRealm().forcedResult.isFilterCalled)
 	}
 
 	func test_Fetch_PredicateNotNil_CallsResultPredicate() {
-		sut.fetch(predicate: NSPredicate(value: true)) { (entity: [Object]?) in print(entity?.count ?? 0) }
+        do {
+            try sut.fetch(predicate: NSPredicate(value: true), sortDescriptors: nil) { (_: [Object]?) in }
+        } catch {}
 
 		XCTAssertTrue(getSpyRealm().forcedResult.isFilterCalled)
 	}
 	
 	func test_Fetch_PredicateNotNil_CallsResultPredicateWithRightArgument() {
 		let predicate = NSPredicate(value: true)
-		sut.fetch(predicate: predicate) { (entity: [Object]?) in print(entity?.count ?? 0) }
+
+        do {
+            try sut.fetch(predicate: predicate, sortDescriptors: nil) { (_: [Object]?) in }
+        } catch {}
 
 		XCTAssertTrue(getSpyRealm().forcedResult.filterPredicateArgument === predicate)
 	}
 	
 	func test_Fetch_DescriptorsNil_DoesNotCallResultDescriptors() {
-		sut.fetch { (entity: [Object]?) in print(entity?.count ?? 0) }
+        do {
+            try sut.fetch { (entity: [Object]?) in print(entity?.count ?? 0) }
+        } catch {}
 
 		XCTAssertEqual(getSpyRealm().forcedResult.sortedCallsCount, 0)
 	}
@@ -421,7 +470,10 @@ extension RealmContextTests {
 	func test_Fetch_DescriptorsNotNil_CallsResultDescriptors() {
 		let sort = SortDescriptor(key: "a", ascending: true)
 		let sort2 = SortDescriptor(key: "b", ascending: false)
-		sut.fetch(sortDescriptors:[sort, sort2]) { (entity: [Object]?) in print(entity?.count ?? 0) }
+
+        do {
+            try sut.fetch(predicate: nil, sortDescriptors: [sort, sort2]) { (_: [Object]?) in }
+        } catch {}
 
 		XCTAssertEqual(getSpyRealm().forcedResult.sortedCallsCount, 2)
 	}
@@ -429,7 +481,10 @@ extension RealmContextTests {
 	func test_Fetch_DescriptorsNotNil_CallsResultDescriptorsWithRightArguments() {
 		let sort = SortDescriptor(key: "a", ascending: true)
 		let sort2 = SortDescriptor(key: "b", ascending: false)
-		sut.fetch(sortDescriptors:[sort, sort2]) { (entity: [Object]?) in print(entity?.count ?? 0) }
+
+        do {
+            try sut.fetch(predicate: nil, sortDescriptors: [sort, sort2]) { (_: [Object]?) in }
+        } catch {}
 
 		XCTAssertEqual(getSpyRealm().forcedResult.sortedKeyPathArguments.first, "a")
 		XCTAssertEqual(getSpyRealm().forcedResult.sortedAscendingArguments.first, true)
@@ -444,13 +499,24 @@ extension RealmContextTests {
 		getSpyRealm().forcedResult.toArray = [object, object2]
 		let expectation = self.expectation(description: "")
 
-		sut.fetch { (entity: [Object]?) in
-			XCTAssertTrue(entity?.first === object)
-			XCTAssertTrue(entity?[1] === object2)
+        do {
+            try sut.fetch { (entity: [Object]?) in
+                XCTAssertTrue(entity?.first === object)
+                XCTAssertTrue(entity?[1] === object2)
 
-			expectation.fulfill()
-		}
+                expectation.fulfill()
+            }
+        } catch {}
 
 		waitForExpectations(timeout: 1)
 	}
+
+    func test_Fetch_PredicateAndDescriptionOmitted_DoesNotCallFilterAndSorted() {
+        do {
+            try sut.fetch { (_: [Object]?) in }
+        } catch {}
+
+        XCTAssertFalse(getSpyRealm().forcedResult.isFilterCalled)
+        XCTAssertEqual(getSpyRealm().forcedResult.sortedCallsCount, 0)
+    }
 }
