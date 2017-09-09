@@ -27,8 +27,8 @@ final class ContextQueue {
     weak var context: StorageContext?
     weak var queue: DispatchQueue?
 
-	init(context: StorageContext, queue: DispatchQueue) {
-		self.context = context
-		self.queue = queue
-	}
+    init(context: StorageContext, queue: DispatchQueue) {
+        self.context = context
+        self.queue = queue
+    }
 }

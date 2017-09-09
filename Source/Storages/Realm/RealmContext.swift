@@ -26,27 +26,32 @@
 import RealmSwift
 
 protocol RealmContextType: StorageContext {
-	var realm: RealmType { get }
+    var realm: RealmType { get }
 	
-	init?(realmType: RealmType.Type)
+    init?(realmType: RealmType.Type)
 }
 
 class RealmContext: StorageContext, RealmContextType {
-	private(set) var realm: RealmType
+    private(set) var realm: RealmType
 
-	required init?(realmType: RealmType.Type = Realm.self) {
-		do {
-			try self.realm = realmType.init(configuration: Realm.Configuration.defaultConfiguration)
-		} catch {
-			return nil
-		}
-	}
+    required init?(realmType: RealmType.Type = Realm.self) {
+        do {
+            try self.realm = realmType.init(configuration: Realm.Configuration.defaultConfiguration)
+        } catch {
+            return nil
+        }
+    }
 
-	func safeWriteAction(_ block: (() throws -> Void)) throws {
-		if realm.isInWriteTransaction {
-			try block()
-		} else {
-			try realm.write(block)
-		}
-	}
+    func safeWriteAction(_ block: (() throws -> Void)) throws {
+        if realm.isInWriteTransaction {
+            try block()
+        } else {
+            try realm.write(block)
+        }
+    
+    }
+    
+    func resolve<Confined>(_ reference: ThreadSafeReference<Confined>) -> Confined? {
+        return realm.resolve(reference)
+    }
 }

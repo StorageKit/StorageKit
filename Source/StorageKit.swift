@@ -24,47 +24,46 @@
 //
 
 /**
-	Main class of the library `StorageKit`. It provides a static method to create a new `Storage` object.
-	You don't need an istance of this class since has just a static method.
-	This is a `final` class. It means that you cannot override it. You shouldn't need it.
+    Main class of the library `StorageKit`. It provides a static method to create a new `Storage` object.
+    You don't need an istance of this class since has just a static method.
+    This is a `final` class. It means that you cannot override it. You shouldn't need it.
 */
 public final class StorageKit {
 
 	/**
-		Type of storage supported by StorageKit. You must use this enum to create a new `Storage` object
-		with the method `addStorage(type:)`
+        Type of storage supported by StorageKit. You must use this enum to create a new `Storage` object
+        with the method `addStorage(type:)`
 	*/
 	public enum StorageType {
-		/**
-			CoreData storage. It has as associated value the data model name.
-			Example:
+        /**
+            CoreData storage. It has as associated value the data model name.
+            Example:
 
-			```
-			.CoreData("myDataModel")
-			```
-		*/
+            ```
+            .CoreData("myDataModel")
+            ```
+        */
         case CoreData(dataModelName: String)
 
-		/**
-			Realm storage type
-		*/
+        /**
+            Realm storage type
+        */
         case Realm
     }
 
 	/**
-		This method is the entry point of `StorageKit`. It allows you to create a new `Storage` object.
-		The type of storage to create is specified as parameter of the method.
-		Since it's a static method, you don't need an istance of `StorageKit`.
+        This method is the entry point of `StorageKit`. It allows you to create a new `Storage` object.
+        The type of storage to create is specified as parameter of the method.
+        Since it's a static method, you don't need an istance of `StorageKit`.
+     
+        Example:
 
-	
-		Example:
-	
-		```
-		let storage = StorageKit.addStorage(type: .Realm)
-		```
+        ```
+        let storage = StorageKit.addStorage(type: .Realm)
+        ```
 
-		- Parameter type: Type of storage to create
-		- Returns: `Storage` object
+        - Parameter type: Type of storage to create
+        - Returns: `Storage` object
 	*/
 	public static func addStorage(type: StorageKit.StorageType) -> Storage {
         switch type {
