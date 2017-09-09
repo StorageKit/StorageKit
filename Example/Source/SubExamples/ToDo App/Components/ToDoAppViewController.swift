@@ -66,9 +66,7 @@ class ToDoAppViewController: UIViewController {
                     })
                 } catch {}
             case .Realm:
-                do {
-                    try backgroundContext.fetch(predicate: <#T##NSPredicate?#>, sortDescriptors: <#T##[SortDescriptor]?#>, completion: <#T##([StorageEntityType]?) -> Void#>)
-                    
+                do {                    
                     try backgroundContext.fetch(predicate: NSPredicate(format: "done == false"), sortDescriptors: [strongSelf.sortDescriptor], completion: {[weak self] (fetchedTasks: [RTodoTask]?) in
 
                         guard self != nil else {
