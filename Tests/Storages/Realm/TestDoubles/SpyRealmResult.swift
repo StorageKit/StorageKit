@@ -26,7 +26,7 @@
 @testable import StorageKit
 
 import Realm
-import RealmSwift
+import class RealmSwift.Object
 
 final class SpyRealmResult {
 	var toArray = [Object]()
@@ -35,8 +35,7 @@ final class SpyRealmResult {
 	fileprivate(set) var filterPredicateArgument: NSPredicate?
 
 	fileprivate(set) var sortedCallsCount = 0
-	fileprivate(set) var sortedKeyPathArguments = [String]()
-	fileprivate(set) var sortedAscendingArguments = [Bool]()
+    fileprivate(set) var sortedDescriptorsArguments: [SortDescriptor]?
 }
 
 extension SpyRealmResult: RealmResultType {
@@ -47,10 +46,9 @@ extension SpyRealmResult: RealmResultType {
 		return self
 	}
 
-	func sorted(keyPath: String, ascending: Bool) -> RealmResultType {
+	func sorted(with sortDescriptors: [SortDescriptor]) -> RealmResultType {
 		sortedCallsCount += 1
-		sortedKeyPathArguments.append(keyPath)
-		sortedAscendingArguments.append(ascending)
+		sortedDescriptorsArguments = sortDescriptors
 
 		return self
 	}
