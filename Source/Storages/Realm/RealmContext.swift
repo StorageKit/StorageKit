@@ -48,7 +48,6 @@ class RealmContext: StorageContext, RealmContextType {
         } else {
             try realm.write(block)
         }
-    
     }
     
     func resolve<Confined>(_ reference: ThreadSafeReference<Confined>) -> Confined? {

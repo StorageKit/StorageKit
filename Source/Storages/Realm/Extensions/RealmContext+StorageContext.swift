@@ -36,7 +36,7 @@ extension RealmContext {
             throw StorageKitErrors.Entity.wrongType
         }
 
-		try self.safeWriteAction {
+        try self.safeWriteAction {
 
             entities.lazy
                 .flatMap { return $0 as? Object }
@@ -52,9 +52,9 @@ extension RealmContext {
         try self.safeWriteAction {
             let objects = realm.objects(type: entityToDelete)
 
-			objects.toArray.forEach {
-				realm.delete($0)
-			}
+            objects.toArray.forEach {
+                realm.delete($0)
+            }
         }
     }
 }
