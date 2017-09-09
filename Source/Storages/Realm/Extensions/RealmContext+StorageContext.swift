@@ -116,11 +116,9 @@ extension RealmContext {
         if let predicate = predicate {
             objects = objects.filter(predicate: predicate)
         }
-        
+
         if let sortDescriptors = sortDescriptors {
-            for sortDescriptor in sortDescriptors {
-                objects = objects.sorted(keyPath: sortDescriptor.key, ascending: sortDescriptor.ascending)
-            }
+            objects = objects.sorted(with: sortDescriptors)
         }
         
         completion(objects.toArray.flatMap { $0 as? T })
