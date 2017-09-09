@@ -27,7 +27,7 @@ import RealmSwift
 
 extension Realm: RealmType {
 
-	func objects<T: Object>(type: T.Type) -> RealmResultType {
-		return objects(type) as RealmResultType
-	}
+    func objects<T: Object>(type: T.Type) -> RealmResultType {
+        return objects(type) as RealmResultType
+    }
 }
