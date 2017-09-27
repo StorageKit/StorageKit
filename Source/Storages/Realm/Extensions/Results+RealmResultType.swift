@@ -34,8 +34,10 @@ extension Results: RealmResultType {
 		return filter(predicate)
 	}
 
-	func sorted(keyPath: String, ascending: Bool) -> RealmResultType {
-		return sorted(byKeyPath: keyPath, ascending: ascending)
-	}
-
+    func sorted(with sortDescriptors: [SortDescriptor]) -> RealmResultType {
+        let realmDescriptors = sortDescriptors.flatMap {
+            return RealmSwift.SortDescriptor(keyPath: $0.key, ascending: $0.ascending)
+        }
+        return sorted(by: realmDescriptors)
+    }
 }

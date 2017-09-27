@@ -26,5 +26,8 @@
 import RealmSwift
 
 extension Object: StorageEntityType {
-    @nonobjc public static var name: String = ""
+    
+    @nonobjc public static var name: String {
+        return self.description()
+    }
 }

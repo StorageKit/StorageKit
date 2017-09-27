@@ -29,5 +29,5 @@ protocol RealmResultType: class {
 	var toArray: [Object] { get }
 
 	func filter(predicate: NSPredicate) -> RealmResultType
-	func sorted(keyPath: String, ascending: Bool) -> RealmResultType
+    func sorted(with sortDescriptors: [SortDescriptor]) -> RealmResultType
 }

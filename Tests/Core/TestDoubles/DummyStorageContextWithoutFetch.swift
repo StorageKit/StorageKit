@@ -38,7 +38,6 @@ extension DummyStorageContextWithoutFetch: StorageDeletableContext {
 }
 
 extension DummyStorageContextWithoutFetch: StorageReadableContext {
-    func fetch<T>(completion: @escaping ([T]?) -> Void) throws where T : StorageEntityType {}
     func fetch<T>(predicate: NSPredicate?, sortDescriptors: [SortDescriptor]?, completion: @escaping ([T]?) -> Void) throws where T : StorageEntityType {}
 }
 

@@ -36,7 +36,7 @@ extension RealmContext {
             throw StorageKitErrors.Entity.wrongType
         }
 
-		try self.safeWriteAction {
+        try self.safeWriteAction {
 
             entities.lazy
                 .flatMap { return $0 as? Object }
@@ -52,9 +52,9 @@ extension RealmContext {
         try self.safeWriteAction {
             let objects = realm.objects(type: entityToDelete)
 
-			objects.toArray.forEach {
-				realm.delete($0)
-			}
+            objects.toArray.forEach {
+                realm.delete($0)
+            }
         }
     }
 }
@@ -105,10 +105,6 @@ extension RealmContext {
 
 // MARK: - StorageReadableContext
 extension RealmContext {
-    func fetch<T>(completion: @escaping FetchCompletionClosure<T>) throws where T : StorageEntityType {
-        return try fetch(predicate: nil, sortDescriptors: nil, completion: completion)
-    }
-    
     func fetch<T: StorageEntityType>(predicate: NSPredicate?, sortDescriptors: [SortDescriptor]?, completion: @escaping FetchCompletionClosure<T>) throws {
 
         guard let entityToFetch = T.self as? Object.Type else {
@@ -120,11 +116,9 @@ extension RealmContext {
         if let predicate = predicate {
             objects = objects.filter(predicate: predicate)
         }
-        
+
         if let sortDescriptors = sortDescriptors {
-            for sortDescriptor in sortDescriptors {
-                objects = objects.sorted(keyPath: sortDescriptor.key, ascending: sortDescriptor.ascending)
-            }
+            objects = objects.sorted(with: sortDescriptors)
         }
         
         completion(objects.toArray.flatMap { $0 as? T })

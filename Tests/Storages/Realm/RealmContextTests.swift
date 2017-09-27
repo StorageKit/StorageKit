@@ -475,7 +475,7 @@ extension RealmContextTests {
             try sut.fetch(predicate: nil, sortDescriptors: [sort, sort2]) { (_: [Object]?) in }
         } catch {}
 
-		XCTAssertEqual(getSpyRealm().forcedResult.sortedCallsCount, 2)
+		XCTAssertEqual(getSpyRealm().forcedResult.sortedCallsCount, 1)
 	}
 
 	func test_Fetch_DescriptorsNotNil_CallsResultDescriptorsWithRightArguments() {
@@ -486,11 +486,11 @@ extension RealmContextTests {
             try sut.fetch(predicate: nil, sortDescriptors: [sort, sort2]) { (_: [Object]?) in }
         } catch {}
 
-		XCTAssertEqual(getSpyRealm().forcedResult.sortedKeyPathArguments.first, "a")
-		XCTAssertEqual(getSpyRealm().forcedResult.sortedAscendingArguments.first, true)
+		XCTAssertEqual(getSpyRealm().forcedResult.sortedDescriptorsArguments?.first?.key, "a")
+		XCTAssertEqual(getSpyRealm().forcedResult.sortedDescriptorsArguments?.first?.ascending, true)
 
-		XCTAssertEqual(getSpyRealm().forcedResult.sortedKeyPathArguments[1], "b")
-		XCTAssertEqual(getSpyRealm().forcedResult.sortedAscendingArguments[1], false)
+		XCTAssertEqual(getSpyRealm().forcedResult.sortedDescriptorsArguments?[1].key, "b")
+		XCTAssertEqual(getSpyRealm().forcedResult.sortedDescriptorsArguments?[1].ascending, false)
 	}
 
 	func test_Fetch_EntityObject_ReturnsRightEntities() {
