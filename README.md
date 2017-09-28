@@ -246,7 +246,7 @@ Add `StorageKit` to your Podfile
 ```ruby
 use_frameworks!
 target 'MyTarget' do
-    pod 'StorageKit', '~> 0.3.0'
+    pod 'StorageKit', '~> 0.3.1'
 end
 ```
 
@@ -256,7 +256,7 @@ $ pod install
 
 ## Carthage
 ```ruby
-github "StorageKit/StorageKit" ~> "0.3.0"
+github "StorageKit/StorageKit" ~> "0.3.1"
 ```
 
 Then on your application target *Build Phases* settings tab, add a "New Run Script Phase". Create a Run Script with the following content:
