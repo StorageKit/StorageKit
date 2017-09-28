@@ -170,6 +170,12 @@ public protocol StorageReadableContext: class {
     func fetch<T: StorageEntityType>(predicate: NSPredicate?, sortDescriptors: [SortDescriptor]?, completion: @escaping FetchCompletionClosure<T>) throws
 }
 
+public extension StorageReadableContext {
+    func fetch<T: StorageEntityType>(completion: @escaping FetchCompletionClosure<T>) throws {
+        try self.fetch(predicate: nil, sortDescriptors: nil, completion: completion)
+    }
+}
+
 /// This protocol adds the functionality to update entities in the database.
 public protocol StorageUpdatableContext: class {
     
