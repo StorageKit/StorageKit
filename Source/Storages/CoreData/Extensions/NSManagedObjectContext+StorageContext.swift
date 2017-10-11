@@ -102,34 +102,30 @@ extension NSManagedObjectContext: StorageUpdatableContext {
 
 // MARK: - StorageReadableContext
 extension NSManagedObjectContext: StorageReadableContext {
-    public func fetch<T>(completion: @escaping FetchCompletionClosure<T>) throws where T : StorageEntityType {
-        return try fetch(predicate: nil, sortDescriptors: nil, completion: completion)
-    }
-
 	public func fetch<T: StorageEntityType>(predicate: NSPredicate?, sortDescriptors: [SortDescriptor]?, completion: @escaping FetchCompletionClosure<T>) throws {
         guard T.self is NSManagedObject.Type else {
             throw StorageKitErrors.Entity.wrongType
         }
 
-		let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: T.name)
-		fetchRequest.predicate = predicate
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: T.name)
+        fetchRequest.predicate = predicate
 
         let sorts = sortDescriptors?.flatMap {  NSSortDescriptor(key: $0.key, ascending: $0.ascending) }
         fetchRequest.sortDescriptors = sorts
 
-		let asynchronousFetchRequest = NSAsynchronousFetchRequest(fetchRequest: fetchRequest) { asynchronousFetchResult in
+        let asynchronousFetchRequest = NSAsynchronousFetchRequest(fetchRequest: fetchRequest) { asynchronousFetchResult in
 
-			let result = asynchronousFetchResult.finalResult as? [T]
+            let result = asynchronousFetchResult.finalResult as? [T]
 
-			DispatchQueue.main.async {
-				completion(result)
-			}
+            DispatchQueue.main.async {
+                completion(result)
+            }
 		}
 
-		do {
-			try execute(asynchronousFetchRequest)
-		} catch let error {
-			print("NSAsynchronousFetchRequest error: \(error)")
-		}
+        do {
+            try execute(asynchronousFetchRequest)
+        } catch let error {
+            print("NSAsynchronousFetchRequest error: \(error)")
+        }
 	}
 }

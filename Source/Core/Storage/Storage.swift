@@ -40,7 +40,7 @@ public protocol Storage: class {
 
     /**
         Use this method to perform any context action in a background queue.
-        You should use a background queue as much as possible insteaf of using a main queue  to improve the user experience.
+        You should use a background queue as much as possible instead of using a main queue to improve the user experience.
         Every time you call this method, you will have a different context.
      
         - Parameter taskClosure: Closure which has as parameters the a new context to work in background.

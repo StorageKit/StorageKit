@@ -32,10 +32,10 @@ final class RealmDataStorage: Storage {
         case memory
     }
 
-	struct Configuration {
-		var ContextRepoType: ContextRepoType.Type = ContextRepo.self
-		var RealmContextType: RealmContextType.Type = RealmContext.self
-	}
+    struct Configuration {
+        var ContextRepoType: ContextRepoType.Type = ContextRepo.self
+        var RealmContextType: RealmContextType.Type = RealmContext.self
+    }
     
     var mainContext: StorageContext?
     private let backgroundQueue = DispatchQueue(label: "com.StorageKit.realmDataStorage")
@@ -43,11 +43,11 @@ final class RealmDataStorage: Storage {
 	private let contextRepo: ContextRepoType
 
 	init(configuration: Configuration = Configuration()) {
-		self.configuration = configuration
+        self.configuration = configuration
 
-		mainContext = configuration.RealmContextType.init(realmType: Realm.self)
+        mainContext = configuration.RealmContextType.init(realmType: Realm.self)
 
-		contextRepo = configuration.ContextRepoType.init(cleaningTimerInterval: nil)
+        contextRepo = configuration.ContextRepoType.init(cleaningTimerInterval: nil)
         contextRepo.store(context: mainContext, queue: .main)
     }
     
@@ -89,6 +89,7 @@ final class RealmDataStorage: Storage {
     
     private func retrieveThreadSafeReferences<T>(queue: DispatchQueue, originalEntities: [T], completion: @escaping ([ThreadSafeReference<Object>]) -> Void) {
         queue.async {
+
             let threadSafeRefs: [ThreadSafeReference] = originalEntities.lazy
                 .flatMap { $0 as? Object }
                 .flatMap { ThreadSafeReference(to: $0) }
