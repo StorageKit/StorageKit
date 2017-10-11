@@ -40,7 +40,7 @@ extension RealmContext {
 
             entities.lazy
                 .flatMap { return $0 as? Object }
-                .forEach { realm.delete($0) }
+                .forEach { realm.delete($0, cascading: true) }
         }
     }
     
@@ -53,7 +53,7 @@ extension RealmContext {
             let objects = realm.objects(type: entityToDelete)
 
             objects.toArray.forEach {
-                realm.delete($0)
+                realm.delete($0, cascading: true)
             }
         }
     }

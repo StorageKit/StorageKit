@@ -110,6 +110,8 @@
 		A9FA2CC31F2A731E00ED6C0B /* RealmDataStorageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9FA2CC21F2A731E00ED6C0B /* RealmDataStorageTests.swift */; };
 		A9FA2CD01F2A7D5C00ED6C0B /* SpyRealmContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9FA2CCF1F2A7D5C00ED6C0B /* SpyRealmContext.swift */; };
 		A9FA2CD31F2A7D7200ED6C0B /* SpyContextRepo.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9FA2CD21F2A7D7200ED6C0B /* SpyContextRepo.swift */; };
+		B3BA5CCF1F8E177E007525FD /* Realm+CascadeDeleting.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3BA5CC51F8E177E007525FD /* Realm+CascadeDeleting.swift */; };
+		B3BA5CD01F8E177E007525FD /* Realm+CascadeDeleting.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3BA5CC51F8E177E007525FD /* Realm+CascadeDeleting.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -292,6 +294,7 @@
 		A9FA2CC21F2A731E00ED6C0B /* RealmDataStorageTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmDataStorageTests.swift; sourceTree = "<group>"; };
 		A9FA2CCF1F2A7D5C00ED6C0B /* SpyRealmContext.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpyRealmContext.swift; sourceTree = "<group>"; };
 		A9FA2CD21F2A7D7200ED6C0B /* SpyContextRepo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpyContextRepo.swift; sourceTree = "<group>"; };
+		B3BA5CC51F8E177E007525FD /* Realm+CascadeDeleting.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Realm+CascadeDeleting.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -621,6 +624,7 @@
 				A9BDB80B1F59FAD100212C35 /* Realm+RealmType.swift */,
 				A9BDB80C1F59FAD100212C35 /* RealmContext+StorageContext.swift */,
 				A9BDB80D1F59FAD100212C35 /* Results+RealmResultType.swift */,
+				B3BA5CC51F8E177E007525FD /* Realm+CascadeDeleting.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -910,6 +914,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A9BDB82B1F59FAD100212C35 /* CoreDataStorage.swift in Sources */,
+				B3BA5CCF1F8E177E007525FD /* Realm+CascadeDeleting.swift in Sources */,
 				A9BDB8271F59FAD100212C35 /* StorageKit.swift in Sources */,
 				A9BDB81D1F59FAD100212C35 /* StorageKitErrors+Entity.swift in Sources */,
 				A9BDB84B1F59FAD100212C35 /* RealmContext.swift in Sources */,
@@ -989,6 +994,7 @@
 			files = (
 				A9BDB82C1F59FAD100212C35 /* CoreDataStorage.swift in Sources */,
 				A9BDB8281F59FAD100212C35 /* StorageKit.swift in Sources */,
+				B3BA5CD01F8E177E007525FD /* Realm+CascadeDeleting.swift in Sources */,
 				A9BDB81E1F59FAD100212C35 /* StorageKitErrors+Entity.swift in Sources */,
 				A9BDB84C1F59FAD100212C35 /* RealmContext.swift in Sources */,
 				A9BDB8221F59FAD100212C35 /* Storage.swift in Sources */,
