@@ -29,16 +29,19 @@ extension NSManagedObjectContext: StorageIdentifiableContext {}
 
 // MARK: - StorageDeletableContext
 extension NSManagedObjectContext: StorageDeletableContext {
-    
-    public func delete<T: StorageEntityType>(_ entity: T) throws {
+    public func delete<T : StorageEntityType>(_ entity: T) throws {
         try delete([entity])
     }
     
-    public func delete<T: StorageEntityType>(_ entities: [T]) throws {
+    public func delete<T: StorageEntityType>(_ entity: T, cascading: Bool = false) throws {
+        try delete([entity])
+    }
+    
+    public func delete<T: StorageEntityType>(_ entities: [T], cascading: Bool = false) throws {
         guard entities is [NSManagedObject] else {
             throw StorageKitErrors.Entity.wrongType
         }
-
+        
         entities.lazy
             .flatMap { $0 as? NSManagedObject }
             .forEach { delete($0) }

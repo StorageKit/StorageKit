@@ -26,14 +26,17 @@
 import RealmSwift
 
 protocol RealmType {
-	var isInWriteTransaction: Bool { get }
+    var isInWriteTransaction: Bool { get }
 
-	init(configuration: Realm.Configuration) throws
+    init(configuration: Realm.Configuration) throws
 
-	func write(_ block: (() throws -> Void)) throws
-	func add(_ object: Object, update: Bool)
-	func objects<T: Object>(type: T.Type) -> RealmResultType
-	func delete(_ object: Object)
+    func write(_ block: (() throws -> Void)) throws
+    func add(_ object: Object, update: Bool)
+    func objects<T: Object>(type: T.Type) -> RealmResultType
+    
+    func delete<T>(_ list: List<T>, cascading: Bool)
+    func delete<T>(_ results: Results<T>, cascading: Bool)
+    func delete<T: Object>(_ entity: T, cascading: Bool)
 
-	func resolve<Confined>(_ reference: ThreadSafeReference<Confined>) -> Confined?
+    func resolve<Confined>(_ reference: ThreadSafeReference<Confined>) -> Confined?
 }

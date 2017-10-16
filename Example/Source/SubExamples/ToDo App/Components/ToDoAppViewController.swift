@@ -276,11 +276,12 @@ extension ToDoAppViewController: UITableViewDelegate {
                         switch storageType {
                         case .CoreData:
                             if let task = self.doneTasks[index.row] as? ToDoTask {
-                                try context.delete(task)
+                                try context.delete(task, cascading: true)
                             }
                         case .Realm:
                             if let task = self.doneTasks[index.row] as? RTodoTask {
-                                try context.delete(task)
+                                //try context.delete(task, cascading: true)
+                                try context.delete(task, cascading: true)
                             }
                         }
                         

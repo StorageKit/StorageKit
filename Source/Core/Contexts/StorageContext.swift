@@ -222,7 +222,7 @@ public protocol StorageDeletableContext: class {
         - Parameter entity: Entity to remove from the database.
         - Throws: StorageKitErrors.Entity.wrongType
     */
-    func delete<T: StorageEntityType>(_ entity: T) throws
+    func delete<T: StorageEntityType>(_ entity: T, cascading: Bool) throws
     
     /**
         Use this method to remove an array of entities from the database.
@@ -244,7 +244,7 @@ public protocol StorageDeletableContext: class {
         - Parameter entities: Array of entities to remove from the database.
         - Throws: StorageKitErrors.Entity.wrongType
     */
-    func delete<T: StorageEntityType>(_ entities: [T]) throws
+    func delete<T: StorageEntityType>(_ entities: [T], cascading: Bool) throws
     
     /**
         Use this method to remove all the entities of a specific type from the database.

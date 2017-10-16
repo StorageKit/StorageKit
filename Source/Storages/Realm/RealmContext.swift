@@ -51,6 +51,6 @@ class RealmContext: StorageContext, RealmContextType {
     }
     
     func resolve<Confined>(_ reference: ThreadSafeReference<Confined>) -> Confined? {
-        return realm.resolve(reference)
+         return realm.resolve(reference)
     }
 }
