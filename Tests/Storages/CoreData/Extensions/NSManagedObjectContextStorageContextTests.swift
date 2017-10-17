@@ -89,7 +89,7 @@ extension NSManagedObjectContextStorageContextTests {
         let entity = NSManagedObject()
         
         do {
-            try (sut as StorageContext).delete(entity)
+            try (sut as StorageContext).delete(entity, cascading: false)
         } catch {
             XCTFail()
         }
@@ -101,7 +101,7 @@ extension NSManagedObjectContextStorageContextTests {
         let entity = NSManagedObject()
         
         do {
-            try (sut as StorageContext).delete(entity)
+            try (sut as StorageContext).delete(entity, cascading: false)
         } catch {
             XCTFail()
         }
@@ -111,7 +111,7 @@ extension NSManagedObjectContextStorageContextTests {
 
 	func test_Delete_ObjectNSManagedObjectAndHasNoChanges_DoesNotCallSuperSave() {
 		do {
-			try (sut as StorageContext).delete(NSManagedObject())
+			try (sut as StorageContext).delete(NSManagedObject(), cascading: false)
 		} catch {
 			XCTFail()
 		}
@@ -122,7 +122,7 @@ extension NSManagedObjectContextStorageContextTests {
 	func test_Delete_ObjectNSManagedObjectAndHasChanges_CallsSuperSave() {
 		do {
 			sut.forcedHasChanges = true
-			try (sut as StorageContext).delete(NSManagedObject())
+			try (sut as StorageContext).delete(NSManagedObject(), cascading: false)
 		} catch {
 			XCTFail()
 		}
@@ -165,7 +165,7 @@ extension NSManagedObjectContextStorageContextTests {
 
 	func test_Delete_ObjectsNSManagedObject_CallsSuperDelete() {
 		do {
-			try (sut as StorageContext).delete([NSManagedObject(), NSManagedObject(), NSManagedObject()])
+			try (sut as StorageContext).delete([NSManagedObject(), NSManagedObject(), NSManagedObject()], cascading: false)
 		} catch {
 			XCTFail()
 		}
@@ -179,7 +179,7 @@ extension NSManagedObjectContextStorageContextTests {
 		let entity3 = NSManagedObject()
 
 		do {
-			try (sut as StorageContext).delete([entity, entity2, entity3])
+			try (sut as StorageContext).delete([entity, entity2, entity3], cascading: false)
 		} catch {
 			XCTFail()
 		}
@@ -191,7 +191,7 @@ extension NSManagedObjectContextStorageContextTests {
 
 	func test_Delete_ObjectsNSManagedObjectAndHasNoChanges_DoesNotCallSuperSave() {
 		do {
-			try (sut as StorageContext).delete([NSManagedObject(), NSManagedObject(), NSManagedObject()])
+			try (sut as StorageContext).delete([NSManagedObject(), NSManagedObject(), NSManagedObject()], cascading: false)
 		} catch {
 			XCTFail()
 		}
@@ -202,7 +202,7 @@ extension NSManagedObjectContextStorageContextTests {
 	func test_Delete_ObjectsNSManagedObjectAndHasChanges_CallsSuperSave() {
 		do {
 			sut.forcedHasChanges = true
-			try (sut as StorageContext).delete([NSManagedObject(), NSManagedObject(), NSManagedObject()])
+			try (sut as StorageContext).delete([NSManagedObject(), NSManagedObject(), NSManagedObject()], cascading: false)
 		} catch {
 			XCTFail()
 		}

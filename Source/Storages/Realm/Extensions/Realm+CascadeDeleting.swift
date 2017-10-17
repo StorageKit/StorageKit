@@ -29,16 +29,16 @@ import RealmSwift
 import Realm
 
 extension RealmType {
-    func delete<Entity>(_ list: List<Entity>, cascading: Bool = false) {
+    func delete<Entity>(_ list: List<Entity>, cascading: Bool) {
         list.forEach { delete($0, cascading: cascading) }
     }
 
-    func delete<Entity>(_ results: Results<Entity>, cascading: Bool = false) {
+    func delete<Entity>(_ results: Results<Entity>, cascading: Bool) {
         results.forEach { delete($0, cascading: cascading) }
     }
 
-    func delete<Entity: Object>(_ entity: Entity, cascading: Bool = false) {
-        cascading == true ? cascadeDelete(entity): delete(entity, cascading: cascading)
+    func delete<Entity: Object>(_ entity: Entity, cascading: Bool) {
+        cascading == true ? cascadeDelete(entity): delete(entity)
     }
 }
 

@@ -95,8 +95,8 @@ final class SpyManagedObjectContext: ManagedObjectContextType {
 
 // MARK: - StorageContext
 extension SpyManagedObjectContext {
-    func delete<T: StorageEntityType>(_ entity: T) throws {}
-    func delete<T: StorageEntityType>(_ entities: [T]) throws {}
+    func delete<T>(_ entity: T, cascading: Bool) throws where T : StorageEntityType {}
+    func delete<T>(_ entities: [T], cascading: Bool) throws where T : StorageEntityType {}
     func deleteAll<T: StorageEntityType>(_ entityType: T.Type) throws {}
     
     func fetch<T>(completion: @escaping ([T]?) -> Void) throws where T : StorageEntityType {}

@@ -27,17 +27,16 @@ import RealmSwift
 
 // MARK: - StorageDeletableContext
 extension RealmContext {
-    func delete<T>(_ entity: T, cascading: Bool) throws where T : StorageEntityType {
+    func delete<T: StorageEntityType>(_ entity: T, cascading: Bool) throws {
         try delete([entity], cascading: cascading)
     }
     
-    func delete<T>(_ entities: [T], cascading: Bool) throws where T : StorageEntityType {
+    func delete<T: StorageEntityType>(_ entities: [T], cascading: Bool) throws {
         guard entities is [Object] else {
             throw StorageKitErrors.Entity.wrongType
         }
         
         try self.safeWriteAction {
-            
             entities.lazy
                 .flatMap { return $0 as? Object }
                 .forEach { realm.delete($0, cascading: cascading) }

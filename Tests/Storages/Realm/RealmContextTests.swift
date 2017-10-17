@@ -95,7 +95,7 @@ extension RealmContextTests {
 extension RealmContextTests {
 	func test_Delete_EntityNotObject_ThrowsError() {
 		do {
-			try sut.delete(DummyStorageEntity())
+            try sut.delete(DummyStorageEntity(), cascading: false)
 
 			XCTFail()
 		} catch StorageKitErrors.Entity.wrongType {
@@ -108,7 +108,7 @@ extension RealmContextTests {
 	func test_Delete_EntityObject_CallsRealmDeleteOnce() {
 		do {
 			let object = Object()
-			try sut.delete(object)
+            try sut.delete(object, cascading: false)
 
 			XCTAssertEqual(getSpyRealm().deleteCallsCount, 1)
 
@@ -118,7 +118,7 @@ extension RealmContextTests {
 	func test_Delete_EntityObject_CallsRealmDeleteOnceWithRightArgument() {
 		do {
 			let object = Object()
-			try sut.delete(object)
+			try sut.delete(object, cascading: false)
 
 			XCTAssertTrue(getSpyRealm().deleteObjectArguments?.first === object)
 		} catch {}
@@ -127,7 +127,7 @@ extension RealmContextTests {
 	func test_Delete_EntityObject_CallsRealmWriteBlock() {
 		do {
 			let object = Object()
-			try sut.delete(object)
+			try sut.delete(object, cascading: false)
 
 			XCTAssertTrue(getSpyRealm().isWriteCalled)
 		} catch {}
@@ -140,7 +140,7 @@ extension RealmContextTests {
         do {
             let object = DummyStorageEntity()
             let object2 = DummyStorageEntity()
-            try sut.delete([object, object2])
+            try sut.delete([object, object2], cascading: false)
 
             XCTFail()
         } catch StorageKitErrors.Entity.wrongType {
@@ -154,7 +154,7 @@ extension RealmContextTests {
         do {
             let object = DummyStorageEntity()
             let object2 = DummyStorageEntity()
-            try sut.delete([object, object2])
+            try sut.delete([object, object2], cascading: false)
         } catch {}
 
         XCTAssertEqual(getSpyRealm().deleteCallsCount, 0)
@@ -164,7 +164,7 @@ extension RealmContextTests {
         do {
             let object = Object()
             let object2 = Object()
-            try sut.delete([object, object2])
+            try sut.delete([object, object2], cascading: false)
 
             XCTAssertEqual(getSpyRealm().deleteCallsCount, 2)
             
@@ -175,7 +175,7 @@ extension RealmContextTests {
 		do {
 			let object = Object()
 			let object2 = Object()
-			try sut.delete([object, object2])
+			try sut.delete([object, object2], cascading: false)
 
 			XCTAssertTrue(getSpyRealm().deleteObjectArguments?.first === object)
 			XCTAssertTrue(getSpyRealm().deleteObjectArguments?[1] === object2)
@@ -186,7 +186,7 @@ extension RealmContextTests {
 		do {
 			let object = Object()
 			let object2 = Object()
-			try sut.delete([object, object2])
+			try sut.delete([object, object2], cascading: false)
 
 			XCTAssertTrue(getSpyRealm().isWriteCalled)
 		} catch {}

@@ -32,8 +32,8 @@ final class DummyStorageContextWithoutFetch {}
 extension DummyStorageContextWithoutFetch: StorageIdentifiableContext {}
 
 extension DummyStorageContextWithoutFetch: StorageDeletableContext {
-    func delete<T: StorageEntityType>(_ entity: T) throws {}
-    func delete<T: StorageEntityType>(_ entities: [T]) throws {}
+    func delete<T>(_ entity: T, cascading: Bool) throws where T : StorageEntityType {}
+    func delete<T>(_ entities: [T], cascading: Bool) throws where T : StorageEntityType {}
     func deleteAll<T: StorageEntityType>(_ entityType: T.Type) throws {}
 }
 

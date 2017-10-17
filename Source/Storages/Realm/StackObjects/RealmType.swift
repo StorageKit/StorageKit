@@ -34,9 +34,7 @@ protocol RealmType {
     func add(_ object: Object, update: Bool)
     func objects<T: Object>(type: T.Type) -> RealmResultType
     
-    func delete<T>(_ list: List<T>, cascading: Bool)
-    func delete<T>(_ results: Results<T>, cascading: Bool)
-    func delete<T: Object>(_ entity: T, cascading: Bool)
-
+    func delete(_ object: Object)
+    
     func resolve<Confined>(_ reference: ThreadSafeReference<Confined>) -> Confined?
 }

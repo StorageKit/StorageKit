@@ -280,8 +280,7 @@ extension ToDoAppViewController: UITableViewDelegate {
                             }
                         case .Realm:
                             if let task = self.doneTasks[index.row] as? RTodoTask {
-                                //try context.delete(task, cascading: true)
-                                try context.delete(task, cascading: true)
+                                try context.delete(task, cascading: false)
                             }
                         }
                         
